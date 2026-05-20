@@ -20,23 +20,28 @@ export async function fetchBlogPosts(options?: {
   if (options?.category) params.set('category', options.category);
   if (options?.postType) params.set('postType', options.postType);
 
-  const res = await fetch(`${PATHGURU_API}/api/posts?${params}`, {
-    next: { revalidate: options?.revalidate ?? 60 },
-  });
+  try {
+    const res = await fetch(`${PATHGURU_API}/api/posts?${params}`, {
+      next: { revalidate: options?.revalidate ?? 60 },
+    });
 
-  if (!res.ok) {
-    // Fallback to mock data if server is unavailable
-    console.warn(`[PathGuru API] Failed to fetch posts: ${res.statusText}. Using mock data.`);
+    if (!res.ok) {
+      // Fallback to mock data if server is unavailable
+      console.warn(`[PathGuru API] Failed to fetch posts: ${res.statusText}. Using mock data.`);
+      return fetchMockBlogPosts(options);
+    }
+
+    const data = await res.json();
+    return {
+      posts: (data.posts || []).map(mapPostFromDB),
+      pagination: data.pagination || { page: 1, perPage: 10, total: 0, totalPages: 0 },
+      categories: [],
+      postTypes: ['listicle', 'how-to', 'case-study', 'review', 'roundup', 'guide', 'opinion'],
+    };
+  } catch {
+    console.warn('[PathGuru API] Failed to fetch posts. Using mock data.');
     return fetchMockBlogPosts(options);
   }
-
-  const data = await res.json();
-  return {
-    posts: (data.posts || []).map(mapPostFromDB),
-    pagination: data.pagination || { page: 1, perPage: 10, total: 0, totalPages: 0 },
-    categories: [],
-    postTypes: ['listicle', 'how-to', 'case-study', 'review', 'roundup', 'guide', 'opinion'],
-  };
 }
 
 export async function fetchBlogPost(
@@ -88,15 +93,20 @@ function mapPostFromDB(post: any): any {
 export async function fetchAgentStatus(
   revalidate: number = 10
 ): Promise<AgentStatusResponse> {
-  const res = await fetch(`${PATHGURU_API}/api/agent-status`, {
-    next: { revalidate },
-  });
+  try {
+    const res = await fetch(`${PATHGURU_API}/api/agent-status`, {
+      next: { revalidate },
+    });
 
-  if (!res.ok) {
+    if (!res.ok) {
+      return getMockAgentStatus();
+    }
+
+    return res.json();
+  } catch {
+    console.warn('[PathGuru API] Failed to fetch agent status. Using mock data.');
     return getMockAgentStatus();
   }
-
-  return res.json();
 }
 
 /* ── Mock Data (for development) ─────────────────────── */
