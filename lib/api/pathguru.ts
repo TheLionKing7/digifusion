@@ -82,7 +82,7 @@ function mapPostFromDB(post: any): any {
     wordCount: post.word_count || 0,
     publishedAt: post.published_at || post.created_at,
     author: {
-      name: post.author_name || 'DigiFusion Team',
+      name: post.author_name || 'Boroji',
       avatar: post.author_avatar || null,
     },
   };
@@ -184,7 +184,7 @@ export async function fetchMockBlogPosts(options?: {
       tags: ['automation', 'agency', 'workflow'],
       readingTimeMinutes: 8,
       publishedAt: new Date().toISOString(),
-      author: { name: 'DigiFusion Team' },
+      author: { name: 'Boroji' },
     },
     {
       id: '2',
@@ -198,7 +198,7 @@ export async function fetchMockBlogPosts(options?: {
       tags: ['ai-agent', 'customer-support', 'tutorial'],
       readingTimeMinutes: 12,
       publishedAt: new Date().toISOString(),
-      author: { name: 'DigiFusion Team' },
+      author: { name: 'Boroji' },
     },
     {
       id: '3',
@@ -212,7 +212,7 @@ export async function fetchMockBlogPosts(options?: {
       tags: ['saas', 'churn', 'retention', 'ai'],
       readingTimeMinutes: 10,
       publishedAt: new Date().toISOString(),
-      author: { name: 'DigiFusion Team' },
+      author: { name: 'Boroji' },
     },
     {
       id: '4',
@@ -226,7 +226,7 @@ export async function fetchMockBlogPosts(options?: {
       tags: ['ai-writing', 'tools', 'comparison'],
       readingTimeMinutes: 15,
       publishedAt: new Date().toISOString(),
-      author: { name: 'DigiFusion Team' },
+      author: { name: 'Boroji' },
     },
     {
       id: '5',
@@ -240,7 +240,7 @@ export async function fetchMockBlogPosts(options?: {
       tags: ['expert-roundup', 'ai-marketing', 'future'],
       readingTimeMinutes: 18,
       publishedAt: new Date().toISOString(),
-      author: { name: 'DigiFusion Team' },
+      author: { name: 'Boroji' },
     },
     {
       id: '6',
@@ -254,7 +254,7 @@ export async function fetchMockBlogPosts(options?: {
       tags: ['ai-agents', 'deployment', 'production'],
       readingTimeMinutes: 25,
       publishedAt: new Date().toISOString(),
-      author: { name: 'DigiFusion Team' },
+      author: { name: 'Boroji' },
     },
     {
       id: '7',
@@ -268,7 +268,7 @@ export async function fetchMockBlogPosts(options?: {
       tags: ['branding', 'design', 'differentiation'],
       readingTimeMinutes: 6,
       publishedAt: new Date().toISOString(),
-      author: { name: 'DigiFusion Team' },
+      author: { name: 'Boroji' },
     },
   ];
 

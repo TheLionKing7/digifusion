@@ -160,6 +160,17 @@
     animation: scan-line 8s ease-in-out infinite;
   }
 
+  @keyframes logo-ring-cw {
+    to { transform: rotate(360deg); }
+  }
+  @keyframes logo-ring-ccw {
+    to { transform: rotate(-360deg); }
+  }
+  @keyframes logo-glow {
+    0%, 100% { opacity: 0.15; transform: scale(1); }
+    50% { opacity: 0.45; transform: scale(1.35); }
+  }
+
   /* Line clamp */
   .line-clamp-2 {
     display: -webkit-box;

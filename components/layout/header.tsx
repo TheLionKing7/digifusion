@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils/cn';
 import { MAIN_NAV } from '@/lib/constants/navigation';
-import { Button } from '@/components/ui/button';
+import { AnimatedLogo } from '@/components/ui/animated-logo';
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -15,9 +15,7 @@ export function Header() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-8 h-8 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center">
-              <span className="text-accent font-bold text-sm font-mono">D</span>
-            </div>
+            <AnimatedLogo size={40} />
             <span className="text-lg font-semibold tracking-tight">
               <span className="text-foreground">Digi</span>
               <span className="text-accent">Fusion</span>
