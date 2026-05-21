@@ -3,6 +3,11 @@ import { notFound } from 'next/navigation';
 import { getProductBySlug } from '@/lib/shop/products';
 import { ProductDetail } from './product-detail';
 
+// Don't prerender — product data lives in Supabase and the service_role
+// env is only present at runtime on the hosting platform.
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 interface Props {
   params: Promise<{ slug: string }>;
 }
