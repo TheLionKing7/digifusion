@@ -17,7 +17,9 @@ function client(): Stripe {
   if (cached) return cached;
   const key = process.env.STRIPE_SECRET_KEY;
   if (!key) throw new Error('[stripe] STRIPE_SECRET_KEY not set');
-  cached = new Stripe(key, { apiVersion: '2025-09-30.clover', typescript: true });
+  // API version must match the installed Stripe SDK's literal type. v17.x
+  // pins to 2025-02-24.acacia; the .clover string is only valid on v18+.
+  cached = new Stripe(key, { apiVersion: '2025-02-24.acacia', typescript: true });
   return cached;
 }
 
