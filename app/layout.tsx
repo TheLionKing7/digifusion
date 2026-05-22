@@ -5,11 +5,11 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: {
-    default: 'DigiFusion — AI Agency, Products & Knowledge Base',
+    default: 'DigiFusion — AI Agency, Digital Media, Products & Knowledge Base',
     template: '%s | DigiFusion',
   },
   description:
-    'Enterprise AI consultancy, digital products, and a knowledge base powered by our proprietary publishing engine. We build the intelligence layer for your business.',
+    'Enterprise AI consultancy, digital media, products and a knowledge base powered by our proprietary publishing engine. We build the intelligence layer for your business.',
   keywords: [
     'AI agency',
     'AI automation',
@@ -20,18 +20,18 @@ export const metadata: Metadata = {
     'AI agents',
   ],
   openGraph: {
-    title: 'DigiFusion — AI Agency, Products & Knowledge Base',
+    title: 'DigiFusion — AI Agency, Digital Media, Products & Knowledge Base',
     description:
-      'Enterprise AI consultancy, digital products, and a knowledge base powered by our proprietary publishing engine.',
+      'Enterprise AI consultancy, digital media, products and a knowledge base powered by our proprietary publishing engine.',
     siteName: 'DigiFusion',
     type: 'website',
     locale: 'en_US',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'DigiFusion — AI Agency, Products & Knowledge Base',
+    title: 'DigiFusion — AI Agency, Digital Media, Products & Knowledge Base',
     description:
-      'Enterprise AI consultancy, digital products, and a knowledge base powered by our proprietary publishing engine.',
+      'Enterprise AI consultancy, digital media, products and a knowledge base powered by our proprietary publishing engine.',
   },
   robots: {
     index: true,

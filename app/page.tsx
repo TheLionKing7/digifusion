@@ -22,7 +22,7 @@ export default async function Homepage() {
       {/* System Monitor - "The Agency Statement" - Live AI agent status */}
       <SystemMonitor agents={agentStatus.agents} />
 
-      {/* Three Pillars - Agency | Products | Knowledge Base */}
+      {/* Four Pillars - Agency | Digital Media | Products | Knowledge Base */}
       <PillarsGrid />
 
       {/* Latest Blog Posts - ISR powered from PathGuru engine */}

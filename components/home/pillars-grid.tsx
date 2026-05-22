@@ -21,6 +21,27 @@ const PILLARS = [
     stats: ['50+ Clients', '200+ Agents', '99.7% Uptime'],
   },
   {
+    title: 'Digital Media',
+    tagline: 'Content, Visibility & Publishing',
+    description:
+      'SEO-driven content strategy, social media growth, and audience-building systems that compound your reach over time.',
+    href: '/media',
+    icon: (
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="2.18" />
+        <line x1="7" y1="2" x2="7" y2="22" />
+        <line x1="17" y1="2" x2="17" y2="22" />
+        <line x1="2" y1="12" x2="22" y2="12" />
+        <line x1="2" y1="7" x2="7" y2="7" />
+        <line x1="2" y1="17" x2="7" y2="17" />
+        <line x1="17" y1="17" x2="22" y2="17" />
+        <line x1="17" y1="7" x2="22" y2="7" />
+      </svg>
+    ),
+    color: '#f59e0b',
+    stats: ['SEO & Blogs', 'Social Growth', 'Audience Building'],
+  },
+  {
     title: 'Products',
     tagline: 'Digital Tools & SaaS',
     description:
@@ -59,7 +80,7 @@ export function PillarsGrid() {
         <RevealOnScroll>
           <div className="text-center mb-16">
             <p className="text-xs font-mono text-accent tracking-widest uppercase mb-3">
-              Three Pillars · One Platform
+              Four Pillars · One Platform
             </p>
             <h2 className="text-3xl md:text-4xl font-serif font-bold">
               Everything You Need to{' '}
@@ -68,7 +89,7 @@ export function PillarsGrid() {
           </div>
         </RevealOnScroll>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {PILLARS.map((pillar, i) => (
             <motion.div
               key={pillar.title}

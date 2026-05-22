@@ -36,7 +36,7 @@ export function Hero() {
           >
             <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
             <span className="text-xs font-mono text-accent tracking-widest uppercase">
-              AI Agency · Automation · Intelligence
+              AI Agency · Digital Media · Automation · Intelligence
             </span>
           </motion.div>
 
@@ -59,8 +59,8 @@ export function Hero() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-lg md:text-xl text-muted leading-relaxed max-w-2xl mb-10"
           >
-            Enterprise AI consultancy, digital products, and a knowledge base powered by our proprietary publishing engine.
-            We don't just consult — we build, ship, and scale.
+            Enterprise AI consultancy, digital media, products and a knowledge base powered by our proprietary publishing engine.
+            We don&apos;t just consult — we build, ship, and scale.
           </motion.p>
 
           {/* CTA Buttons */}

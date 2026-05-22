@@ -67,12 +67,14 @@ export const FOOTER_LINKS = {
     links: [
       { label: 'About', href: '/about' },
       { label: 'Contact', href: '/contact' },
+      { label: 'enquiries@digitafusion.com', href: 'mailto:enquiries@digitafusion.com' },
     ],
   },
 };
 
 export const SOCIAL_LINKS = {
-  twitter: 'https://x.com/digifusion',
-  linkedin: 'https://linkedin.com/company/digifusion',
-  github: 'https://github.com/digifusion',
+  facebook: 'https://web.facebook.com/profile.php?id=61589805234698',
+  twitter: 'https://x.com/digifusion_hq',
+  quora: 'https://www.quora.com/profile/DigiFusion-Inc',
+  email: 'enquiries@digitafusion.com',
 };
