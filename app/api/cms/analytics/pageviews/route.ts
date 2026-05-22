@@ -4,9 +4,9 @@
  * Returns aggregated site-traffic stats for PathGuru's analytics dashboard.
  * Requires bearer token auth (same PATHGURU_CMS_TOKEN used by all CMS routes).
  */
-import { NextResponse } from 'next/server';
-import { verifyToken } from '@/lib/cms/auth';
-import { respond } from '@/lib/cms/respond';
+import { NextRequest } from 'next/server';
+import { requireCmsToken } from '@/lib/cms/auth';
+import { ok, fail } from '@/lib/cms/respond';
 import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
@@ -14,10 +14,9 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!,
 );
 
-export async function GET(request: Request) {
-  if (!verifyToken(request)) {
-    return respond({ error: 'Unauthorized' }, 401);
-  }
+export async function GET(request: NextRequest) {
+  const authError = requireCmsToken(request);
+  if (authError) return authError;
 
   const { searchParams } = new URL(request.url);
   const range = searchParams.get('range') || '30d';
@@ -88,12 +87,12 @@ export async function GET(request: Request) {
   });
   const dailyViews = Object.entries(dailyCounts).map(([date, views]) => ({ date, views }));
 
-  return respond({
+  return ok({
     range,
-    total_views:    totalViews    ?? 0,
+    total_views:     totalViews    ?? 0,
     unique_sessions: uniqueSessions,
-    top_pages:      topPages,
-    top_referrers:  topReferrers,
-    daily_views:    dailyViews,
+    top_pages:       topPages,
+    top_referrers:   topReferrers,
+    daily_views:     dailyViews,
   });
 }
