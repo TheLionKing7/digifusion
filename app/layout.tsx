@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import './globals.css';
@@ -58,6 +59,43 @@ export default function RootLayout({
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
+
+        {/* ── Lightweight page-view tracker ── */}
+        <Script id="df-tracker" strategy="afterInteractive">{`
+(function(){
+  // Generate or retrieve a session ID (tab-scoped, not persisted)
+  var sid = window.__dfSid;
+  if(!sid){
+    sid = Math.random().toString(36).slice(2) + Date.now().toString(36);
+    window.__dfSid = sid;
+  }
+  function track(){
+    var payload = JSON.stringify({
+      path: window.location.pathname,
+      referrer: document.referrer || null,
+      sessionId: sid
+    });
+    if(navigator.sendBeacon){
+      navigator.sendBeacon('/api/track', new Blob([payload],{type:'application/json'}));
+    } else {
+      fetch('/api/track',{method:'POST',body:payload,headers:{'Content-Type':'application/json'},keepalive:true}).catch(function(){});
+    }
+  }
+  // Track initial page load
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',track);
+  } else {
+    track();
+  }
+  // Track Next.js client-side navigation
+  var _pushState = history.pushState.bind(history);
+  history.pushState = function(){
+    _pushState.apply(history, arguments);
+    setTimeout(track, 0);
+  };
+  window.addEventListener('popstate', track);
+})();
+        `}</Script>
       </body>
     </html>
   );
