@@ -69,7 +69,7 @@ export default function BookingPage() {
                 number: '02',
                 title: 'Tool Selection',
                 description:
-                  'A recommendation on which SaaS or Custom AI agent to deploy first.',
+                  'A recommendation on which SaaS or Automation strategy to deploy first.',
                 color: '#7c3aed',
               },
               {

@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { RevealOnScroll } from '@/components/animations/reveal-on-scroll';
+import { BookingDropdown } from '@/components/ui/booking-dropdown';
 
 export function CtaSection() {
   return (
@@ -27,21 +28,7 @@ export function CtaSection() {
               identify automation opportunities, and build a roadmap — no obligation.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Link
-                href="/agency/booking"
-                className="group inline-flex items-center gap-2 px-8 py-4 text-sm font-medium rounded-lg bg-accent text-background hover:bg-accent-dim transition-all active:scale-[0.98]"
-              >
-                Book Your Strategy Session
-                <svg
-                  className="w-4 h-4 group-hover:translate-x-1 transition-transform"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                </svg>
-              </Link>
+              <BookingDropdown size="md" label="Book Your Strategy Session" />
               <Link
                 href="/blog"
                 className="inline-flex items-center gap-2 px-8 py-4 text-sm font-medium rounded-lg border border-border-light text-foreground hover:bg-surface-light transition-all"
