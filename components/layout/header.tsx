@@ -2,12 +2,19 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils/cn';
 import { MAIN_NAV } from '@/lib/constants/navigation';
 import { AnimatedLogo } from '@/components/ui/animated-logo';
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
+
+  function isActive(href: string) {
+    if (href === '/') return pathname === '/';
+    return pathname === href || pathname.startsWith(href + '/');
+  }
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 glass-strong">
@@ -28,7 +35,12 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="px-3 py-2 text-sm text-muted hover:text-foreground transition-colors rounded-md hover:bg-surface-light"
+                className={cn(
+                  'px-4 py-1.5 text-sm rounded-full transition-all duration-200',
+                  isActive(item.href)
+                    ? 'bg-foreground text-background font-semibold'
+                    : 'text-muted hover:text-foreground hover:bg-surface-light'
+                )}
               >
                 {item.label}
               </Link>
@@ -76,7 +88,12 @@ export function Header() {
               key={item.href}
               href={item.href}
               onClick={() => setMobileOpen(false)}
-              className="block px-3 py-2 text-sm text-muted hover:text-foreground hover:bg-surface-light rounded-md transition-colors"
+              className={cn(
+                'block px-3 py-2 text-sm rounded-md transition-colors',
+                isActive(item.href)
+                  ? 'bg-foreground text-background font-semibold'
+                  : 'text-muted hover:text-foreground hover:bg-surface-light'
+              )}
             >
               {item.label}
             </Link>

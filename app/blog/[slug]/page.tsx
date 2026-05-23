@@ -1,5 +1,7 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
+import digiLogo from '@/assets/digilogo.png';
 import { PostTypeBadge } from '@/components/ui/badge';
 import { PostCard } from '@/components/blog/post-card';
 import { ReadingProgress } from '@/components/blog/reading-progress';
@@ -87,9 +89,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     <>
       <ReadingProgress targetId="post-body" />
 
-      <article className="min-h-screen">
+      <article className="min-h-screen pt-16">
         {/* ── Back Link ── */}
-        <div className="max-w-7xl mx-auto px-6 pt-8">
+        <div className="w-full max-w-7xl mx-auto px-6 pt-8">
           <Link
             href="/blog"
             className="inline-flex items-center gap-2 text-sm text-muted hover:text-foreground transition-colors group"
@@ -113,7 +115,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         </div>
 
         {/* ── Header ── */}
-        <header className="max-w-3xl mx-auto px-6 pt-8 pb-10">
+        <header className="w-full max-w-3xl mx-auto px-6 pt-8 pb-10">
           <div className="flex items-center gap-3 mb-6 flex-wrap">
             <PostTypeBadge type={post.postType} />
             <time dateTime={post.publishedAt} className="text-sm text-muted">
@@ -144,8 +146,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   className="w-10 h-10 rounded-full object-cover"
                 />
               ) : (
-                <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center text-sm font-semibold text-accent">
-                  {post.author.name.charAt(0)}
+                <div className="w-10 h-10 rounded-full overflow-hidden bg-accent/10 flex items-center justify-center shrink-0">
+                  <Image src={digiLogo} alt={post.author.name} width={40} height={40} className="object-contain" />
                 </div>
               )}
               <div>
@@ -166,7 +168,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
         {/* ── Featured Image ── */}
         {post.featuredImageUrl && (
-          <div className="max-w-5xl mx-auto px-6 mb-12">
+          <div className="w-full max-w-5xl mx-auto px-6 mb-12">
             <div className="relative aspect-video rounded-xl overflow-hidden bg-surface">
               <img
                 src={post.featuredImageUrl}
@@ -183,7 +185,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         )}
 
         {/* ── Body + TOC ── */}
-        <div className="max-w-7xl mx-auto px-6 pb-20">
+        <div className="w-full max-w-7xl mx-auto px-6 pb-20">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_240px] gap-12 lg:gap-16">
             <div id="post-body" className="min-w-0">
               <div
@@ -230,8 +232,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                       className="w-14 h-14 rounded-full object-cover shrink-0"
                     />
                   ) : (
-                    <div className="w-14 h-14 rounded-full bg-accent/10 flex items-center justify-center text-lg font-semibold text-accent shrink-0">
-                      {post.author.name.charAt(0)}
+                    <div className="w-14 h-14 rounded-full overflow-hidden bg-accent/10 flex items-center justify-center shrink-0">
+                      <Image src={digiLogo} alt={post.author.name} width={56} height={56} className="object-contain" />
                     </div>
                   )}
                   <div className="min-w-0 flex-1">

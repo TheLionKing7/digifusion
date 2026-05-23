@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import Image from 'next/image';
+import digiLogo from '@/assets/digilogo.png';
 import { PostTypeBadge } from '@/components/ui/badge';
 import { formatDate, formatReadingTime } from '@/lib/utils/formatters';
 import type { BlogPostSummary } from '@/types/blog';
@@ -117,8 +119,8 @@ export function PostCard({ post, featured, compact, delay }: PostCardProps) {
                 className="w-6 h-6 rounded-full object-cover"
               />
             ) : (
-              <span className="w-6 h-6 rounded-full bg-accent/10 text-accent text-[10px] font-semibold flex items-center justify-center">
-                {post.author.name.charAt(0)}
+              <span className="w-6 h-6 rounded-full overflow-hidden bg-accent/10 flex items-center justify-center shrink-0">
+                <Image src={digiLogo} alt={post.author.name} width={24} height={24} className="object-contain" />
               </span>
             )}
             <span>{post.author.name}</span>
