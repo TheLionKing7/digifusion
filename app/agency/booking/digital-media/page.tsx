@@ -170,18 +170,8 @@ export default function DigitalMediaBookingPage() {
             href="https://tally.so/r/EkN0xr"
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-3 px-8 py-4 text-sm font-medium rounded-lg text-white transition-all active:scale-[0.98]"
-            style={{
-              background: 'linear-gradient(135deg, #7c3aed, #9d4edd)',
-            }}
-            onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLAnchorElement).style.background =
-                'linear-gradient(135deg, #6d28d9, #7c3aed)')
-            }
-            onMouseLeave={(e) =>
-              ((e.currentTarget as HTMLAnchorElement).style.background =
-                'linear-gradient(135deg, #7c3aed, #9d4edd)')
-            }
+            className="group inline-flex items-center gap-3 px-8 py-4 text-sm font-medium rounded-lg text-white transition-all active:scale-[0.98] hover:opacity-90"
+            style={{ background: 'linear-gradient(135deg, #7c3aed, #9d4edd)' }}
           >
             <span className="w-2 h-2 rounded-full bg-white/70 animate-pulse" />
             Book Your Digital Media Session
