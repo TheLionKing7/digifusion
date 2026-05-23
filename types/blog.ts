@@ -7,7 +7,8 @@ export type BlogPostType =
   | 'review'        // Product/tool pros, cons, and comparisons
   | 'roundup'       // Expert interviews and industry insights
   | 'guide'         // Long-form comprehensive hub content
-  | 'opinion';      // Thought leadership and hot takes
+  | 'opinion'       // Thought leadership and hot takes
+  | 'article';      // General editorial / long-form articles
 
 export interface BlogPostSummary {
   id: string;
@@ -126,5 +127,11 @@ export const POST_TYPE_CONFIG: Record<BlogPostType, {
     description: 'Thought leadership & hot takes',
     color: '#f472b6',
     icon: 'message-circle',
+  },
+  article: {
+    label: 'Article',
+    description: 'General editorial & long-form content',
+    color: '#a78bfa',
+    icon: 'file-text',
   },
 };

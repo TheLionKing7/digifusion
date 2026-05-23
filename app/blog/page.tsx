@@ -4,6 +4,8 @@ import { RevealOnScroll } from '@/components/animations/reveal-on-scroll';
 import { fetchBlogPosts } from '@/lib/api/pathguru';
 import type { BlogPostType, BlogPostSummary } from '@/types/blog';
 
+export const dynamic = 'force-dynamic'; // always fetch fresh posts — no stale cache
+
 export const metadata = {
   title: 'Blog',
   description:
@@ -14,6 +16,7 @@ const PER_PAGE = 12;
 
 const POST_TYPES: { value: BlogPostType | ''; label: string }[] = [
   { value: '', label: 'All' },
+  { value: 'article', label: 'Articles' },
   { value: 'guide', label: 'Guides' },
   { value: 'listicle', label: 'Listicles' },
   { value: 'how-to', label: 'How-To' },

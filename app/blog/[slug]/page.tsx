@@ -10,6 +10,9 @@ import { extractToc } from '@/lib/utils/toc';
 import { fetchBlogPost, fetchBlogPosts } from '@/lib/api/pathguru';
 import type { BlogPost, BlogPostSummary } from '@/types/blog';
 
+export const dynamic = 'force-dynamic'; // serve fresh content; new posts appear without rebuild
+export const revalidate = 0;
+
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
 }

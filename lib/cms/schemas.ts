@@ -11,7 +11,7 @@ import { z } from 'zod';
 // ── Posts ──────────────────────────────────────────────────────────────────
 
 export const PostTypeEnum = z.enum([
-  'listicle', 'how-to', 'case-study', 'review', 'roundup', 'guide', 'opinion',
+  'listicle', 'how-to', 'case-study', 'review', 'roundup', 'guide', 'opinion', 'article',
 ]);
 
 export const PostStatusEnum = z.enum(['draft', 'published', 'archived']);
