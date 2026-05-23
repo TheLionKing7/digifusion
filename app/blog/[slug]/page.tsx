@@ -109,10 +109,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       <div className="mx-auto max-w-7xl px-6 pt-8 pb-10">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_240px] gap-12 lg:gap-16">
           <article id="post-body" className="min-w-0">
-            <div
-              className="prose-blog"
-              dangerouslySetInnerHTML={{ __html: contentHtml }}
-            />
+            {/* White card — centers content at a comfortable reading width */}
+            <div className="bg-white rounded-2xl shadow-sm px-8 py-10 lg:px-14 lg:py-12">
+              <div
+                className="prose-blog-light max-w-3xl mx-auto"
+                dangerouslySetInnerHTML={{ __html: contentHtml }}
+              />
+            </div>
           </article>
 
           <TableOfContents items={tocItems} />
