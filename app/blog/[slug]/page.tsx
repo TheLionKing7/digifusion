@@ -2,11 +2,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import digiLogo from '@/assets/digilogo.png';
-import { PostTypeBadge } from '@/components/ui/badge';
 import { PostCard } from '@/components/blog/post-card';
 import { ReadingProgress } from '@/components/blog/reading-progress';
 import { TableOfContents } from '@/components/blog/table-of-contents';
-import { formatDate, formatReadingTime } from '@/lib/utils/formatters';
 import { extractToc } from '@/lib/utils/toc';
 import { fetchBlogPost, fetchBlogPosts } from '@/lib/api/pathguru';
 import type { BlogPost, BlogPostSummary } from '@/types/blog';
@@ -109,24 +107,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </Link>
         </div>
 
-        {/* ── Header ── */}
-        <header className="w-full max-w-3xl mx-auto px-6 pt-8 pb-10">
-          <div className="flex items-center gap-3 mb-6 flex-wrap">
-            <PostTypeBadge type={post.postType} />
-            <time dateTime={post.publishedAt} className="text-sm text-muted">
-              {formatDate(post.publishedAt)}
-            </time>
-            <span className="w-1 h-1 rounded-full bg-border" />
-            <span className="text-sm text-muted">
-              {formatReadingTime(post.readingTimeMinutes)}
-            </span>
-          </div>
-
-          <h1 className="font-serif text-4xl md:text-5xl font-bold leading-[1.1] tracking-tight">
-            {post.title}
-          </h1>
-        </header>
-
         {/* ── Body + TOC ── */}
         <div className="w-full max-w-7xl mx-auto px-6 pb-10">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_240px] gap-12 lg:gap-16">
@@ -153,98 +133,106 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
         </div>
 
-        {/* ── Tags + Author (outside grid so TOC stops at article end) ── */}
-        <div className="w-full max-w-3xl mx-auto px-6 pb-20">
-          {/* Tags */}
-          {post.tags.length > 0 && (
-            <div className="pt-8 border-t border-border/40">
-              <p className="text-sm font-semibold text-muted mb-3">Tags</p>
-              <div className="flex flex-wrap gap-2">
-                {post.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="text-xs px-3 py-1.5 rounded-full bg-surface border border-border/40 text-muted hover:text-foreground transition-colors"
-                  >
-                    #{tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Author Footer */}
-          <div className="mt-12 pt-8 border-t border-border/40">
-            <div className="glass-strong rounded-xl p-8 flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left">
-              {post.author.avatar ? (
-                <img
-                  src={post.author.avatar}
-                  alt={post.author.name}
-                  className="w-16 h-16 rounded-full object-cover shrink-0"
-                />
-              ) : (
-                <div className="w-16 h-16 rounded-full overflow-hidden bg-accent/15 flex items-center justify-center shrink-0 ring-2 ring-accent/20">
-                  <Image src={digiLogo} alt={post.author.name} width={64} height={64} className="object-contain" />
+        {/* ── Tags + Author — mirrors article grid so content lines up with the prose column ── */}
+        <div className="w-full max-w-7xl mx-auto px-6 pb-20">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_240px] gap-12 lg:gap-16">
+            {/* Left column — same as article body */}
+            <div>
+              {/* Tags */}
+              {post.tags.length > 0 && (
+                <div className="pt-8 border-t border-border/40">
+                  <p className="text-sm font-semibold text-muted mb-3">Tags</p>
+                  <div className="flex flex-wrap gap-2">
+                    {post.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="text-xs px-3 py-1.5 rounded-full bg-surface border border-border/40 text-muted hover:text-foreground transition-colors"
+                      >
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               )}
-              <div className="min-w-0 flex-1">
-                <p className="text-[10px] uppercase tracking-[0.18em] text-accent font-semibold mb-1">
-                  Written by
-                </p>
-                <p className="font-serif text-xl font-bold text-foreground">
-                  {post.author.name}
-                </p>
-                <p className="mt-2 text-sm text-muted leading-relaxed">
-                  Founder of DigiFusion and PathGuru Publishers. Writes about the
-                  intelligence layer for SMBs — where AI replaces, augments, or
-                  quietly automates the work that drains your week.
-                </p>
+
+              {/* Author Footer */}
+              <div className="mt-12 pt-8 border-t border-border/40">
+                <div className="glass-strong rounded-xl p-8 flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left">
+                  {post.author.avatar ? (
+                    <img
+                      src={post.author.avatar}
+                      alt={post.author.name}
+                      className="w-16 h-16 rounded-full object-cover shrink-0"
+                    />
+                  ) : (
+                    <div className="w-16 h-16 rounded-full overflow-hidden bg-accent/15 flex items-center justify-center shrink-0 ring-2 ring-accent/20">
+                      <Image src={digiLogo} alt={post.author.name} width={64} height={64} className="object-contain" />
+                    </div>
+                  )}
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[10px] uppercase tracking-[0.18em] text-accent font-semibold mb-1">
+                      Written by
+                    </p>
+                    <p className="font-serif text-xl font-bold text-foreground">
+                      {post.author.name}
+                    </p>
+                    <p className="mt-2 text-sm text-muted leading-relaxed">
+                      Founder of DigiFusion and PathGuru Publishers. Writes about the
+                      intelligence layer for SMBs — where AI replaces, augments, or
+                      quietly automates the work that drains your week.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
+            {/* Right column — empty, keeps width consistent with article grid */}
+            <div className="hidden lg:block" />
           </div>
         </div>
 
-        {/* ── Related Posts ── */}
-        {related.length > 0 && (
-          <section className="border-t border-border/40 bg-surface/30">
-            <div className="max-w-7xl mx-auto px-6 py-16">
-              <div className="flex items-end justify-between mb-8 flex-wrap gap-4">
-                <div>
-                  <p className="text-xs font-semibold tracking-[0.18em] uppercase text-accent mb-2">
-                    Keep reading
-                  </p>
-                  <h2 className="font-serif text-3xl font-bold tracking-tight">
-                    More from the blog
-                  </h2>
-                </div>
-                <Link
-                  href="/blog"
-                  className="text-sm text-muted hover:text-accent transition-colors inline-flex items-center gap-1"
-                >
-                  All posts
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <line x1="5" y1="12" x2="19" y2="12" />
-                    <polyline points="12 5 19 12 12 19" />
-                  </svg>
-                </Link>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {related.map((p) => (
-                  <PostCard key={p.id} post={p} />
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
       </article>
+
+      {/* ── More from the Blog — outside <article> so it aligns with the page grid ── */}
+      {related.length > 0 && (
+        <section className="border-t border-border/40 bg-surface/30">
+          <div className="max-w-7xl mx-auto px-6 py-16">
+            <div className="flex items-end justify-between mb-10 flex-wrap gap-4">
+              <div>
+                <p className="text-xs font-semibold tracking-[0.18em] uppercase text-accent mb-2">
+                  Keep reading
+                </p>
+                <h2 className="font-serif text-3xl font-bold tracking-tight">
+                  More from the blog
+                </h2>
+              </div>
+              <Link
+                href="/blog"
+                className="text-sm text-muted hover:text-accent transition-colors inline-flex items-center gap-1"
+              >
+                All posts
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </Link>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {related.map((p) => (
+                <PostCard key={p.id} post={p} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
     </>
   );
 }
