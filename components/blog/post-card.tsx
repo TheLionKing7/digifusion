@@ -56,10 +56,10 @@ export function PostCard({ post, featured, compact, delay }: PostCardProps) {
     <Link
       href={`/blog/${post.slug}`}
       style={wrapperStyle}
-      className="group flex flex-col h-full rounded-xl bg-surface border border-border hover:border-accent/30 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-accent/5 transition-all duration-300 overflow-hidden"
+      className="group flex flex-col h-full rounded-2xl bg-surface-lighter border border-border/50 hover:border-accent/40 hover:-translate-y-1 hover:shadow-2xl hover:shadow-accent/10 transition-all duration-300 overflow-hidden"
     >
-      {/* Featured Image */}
-      <div className={`relative overflow-hidden ${featured ? 'h-72 md:h-96' : 'h-48'}`}>
+      {/* Featured Image — rounded top corners via parent overflow-hidden */}
+      <div className={`relative overflow-hidden ${featured ? 'h-72 md:h-80' : 'h-52'}`}>
         {post.featuredImageUrl ? (
           <img
             src={post.featuredImageUrl}
@@ -69,13 +69,15 @@ export function PostCard({ post, featured, compact, delay }: PostCardProps) {
         ) : (
           <PlaceholderImage />
         )}
+        {/* Gradient overlay for badge legibility */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
         <div className="absolute top-3 left-3">
           <PostTypeBadge type={post.postType} />
         </div>
         {featured && (
           <div className="absolute top-3 right-3">
             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-background/80 backdrop-blur-sm border border-accent/30 text-[10px] font-semibold tracking-wider uppercase text-accent">
-              <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+              <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
               Featured
             </span>
           </div>
@@ -85,9 +87,12 @@ export function PostCard({ post, featured, compact, delay }: PostCardProps) {
       {/* Content */}
       <div className={`flex flex-col flex-1 ${featured ? 'p-7' : 'p-5'}`}>
         {/* Meta */}
-        <div className="flex items-center gap-3 text-xs text-muted mb-3">
+        <div className="flex items-center gap-2 text-[11px] text-muted mb-3">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
           <time dateTime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
-          <span className="w-1 h-1 rounded-full bg-border" />
+          <span className="w-1 h-1 rounded-full bg-border/80" />
           <span>{formatReadingTime(post.readingTimeMinutes)}</span>
         </div>
 
@@ -109,33 +114,20 @@ export function PostCard({ post, featured, compact, delay }: PostCardProps) {
           {post.excerpt}
         </p>
 
-        {/* Footer */}
-        <div className="mt-auto pt-4 flex items-center justify-between">
-          <div className="flex items-center gap-2 text-xs text-muted">
-            {post.author.avatar ? (
-              <img
-                src={post.author.avatar}
-                alt={post.author.name}
-                className="w-6 h-6 rounded-full object-cover"
-              />
-            ) : (
-              <span className="w-6 h-6 rounded-full overflow-hidden bg-accent/10 flex items-center justify-center shrink-0">
-                <Image src={digiLogo} alt={post.author.name} width={24} height={24} className="object-contain" />
-              </span>
-            )}
-            <span>{post.author.name}</span>
-          </div>
-          <span className="inline-flex items-center gap-1 text-xs font-medium text-accent opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-all">
-            Read
+        {/* Read More CTA */}
+        <div className="mt-auto pt-5">
+          <span className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-accent/10 border border-accent/25 text-accent text-xs font-semibold tracking-wide uppercase group-hover:bg-accent group-hover:text-background group-hover:border-accent transition-all duration-300">
+            Read More
             <svg
-              width="14"
-              height="14"
+              width="13"
+              height="13"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth="2"
+              strokeWidth="2.5"
               strokeLinecap="round"
               strokeLinejoin="round"
+              className="group-hover:translate-x-0.5 transition-transform"
             >
               <line x1="5" y1="12" x2="19" y2="12" />
               <polyline points="12 5 19 12 12 19" />

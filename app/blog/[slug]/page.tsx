@@ -6,7 +6,6 @@ import { PostTypeBadge } from '@/components/ui/badge';
 import { PostCard } from '@/components/blog/post-card';
 import { ReadingProgress } from '@/components/blog/reading-progress';
 import { TableOfContents } from '@/components/blog/table-of-contents';
-import { ShareButtons } from '@/components/blog/share-buttons';
 import { formatDate, formatReadingTime } from '@/lib/utils/formatters';
 import { extractToc } from '@/lib/utils/toc';
 import { fetchBlogPost, fetchBlogPosts } from '@/lib/api/pathguru';
@@ -18,8 +17,6 @@ export const revalidate = 0;
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
 }
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://digifusion.ai';
 
 export async function generateStaticParams() {
   try {
@@ -83,8 +80,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     // ignore
   }
 
-  const canonicalUrl = `${SITE_URL.replace(/\/$/, '')}/blog/${post.slug}`;
-
   return (
     <>
       <ReadingProgress targetId="post-body" />
@@ -130,62 +125,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <h1 className="font-serif text-4xl md:text-5xl font-bold leading-[1.1] tracking-tight">
             {post.title}
           </h1>
-
-          {post.excerpt && (
-            <p className="mt-5 text-lg text-muted leading-relaxed max-w-2xl">
-              {post.excerpt}
-            </p>
-          )}
-
-          <div className="mt-7 pt-6 border-t border-border/40 flex items-center justify-between gap-4 flex-wrap">
-            <div className="flex items-center gap-3">
-              {post.author.avatar ? (
-                <img
-                  src={post.author.avatar}
-                  alt={post.author.name}
-                  className="w-10 h-10 rounded-full object-cover"
-                />
-              ) : (
-                <div className="w-10 h-10 rounded-full overflow-hidden bg-accent/10 flex items-center justify-center shrink-0">
-                  <Image src={digiLogo} alt={post.author.name} width={40} height={40} className="object-contain" />
-                </div>
-              )}
-              <div>
-                <p className="text-sm font-medium leading-tight">{post.author.name}</p>
-                {post.categories.length > 0 && (
-                  <p className="text-xs text-muted mt-0.5">{post.categories[0]}</p>
-                )}
-              </div>
-            </div>
-            <ShareButtons
-              url={canonicalUrl}
-              title={post.title}
-              twitterCaption={post.socialCaption}
-              linkedinCaption={post.linkedinCaption}
-            />
-          </div>
         </header>
 
-        {/* ── Featured Image ── */}
-        {post.featuredImageUrl && (
-          <div className="w-full max-w-5xl mx-auto px-6 mb-12">
-            <div className="relative aspect-video rounded-xl overflow-hidden bg-surface">
-              <img
-                src={post.featuredImageUrl}
-                alt={post.title}
-                className="w-full h-full object-cover"
-              />
-            </div>
-            {post.featuredImageCredit && (
-              <p className="mt-2 text-xs text-muted text-right">
-                {post.featuredImageCredit}
-              </p>
-            )}
-          </div>
-        )}
-
         {/* ── Body + TOC ── */}
-        <div className="w-full max-w-7xl mx-auto px-6 pb-20">
+        <div className="w-full max-w-7xl mx-auto px-6 pb-10">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_240px] gap-12 lg:gap-16">
             <div id="post-body" className="min-w-0">
               <div
@@ -204,67 +147,59 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   prose-li:marker:text-muted"
                 dangerouslySetInnerHTML={{ __html: contentHtml }}
               />
-
-              {/* ── Tags ── */}
-              {post.tags.length > 0 && (
-                <div className="mt-16 pt-8 border-t border-border/40">
-                  <p className="text-sm font-semibold text-muted mb-3">Tags</p>
-                  <div className="flex flex-wrap gap-2">
-                    {post.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-xs px-3 py-1.5 rounded-full bg-surface border border-border/40 text-muted hover:text-foreground transition-colors"
-                      >
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* ── Author Footer ── */}
-              <div className="mt-12 pt-8 border-t border-border/40">
-                <div className="flex items-start gap-4 p-6 rounded-xl bg-surface border border-border/40">
-                  {post.author.avatar ? (
-                    <img
-                      src={post.author.avatar}
-                      alt={post.author.name}
-                      className="w-14 h-14 rounded-full object-cover shrink-0"
-                    />
-                  ) : (
-                    <div className="w-14 h-14 rounded-full overflow-hidden bg-accent/10 flex items-center justify-center shrink-0">
-                      <Image src={digiLogo} alt={post.author.name} width={56} height={56} className="object-contain" />
-                    </div>
-                  )}
-                  <div className="min-w-0 flex-1">
-                    <p className="text-xs uppercase tracking-wider text-muted/70 font-semibold">
-                      Written by
-                    </p>
-                    <p className="font-serif text-xl font-bold mt-1">{post.author.name}</p>
-                    <p className="mt-2 text-sm text-muted leading-relaxed">
-                      Founder of DigiFusion and PathGuru Publishers. Writes about the
-                      intelligence layer for SMBs — where AI replaces, augments, or
-                      quietly automates the work that drains your week.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* ── Share again at end ── */}
-              <div className="mt-10 flex items-center justify-between gap-4 flex-wrap">
-                <p className="text-sm text-muted">
-                  Enjoyed this post? Share it with someone who'd find it useful.
-                </p>
-                <ShareButtons
-                  url={canonicalUrl}
-                  title={post.title}
-                  twitterCaption={post.socialCaption}
-                  linkedinCaption={post.linkedinCaption}
-                />
-              </div>
             </div>
 
             <TableOfContents items={tocItems} />
+          </div>
+        </div>
+
+        {/* ── Tags + Author (outside grid so TOC stops at article end) ── */}
+        <div className="w-full max-w-3xl mx-auto px-6 pb-20">
+          {/* Tags */}
+          {post.tags.length > 0 && (
+            <div className="pt-8 border-t border-border/40">
+              <p className="text-sm font-semibold text-muted mb-3">Tags</p>
+              <div className="flex flex-wrap gap-2">
+                {post.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="text-xs px-3 py-1.5 rounded-full bg-surface border border-border/40 text-muted hover:text-foreground transition-colors"
+                  >
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Author Footer */}
+          <div className="mt-12 pt-8 border-t border-border/40">
+            <div className="glass-strong rounded-xl p-8 flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left">
+              {post.author.avatar ? (
+                <img
+                  src={post.author.avatar}
+                  alt={post.author.name}
+                  className="w-16 h-16 rounded-full object-cover shrink-0"
+                />
+              ) : (
+                <div className="w-16 h-16 rounded-full overflow-hidden bg-accent/15 flex items-center justify-center shrink-0 ring-2 ring-accent/20">
+                  <Image src={digiLogo} alt={post.author.name} width={64} height={64} className="object-contain" />
+                </div>
+              )}
+              <div className="min-w-0 flex-1">
+                <p className="text-[10px] uppercase tracking-[0.18em] text-accent font-semibold mb-1">
+                  Written by
+                </p>
+                <p className="font-serif text-xl font-bold text-foreground">
+                  {post.author.name}
+                </p>
+                <p className="mt-2 text-sm text-muted leading-relaxed">
+                  Founder of DigiFusion and PathGuru Publishers. Writes about the
+                  intelligence layer for SMBs — where AI replaces, augments, or
+                  quietly automates the work that drains your week.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 
