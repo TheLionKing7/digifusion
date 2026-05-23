@@ -110,19 +110,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_240px] gap-12 lg:gap-16">
           <article id="post-body" className="min-w-0">
             <div
-              className="prose prose-invert prose-lg max-w-none
-                prose-headings:font-serif prose-headings:font-bold prose-headings:tracking-tight prose-headings:scroll-mt-24
-                prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6
-                prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-4
-                prose-p:leading-relaxed prose-p:text-muted
-                prose-a:text-accent prose-a:no-underline hover:prose-a:underline
-                prose-strong:text-foreground
-                prose-code:text-sm prose-code:bg-surface prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
-                prose-pre:bg-surface prose-pre:border prose-pre:border-border/40
-                prose-blockquote:border-l-accent prose-blockquote:text-muted
-                prose-img:rounded-xl
-                prose-ul:list-disc prose-ol:list-decimal
-                prose-li:marker:text-muted"
+              className="prose-blog"
               dangerouslySetInnerHTML={{ __html: contentHtml }}
             />
           </article>
