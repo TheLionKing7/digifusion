@@ -9,7 +9,7 @@ import { extractToc } from '@/lib/utils/toc';
 import { fetchBlogPost, fetchBlogPosts } from '@/lib/api/pathguru';
 import type { BlogPost, BlogPostSummary } from '@/types/blog';
 
-export const dynamic = 'force-dynamic'; // serve fresh content; new posts appear without rebuild
+export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 interface BlogPostPageProps {
@@ -60,10 +60,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     notFound();
   }
 
-  // Derive TOC + heading IDs from the post HTML
   const { html: contentHtml, items: tocItems } = extractToc(post.content);
 
-  // Fetch related posts (same type first, then fall back to recent)
   let related: BlogPostSummary[] = [];
   try {
     const result = await fetchBlogPosts({ limit: 12 });
@@ -82,120 +80,123 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     <>
       <ReadingProgress targetId="post-body" />
 
-      <article className="min-h-screen pt-16">
-        {/* ── Back Link ── */}
-        <div className="w-full max-w-7xl mx-auto px-6 pt-8">
-          <Link
-            href="/blog"
-            className="inline-flex items-center gap-2 text-sm text-muted hover:text-foreground transition-colors group"
+      {/* Back link: pt-24 (96px) = 64px fixed header + 32px breathing room.
+          Same mx-auto max-w-7xl px-6 pattern used by every homepage section. */}
+      <div className="mx-auto max-w-7xl px-6 pt-24 pb-2">
+        <Link
+          href="/blog"
+          className="inline-flex items-center gap-2 text-sm text-muted hover:text-foreground transition-colors group"
+        >
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="group-hover:-translate-x-1 transition-transform"
           >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="group-hover:-translate-x-1 transition-transform"
-            >
-              <line x1="19" y1="12" x2="5" y2="12" />
-              <polyline points="12 19 5 12 12 5" />
-            </svg>
-            Back to Blog
-          </Link>
+            <line x1="19" y1="12" x2="5" y2="12" />
+            <polyline points="12 19 5 12 12 5" />
+          </svg>
+          Back to Blog
+        </Link>
+      </div>
+
+      {/* Article body + sidebar TOC */}
+      <div className="mx-auto max-w-7xl px-6 pt-8 pb-10">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_240px] gap-12 lg:gap-16">
+          <article id="post-body" className="min-w-0">
+            <div
+              className="prose prose-invert prose-lg max-w-none
+                prose-headings:font-serif prose-headings:font-bold prose-headings:tracking-tight prose-headings:scroll-mt-24
+                prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6
+                prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-4
+                prose-p:leading-relaxed prose-p:text-muted
+                prose-a:text-accent prose-a:no-underline hover:prose-a:underline
+                prose-strong:text-foreground
+                prose-code:text-sm prose-code:bg-surface prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
+                prose-pre:bg-surface prose-pre:border prose-pre:border-border/40
+                prose-blockquote:border-l-accent prose-blockquote:text-muted
+                prose-img:rounded-xl
+                prose-ul:list-disc prose-ol:list-decimal
+                prose-li:marker:text-muted"
+              dangerouslySetInnerHTML={{ __html: contentHtml }}
+            />
+          </article>
+
+          <TableOfContents items={tocItems} />
         </div>
+      </div>
 
-        {/* ── Body + TOC ── */}
-        <div className="w-full max-w-7xl mx-auto px-6 pb-10">
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_240px] gap-12 lg:gap-16">
-            <div id="post-body" className="min-w-0">
-              <div
-                className="prose prose-invert prose-lg max-w-none
-                  prose-headings:font-serif prose-headings:font-bold prose-headings:tracking-tight prose-headings:scroll-mt-24
-                  prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6
-                  prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-4
-                  prose-p:leading-relaxed prose-p:text-muted
-                  prose-a:text-accent prose-a:no-underline hover:prose-a:underline
-                  prose-strong:text-foreground
-                  prose-code:text-sm prose-code:bg-surface prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
-                  prose-pre:bg-surface prose-pre:border prose-pre:border-border/40
-                  prose-blockquote:border-l-accent prose-blockquote:text-muted
-                  prose-img:rounded-xl
-                  prose-ul:list-disc prose-ol:list-decimal
-                  prose-li:marker:text-muted"
-                dangerouslySetInnerHTML={{ __html: contentHtml }}
-              />
-            </div>
-
-            <TableOfContents items={tocItems} />
-          </div>
-        </div>
-
-        {/* ── Tags + Author — mirrors article grid so content lines up with the prose column ── */}
-        <div className="w-full max-w-7xl mx-auto px-6 pb-20">
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_240px] gap-12 lg:gap-16">
-            {/* Left column — same as article body */}
-            <div>
-              {/* Tags */}
-              {post.tags.length > 0 && (
-                <div className="pt-8 border-t border-border/40">
-                  <p className="text-sm font-semibold text-muted mb-3">Tags</p>
-                  <div className="flex flex-wrap gap-2">
-                    {post.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-xs px-3 py-1.5 rounded-full bg-surface border border-border/40 text-muted hover:text-foreground transition-colors"
-                      >
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
+      {/* Tags + Author: mirrors the same grid as the article body so the left
+          edge of both sections lines up perfectly at every viewport width. */}
+      <div className="mx-auto max-w-7xl px-6 pb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_240px] gap-12 lg:gap-16">
+          <div>
+            {post.tags.length > 0 && (
+              <div className="pt-8 border-t border-border/40">
+                <p className="text-sm font-semibold text-muted mb-3">Tags</p>
+                <div className="flex flex-wrap gap-2">
+                  {post.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="text-xs px-3 py-1.5 rounded-full bg-surface border border-border/40 text-muted hover:text-foreground transition-colors cursor-default"
+                    >
+                      #{tag}
+                    </span>
+                  ))}
                 </div>
-              )}
+              </div>
+            )}
 
-              {/* Author Footer */}
-              <div className="mt-12 pt-8 border-t border-border/40">
-                <div className="glass-strong rounded-xl p-8 flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left">
-                  {post.author.avatar ? (
-                    <img
-                      src={post.author.avatar}
+            <div className="mt-12 pt-8 border-t border-border/40">
+              <div className="glass-strong rounded-xl p-8 flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left">
+                {post.author.avatar ? (
+                  <img
+                    src={post.author.avatar}
+                    alt={post.author.name}
+                    className="w-16 h-16 rounded-full object-cover shrink-0"
+                  />
+                ) : (
+                  <div className="w-16 h-16 rounded-full overflow-hidden bg-accent/15 flex items-center justify-center shrink-0 ring-2 ring-accent/20">
+                    <Image
+                      src={digiLogo}
                       alt={post.author.name}
-                      className="w-16 h-16 rounded-full object-cover shrink-0"
+                      width={64}
+                      height={64}
+                      className="object-contain"
                     />
-                  ) : (
-                    <div className="w-16 h-16 rounded-full overflow-hidden bg-accent/15 flex items-center justify-center shrink-0 ring-2 ring-accent/20">
-                      <Image src={digiLogo} alt={post.author.name} width={64} height={64} className="object-contain" />
-                    </div>
-                  )}
-                  <div className="min-w-0 flex-1">
-                    <p className="text-[10px] uppercase tracking-[0.18em] text-accent font-semibold mb-1">
-                      Written by
-                    </p>
-                    <p className="font-serif text-xl font-bold text-foreground">
-                      {post.author.name}
-                    </p>
-                    <p className="mt-2 text-sm text-muted leading-relaxed">
-                      Founder of DigiFusion and PathGuru Publishers. Writes about the
-                      intelligence layer for SMBs — where AI replaces, augments, or
-                      quietly automates the work that drains your week.
-                    </p>
                   </div>
+                )}
+                <div className="min-w-0 flex-1">
+                  <p className="text-[10px] uppercase tracking-[0.18em] text-accent font-semibold mb-1">
+                    Written by
+                  </p>
+                  <p className="font-serif text-xl font-bold text-foreground">
+                    {post.author.name}
+                  </p>
+                  <p className="mt-2 text-sm text-muted leading-relaxed">
+                    Founder of DigiFusion and PathGuru Publishers. Writes about the
+                    intelligence layer for SMBs — where AI replaces, augments, or
+                    quietly automates the work that drains your week.
+                  </p>
                 </div>
               </div>
             </div>
-            {/* Right column — empty, keeps width consistent with article grid */}
-            <div className="hidden lg:block" />
           </div>
+
+          {/* Empty sidebar column: keeps author/tags flush with prose above */}
+          <div className="hidden lg:block" />
         </div>
+      </div>
 
-      </article>
-
-      {/* ── More from the Blog — outside <article> so it aligns with the page grid ── */}
+      {/* More from the Blog */}
       {related.length > 0 && (
         <section className="border-t border-border/40 bg-surface/30">
-          <div className="max-w-7xl mx-auto px-6 py-16">
+          <div className="mx-auto max-w-7xl px-6 py-16">
             <div className="flex items-end justify-between mb-10 flex-wrap gap-4">
               <div>
                 <p className="text-xs font-semibold tracking-[0.18em] uppercase text-accent mb-2">
