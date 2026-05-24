@@ -116,33 +116,52 @@ export default function AboutPage() {
       {/* ── Hero ── */}
       <section className="relative overflow-hidden border-b border-border/40">
         <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-transparent pointer-events-none" />
-        <div className="mx-auto max-w-7xl px-6 pt-28 pb-20">
-          <p className="text-xs font-semibold tracking-[0.2em] uppercase text-accent mb-4">
-            Part of Digital Nation
-          </p>
-          <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight max-w-4xl mb-6">
-            Where Digital Knowledge Meets{' '}
-            <span className="text-accent">Intelligent Execution</span>
-          </h1>
-          <p className="text-lg md:text-xl text-muted max-w-2xl leading-relaxed mb-10">
-            DigiFusion is the answer to modern technological disruption and media invisibility.
-            We fuse the expertise of seasoned system designers with the creativity of digital
-            media strategists — helping small and medium businesses scale with precision.
-          </p>
-          <div className="flex flex-wrap gap-4">
-            <Link
-              href="/agency/booking"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-accent text-background font-semibold text-sm hover:bg-accent-dim transition-all active:scale-[0.98]"
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-background animate-pulse" />
-              Book a Strategy Session
-            </Link>
-            <Link
-              href="/agency/services"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-border text-muted hover:text-foreground hover:border-accent/40 transition-all text-sm font-medium"
-            >
-              Explore Services
-            </Link>
+        <div className="mx-auto max-w-7xl px-6 pt-28 pb-0">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] items-end gap-8 lg:gap-16">
+
+            {/* Left: headline + copy + buttons */}
+            <div className="pb-20">
+              <p className="text-xs font-semibold tracking-[0.2em] uppercase text-accent mb-4">
+                Part of Digital Nation
+              </p>
+              <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight max-w-3xl mb-6">
+                Where Digital Knowledge Meets{' '}
+                <span className="text-accent">Intelligent Execution</span>
+              </h1>
+              <p className="text-lg md:text-xl text-muted max-w-xl leading-relaxed mb-10">
+                DigiFusion is the answer to modern technological disruption and media invisibility.
+                We fuse the expertise of seasoned system designers with the creativity of digital
+                media strategists — helping small and medium businesses scale with precision.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <Link
+                  href="/agency/booking"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-accent text-background font-semibold text-sm hover:bg-accent-dim transition-all active:scale-[0.98]"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-background animate-pulse" />
+                  Book a Strategy Session
+                </Link>
+                <Link
+                  href="/agency/services"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-border text-muted hover:text-foreground hover:border-accent/40 transition-all text-sm font-medium"
+                >
+                  Explore Services
+                </Link>
+              </div>
+            </div>
+
+            {/* Right: founder image — black bg blends into site dark theme */}
+            <div className="hidden lg:block self-end">
+              <Image
+                src="/images/founder-hero.webp"
+                alt="Boroji Adebayo, Founder of DigiFusion"
+                width={360}
+                height={480}
+                className="object-contain object-bottom select-none pointer-events-none"
+                priority
+              />
+            </div>
+
           </div>
         </div>
       </section>
@@ -352,43 +371,24 @@ export default function AboutPage() {
         </div>
       </section>
 
-            {/* ── CTA ── */}
-      <section className="border-t border-border/40 bg-surface/30 overflow-hidden">
-        <div className="mx-auto max-w-7xl px-6 py-20">
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] items-end gap-10 lg:gap-0">
-
-            {/* Text + button */}
-            <div className="max-w-xl">
-              <p className="text-xs font-semibold tracking-[0.2em] uppercase text-accent mb-4">Ready to Scale?</p>
-              <h2 className="font-serif text-3xl md:text-4xl font-bold tracking-tight mb-4">
-                Let&apos;s Build Your Intelligence Layer
-              </h2>
-              <p className="text-muted mb-8 leading-relaxed">
-                Book a free strategy session. We&apos;ll audit your operations, identify automation
-                opportunities, and deliver a roadmap &mdash; no obligation, no sales pitch.
-              </p>
-              <Link
-                href="/agency/booking"
-                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-lg bg-accent text-background font-semibold hover:bg-accent-dim transition-all active:scale-[0.98]"
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-background animate-pulse" />
-                Book Your Strategy Session
-              </Link>
-            </div>
-
-            {/* Founder image - no background, anchored to bottom edge */}
-            <div className="hidden lg:flex items-end justify-end self-end -mb-20 -mr-6">
-              <Image
-                src="/images/founder-nobg.webp"
-                alt="Boroji Adebayo, Founder of DigiFusion"
-                width={320}
-                height={425}
-                className="object-contain object-bottom drop-shadow-2xl select-none pointer-events-none"
-                priority={false}
-              />
-            </div>
-
-          </div>
+                  {/* ── CTA ── */}
+      <section className="border-t border-border/40 bg-surface/30">
+        <div className="mx-auto max-w-7xl px-6 py-20 text-center">
+          <p className="text-xs font-semibold tracking-[0.2em] uppercase text-accent mb-4">Ready to Scale?</p>
+          <h2 className="font-serif text-3xl md:text-4xl font-bold tracking-tight mb-4">
+            Let&apos;s Build Your Intelligence Layer
+          </h2>
+          <p className="text-muted max-w-xl mx-auto mb-8 leading-relaxed">
+            Book a free strategy session. We&apos;ll audit your operations, identify automation
+            opportunities, and deliver a roadmap &mdash; no obligation, no sales pitch.
+          </p>
+          <Link
+            href="/agency/booking"
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-lg bg-accent text-background font-semibold hover:bg-accent-dim transition-all active:scale-[0.98]"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-background animate-pulse" />
+            Book Your Strategy Session
+          </Link>
         </div>
       </section>
     </>
