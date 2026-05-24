@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import digiLogo from '@/assets/digilogo.png';
 
 export const metadata = {
   title: 'About',
@@ -269,8 +268,8 @@ export default function AboutPage() {
         </h2>
         <div className="max-w-2xl">
           <div className="glass-strong rounded-2xl p-8 flex flex-col sm:flex-row items-center sm:items-start gap-7">
-            <div className="w-20 h-20 rounded-full overflow-hidden bg-accent/10 border-2 border-accent/25 flex items-center justify-center shrink-0">
-              <Image src={digiLogo} alt="Boroji Adebayo" width={80} height={80} className="object-contain p-1" />
+            <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-accent/30 shrink-0 ring-2 ring-accent/10">
+              <Image src="/images/founder.jpg" alt="Boroji Adebayo" width={80} height={80} className="object-cover w-full h-full" />
             </div>
             <div className="flex-1 min-w-0 text-center sm:text-left">
               <p className="text-[10px] uppercase tracking-[0.18em] text-accent font-semibold mb-1">Founder &amp; Lead Strategist</p>

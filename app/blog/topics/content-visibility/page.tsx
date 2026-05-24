@@ -44,18 +44,56 @@ const SUBTOPICS = [
   },
 ];
 
-const SCHEMA = {
-  '@context': 'https://schema.org',
-  '@type': 'CollectionPage',
-  name: "Content & Visibility  -  DigiFusion Topic Hub",
-  description:
-    'A curated collection of SEO, content strategy and distribution guides for digital businesses.',
-  url: "https://www.digitafusion.com/blog/topics/content-visibility",
-  publisher: {
-    '@type': 'Organization',
-    '@id': 'https://www.digitafusion.com/#organization',
-    name: "DigiFusion",
+const FAQ_ITEMS_CV = [
+  {
+    q: "How long does SEO take to show results?",
+    a: "For a new or low-authority site, expect 3-6 months before meaningful organic traffic growth appears, and 6-12 months to see the full impact of a content strategy. Topic cluster pages targeting specific niche queries can rank faster - sometimes within 4-8 weeks. The timeline depends on your domain authority, competition, and how consistently you publish.",
   },
+  {
+    q: "What is a topic cluster and why does it matter for SEO?",
+    a: "A topic cluster is a group of content pages built around one central pillar page. The pillar covers a broad subject comprehensively; cluster posts dive into specific sub-questions and link back to the pillar. Google interprets the internal link structure as a signal of topical authority, which helps every page in the cluster rank higher than it would in isolation.",
+  },
+  {
+    q: "Does AI-generated content hurt SEO?",
+    a: "Google has stated it does not penalise AI-generated content - it penalises low-quality, unhelpful content regardless of how it was produced. AI-assisted content that is accurate, original, expert-reviewed and genuinely helpful to the reader performs well. The risk is mass-producing thin content at scale without editorial review, which Google can detect and downrank.",
+  },
+  {
+    q: "What schema markup is most important for visibility?",
+    a: "For most content sites: Article schema (for blog posts), FAQPage schema (increases People Also Ask eligibility), BreadcrumbList (adds navigation links to search results), and Organization/WebSite schema (establishes entity identity with Google). All four are implemented on this site.",
+  },
+  {
+    q: "How do I measure content performance beyond keyword rankings?",
+    a: "Track: (1) Organic clicks and impressions in Google Search Console by page - this shows real user demand. (2) Average position trends over time. (3) Click-through rate - low CTR despite good position means your title and meta description need work. (4) On-page engagement (time on page, scroll depth) to distinguish genuinely useful content from low-quality traffic.",
+  },
+];
+
+const SCHEMA = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      name: "Content and Visibility - DigiFusion Topic Hub",
+      description: "A curated collection of SEO, content strategy and distribution guides for digital businesses.",
+      url: "https://www.digitafusion.com/blog/topics/content-visibility",
+      publisher: { "@type": "Organization", "@id": "https://www.digitafusion.com/#organization", name: "DigiFusion" },
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://www.digitafusion.com" },
+        { "@type": "ListItem", position: 2, name: "Blog", item: "https://www.digitafusion.com/blog" },
+        { "@type": "ListItem", position: 3, name: "Content and Visibility", item: "https://www.digitafusion.com/blog/topics/content-visibility" },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: FAQ_ITEMS_CV.map((item) => ({
+        "@type": "Question",
+        name: item.q,
+        acceptedAnswer: { "@type": "Answer", text: item.a },
+      })),
+    },
+  ],
 };
 
 export default async function ContentVisibilityTopicPage() {
@@ -192,6 +230,30 @@ export default async function ContentVisibilityTopicPage() {
           </div>
         </section>
       )}
+
+
+      {/* FAQ section */}
+      <section className="mx-auto max-w-7xl px-6 pb-16">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="font-serif text-2xl font-bold tracking-tight mb-8">Frequently asked questions</h2>
+          <div className="space-y-0 divide-y divide-border/40">
+            {FAQ_ITEMS_CV.map((item) => (
+              <details key={item.q} className="group py-5">
+                <summary className="flex items-center justify-between gap-4 cursor-pointer list-none">
+                  <span className="font-medium text-foreground">{item.q}</span>
+                  <span className="shrink-0 w-5 h-5 rounded-full border border-border/60 flex items-center justify-center text-muted group-open:rotate-45 transition-transform">
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                      <line x1="5" y1="1" x2="5" y2="9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                      <line x1="1" y1="5" x2="9" y2="5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                    </svg>
+                  </span>
+                </summary>
+                <p className="mt-3 text-muted leading-relaxed text-sm">{item.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* CTA */}
       <section className="border-t border-border/40 bg-surface/30">

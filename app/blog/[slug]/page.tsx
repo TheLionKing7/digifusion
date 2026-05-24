@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import digiLogo from '@/assets/digilogo.png';
 import { PostCard } from '@/components/blog/post-card';
 import { ReadingProgress } from '@/components/blog/reading-progress';
 import { TableOfContents } from '@/components/blog/table-of-contents';
@@ -120,6 +119,20 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           }),
         }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Home', item: `${BASE}` },
+              { '@type': 'ListItem', position: 2, name: 'Blog', item: `${BASE}/blog` },
+              { '@type': 'ListItem', position: 3, name: post.title, item: postUrl },
+            ],
+          }),
+        }}
+      />
       <ReadingProgress targetId="post-body" />
 
       <div className="mx-auto max-w-7xl px-6 pt-24 pb-2">
@@ -149,10 +162,41 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_240px] gap-12 lg:gap-16">
           <article id="post-body" className="min-w-0">
             <div className="bg-white rounded-2xl shadow-sm px-8 py-10 lg:px-14 lg:py-12">
-              <div
-                className="prose-blog-light max-w-3xl mx-auto"
-                dangerouslySetInnerHTML={{ __html: contentHtml }}
-              />
+              <div className="max-w-3xl mx-auto">
+                {/* Post header — title, meta row */}
+                <header className="mb-8 pb-8 border-b border-gray-100">
+                  {post.postType && (
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-accent/10 text-accent border border-accent/20 mb-4">
+                      {post.postType.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase())}
+                    </span>
+                  )}
+                  <h1 className="font-serif text-3xl sm:text-4xl font-bold leading-tight tracking-tight text-gray-900 mb-4">
+                    {post.title}
+                  </h1>
+                  {post.excerpt && (
+                    <p className="text-gray-500 text-base leading-relaxed mb-4">
+                      {post.excerpt}
+                    </p>
+                  )}
+                  <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-gray-400">
+                    <time dateTime={post.publishedAt}>
+                      {new Date(post.publishedAt).toLocaleDateString('en-GB', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric',
+                      })}
+                    </time>
+                    <span aria-hidden="true">&middot;</span>
+                    <span>{post.author.name}</span>
+                  </div>
+                </header>
+
+                {/* Post body */}
+                <div
+                  className="prose-blog-light"
+                  dangerouslySetInnerHTML={{ __html: contentHtml }}
+                />
+              </div>
             </div>
           </article>
 
@@ -188,13 +232,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     className="w-16 h-16 rounded-full object-cover shrink-0"
                   />
                 ) : (
-                  <div className="w-16 h-16 rounded-full overflow-hidden bg-accent/15 flex items-center justify-center shrink-0 ring-2 ring-accent/20">
+                  <div className="w-16 h-16 rounded-full overflow-hidden shrink-0 ring-2 ring-accent/20">
                     <Image
-                      src={digiLogo}
+                      src="/images/founder.jpg"
                       alt={post.author.name}
                       width={64}
                       height={64}
-                      className="object-contain"
+                      className="object-cover w-full h-full"
                     />
                   </div>
                 )}

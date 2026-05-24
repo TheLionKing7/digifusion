@@ -44,18 +44,52 @@ const SUBTOPICS = [
   },
 ];
 
-const SCHEMA = {
-  '@context': 'https://schema.org',
-  '@type': 'CollectionPage',
-  name: "Digital Business  -  DigiFusion Topic Hub",
-  description:
-    'A curated collection of strategy, operations and technology guides for digital-first SMBs.',
-  url: "https://www.digitafusion.com/blog/topics/digital-business",
-  publisher: {
-    '@type': 'Organization',
-    '@id': 'https://www.digitafusion.com/#organization',
-    name: "DigiFusion",
+const FAQ_ITEMS_DB = [
+  {
+    q: "What makes a business a digital business?",
+    a: "A digital business is one where core operations, customer interactions and revenue generation happen primarily through digital channels and systems. This includes e-commerce, SaaS, digital services, and any traditional business that has moved its primary customer touchpoints and internal processes online.",
   },
+  {
+    q: "What tech stack does a modern SMB need?",
+    a: "At minimum: a CRM for customer data, a project management tool, a cloud accounting package, email/communication tools, and a website. What matters more than any specific tool is how well they integrate. Disconnected tools create manual data-bridging work that is the single biggest productivity drain in most small businesses.",
+  },
+  {
+    q: "How do I make my digital business more efficient without hiring?",
+    a: "The highest-leverage moves are: document your core processes so they can be delegated or automated, consolidate duplicate tools, eliminate manual data re-entry between systems through integrations or automation, and build dashboards so decisions are based on data rather than gut feel.",
+  },
+  {
+    q: "What is the Digital Operations Maturity Model?",
+    a: "It is a four-level framework for assessing how systematised a digital business is. Level 1 is reactive (ad hoc, manual, knowledge in people heads). Level 2 is documented (processes written down, consistent but not scalable). Level 3 is systematised (workflows automated, reporting in place). Level 4 is intelligent (AI augments operations, capacity scales without proportional headcount growth).",
+  },
+];
+
+const SCHEMA = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      name: "Digital Business - DigiFusion Topic Hub",
+      description: "A curated collection of strategy, operations and technology guides for digital-first SMBs.",
+      url: "https://www.digitafusion.com/blog/topics/digital-business",
+      publisher: { "@type": "Organization", "@id": "https://www.digitafusion.com/#organization", name: "DigiFusion" },
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://www.digitafusion.com" },
+        { "@type": "ListItem", position: 2, name: "Blog", item: "https://www.digitafusion.com/blog" },
+        { "@type": "ListItem", position: 3, name: "Digital Business", item: "https://www.digitafusion.com/blog/topics/digital-business" },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: FAQ_ITEMS_DB.map((item) => ({
+        "@type": "Question",
+        name: item.q,
+        acceptedAnswer: { "@type": "Answer", text: item.a },
+      })),
+    },
+  ],
 };
 
 export default async function DigitalBusinessTopicPage() {
@@ -175,6 +209,30 @@ export default async function DigitalBusinessTopicPage() {
           </div>
         </section>
       )}
+
+
+      {/* FAQ section */}
+      <section className="mx-auto max-w-7xl px-6 pb-16">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="font-serif text-2xl font-bold tracking-tight mb-8">Frequently asked questions</h2>
+          <div className="space-y-0 divide-y divide-border/40">
+            {FAQ_ITEMS_DB.map((item) => (
+              <details key={item.q} className="group py-5">
+                <summary className="flex items-center justify-between gap-4 cursor-pointer list-none">
+                  <span className="font-medium text-foreground">{item.q}</span>
+                  <span className="shrink-0 w-5 h-5 rounded-full border border-border/60 flex items-center justify-center text-muted group-open:rotate-45 transition-transform">
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                      <line x1="5" y1="1" x2="5" y2="9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                      <line x1="1" y1="5" x2="9" y2="5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                    </svg>
+                  </span>
+                </summary>
+                <p className="mt-3 text-muted leading-relaxed text-sm">{item.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* CTA */}
       <section className="border-t border-border/40 bg-surface/30">

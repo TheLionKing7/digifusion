@@ -44,18 +44,56 @@ const SUBTOPICS = [
   },
 ];
 
-const SCHEMA = {
-  '@context': 'https://schema.org',
-  '@type': 'CollectionPage',
-  name: "AI & Automation  -  DigiFusion Topic Hub",
-  description:
-    'A curated collection of guides, tutorials and case studies on AI automation for SMBs.',
-  url: "https://www.digitafusion.com/blog/topics/ai-automation",
-  publisher: {
-    '@type': 'Organization',
-    '@id': 'https://www.digitafusion.com/#organization',
-    name: "DigiFusion",
+const FAQ_ITEMS = [
+  {
+    q: "What is AI automation for small businesses?",
+    a: "AI automation for small businesses means using artificial intelligence to handle repetitive tasks that previously required human time: email triage, data entry, report generation, document processing and customer responses. The goal is to free your team for higher-value work without adding headcount.",
   },
+  {
+    q: "How long does it take to see results from AI automation?",
+    a: "Most SMB automation projects deliver measurable time savings within 2-4 weeks of going live. A well-scoped workflow automation can reduce the targeted task time by 70-90% almost immediately after deployment.",
+  },
+  {
+    q: "Do I need a developer to implement AI automation?",
+    a: "Not always. Many workflow automations can be built using no-code tools like n8n, Make or Zapier. More complex automations connected to proprietary systems typically need a developer or an AI consultancy like DigiFusion.",
+  },
+  {
+    q: "What business processes are best suited for AI automation?",
+    a: "The best candidates are high-volume, rule-based tasks: email sorting and drafting, invoice processing, CRM data entry, status update emails, customer support triage and report generation. If a human does the same steps in the same order every time, it can almost certainly be automated.",
+  },
+  {
+    q: "How much does AI automation cost for an SMB?",
+    a: "A simple workflow automation using no-code tools might cost a few hundred dollars to set up. A custom AI agent pipeline typically ranges from $2,000 to $15,000 for the initial build, with ongoing tool subscription costs of $50-$300 per month.",
+  },
+];
+
+const SCHEMA = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      name: "AI and Automation - DigiFusion Topic Hub",
+      description: "A curated collection of guides, tutorials and case studies on AI automation for SMBs.",
+      url: "https://www.digitafusion.com/blog/topics/ai-automation",
+      publisher: { "@type": "Organization", "@id": "https://www.digitafusion.com/#organization", name: "DigiFusion" },
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://www.digitafusion.com" },
+        { "@type": "ListItem", position: 2, name: "Blog", item: "https://www.digitafusion.com/blog" },
+        { "@type": "ListItem", position: 3, name: "AI and Automation", item: "https://www.digitafusion.com/blog/topics/ai-automation" },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: FAQ_ITEMS.map((item) => ({
+        "@type": "Question",
+        name: item.q,
+        acceptedAnswer: { "@type": "Answer", text: item.a },
+      })),
+    },
+  ],
 };
 
 export default async function AiAutomationTopicPage() {
@@ -183,6 +221,30 @@ export default async function AiAutomationTopicPage() {
           </div>
         </section>
       )}
+
+
+      {/* FAQ section */}
+      <section className="mx-auto max-w-7xl px-6 pb-16">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="font-serif text-2xl font-bold tracking-tight mb-8">Frequently asked questions</h2>
+          <div className="space-y-0 divide-y divide-border/40">
+            {FAQ_ITEMS.map((item) => (
+              <details key={item.q} className="group py-5">
+                <summary className="flex items-center justify-between gap-4 cursor-pointer list-none">
+                  <span className="font-medium text-foreground">{item.q}</span>
+                  <span className="shrink-0 w-5 h-5 rounded-full border border-border/60 flex items-center justify-center text-muted group-open:rotate-45 transition-transform">
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                      <line x1="5" y1="1" x2="5" y2="9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                      <line x1="1" y1="5" x2="9" y2="5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                    </svg>
+                  </span>
+                </summary>
+                <p className="mt-3 text-muted leading-relaxed text-sm">{item.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* CTA */}
       <section className="border-t border-border/40 bg-surface/30">
