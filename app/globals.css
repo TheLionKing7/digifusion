@@ -292,6 +292,7 @@
   .prose-blog-light .post-meta     { display: none !important; } /* categories · reading time — shown in header */
   .prose-blog-light .post-excerpt  { display: none !important; } /* excerpt — shown in header */
   .prose-blog-light .post-image    { display: none !important; } /* featured image handled separately */
+  .prose-blog-light h1             { display: none !important; } /* title rendered in DigiFusion header above content */
 
   .prose-blog-light table { width: 100%; border-collapse: collapse; margin: 1.5em 0; }
   .prose-blog-light th,

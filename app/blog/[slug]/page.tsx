@@ -163,13 +163,16 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <article id="post-body" className="min-w-0">
             <div className="bg-white rounded-2xl shadow-sm px-8 py-10 lg:px-14 lg:py-12">
               <div className="max-w-3xl mx-auto">
-                {/* Post header — title, meta row */}
+                {/* Post header — badge · title · excerpt · meta row */}
                 <header className="mb-8 pb-8 border-b border-gray-100">
                   {post.postType && (
                     <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-accent/10 text-accent border border-accent/20 mb-4">
                       {post.postType.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase())}
                     </span>
                   )}
+                  <h1 className="font-serif text-3xl md:text-4xl font-bold text-gray-900 leading-tight mb-4">
+                    {post.title}
+                  </h1>
                   {post.excerpt && (
                     <p className="text-gray-500 text-base leading-relaxed mb-4">
                       {post.excerpt}
@@ -233,38 +236,42 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             )}
 
             <div className="mt-12 pt-8 border-t border-border/40">
-              <div className="glass-strong rounded-xl p-8 flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left">
-                {post.author.avatar ? (
-                  <img
-                    src={post.author.avatar}
-                    alt={post.author.name}
-                    className="w-16 h-16 rounded-full object-cover shrink-0"
-                  />
-                ) : (
-                  <div className="w-16 h-16 rounded-full overflow-hidden shrink-0 ring-2 ring-accent/20">
-                    <Image
-                      src="/images/founder.jpg"
-                      alt={post.author.name}
-                      width={64}
-                      height={64}
-                      className="object-cover w-full h-full"
-                    />
+              {(() => {
+                const initials = post.author.name
+                  .split(' ')
+                  .map((w: string) => w[0])
+                  .slice(0, 2)
+                  .join('')
+                  .toUpperCase();
+                return (
+                  <div className="glass-strong rounded-xl p-8 flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left">
+                    {post.author.avatar ? (
+                      <img
+                        src={post.author.avatar}
+                        alt={post.author.name}
+                        className="w-16 h-16 rounded-full object-cover shrink-0 ring-2 ring-accent/20"
+                      />
+                    ) : (
+                      <div className="w-16 h-16 rounded-full shrink-0 ring-2 ring-accent/20 bg-accent/10 flex items-center justify-center">
+                        <span className="font-serif text-xl font-bold text-accent">
+                          {initials}
+                        </span>
+                      </div>
+                    )}
+                    <div className="min-w-0 flex-1">
+                      <p className="text-[10px] uppercase tracking-[0.18em] text-accent font-semibold mb-1">
+                        Written by
+                      </p>
+                      <p className="font-serif text-xl font-bold text-foreground">
+                        {post.author.name}
+                      </p>
+                      <p className="mt-2 text-sm text-muted leading-relaxed">
+                        {post.author.name} is a contributor at DigiFusion — writing about AI, automation, and digital strategy for growing businesses.
+                      </p>
+                    </div>
                   </div>
-                )}
-                <div className="min-w-0 flex-1">
-                  <p className="text-[10px] uppercase tracking-[0.18em] text-accent font-semibold mb-1">
-                    Written by
-                  </p>
-                  <p className="font-serif text-xl font-bold text-foreground">
-                    {post.author.name}
-                  </p>
-                  <p className="mt-2 text-sm text-muted leading-relaxed">
-                    Founder of DigiFusion and PathGuru Publishers. Writes about the
-                    intelligence layer for SMBs — where AI replaces, augments, or
-                    quietly automates the work that drains your week.
-                  </p>
-                </div>
-              </div>
+                );
+              })()}
             </div>
           </div>
 
