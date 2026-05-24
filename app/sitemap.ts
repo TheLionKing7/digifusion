@@ -12,7 +12,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE}/agency/methodology`,                     lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6  },
     { url: `${BASE}/agency/case-studies`,                    lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7  },
     { url: `${BASE}/agency/booking`,                         lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8  },
-    { url: `${BASE}/products`,                               lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.7  },
+    // Intelligence hub + sub-pages
+    { url: `${BASE}/intelligence`,                           lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.85 },
+    { url: `${BASE}/intelligence/field-guides`,              lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.8  },
+    { url: `${BASE}/intelligence/playbooks`,                 lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.8  },
+    { url: `${BASE}/intelligence/research`,                  lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.8  },
+    { url: `${BASE}/intelligence/tools`,                     lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.8  },
+    // Products hub + individual product pages
+    { url: `${BASE}/products`,                               lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.85 },
+    { url: `${BASE}/products/sabiwork`,                      lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8  },
+    { url: `${BASE}/products/receptra`,                      lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8  },
+    { url: `${BASE}/products/adpilot`,                       lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8  },
     { url: `${BASE}/about`,                                  lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6  },
     { url: `${BASE}/contact`,                                lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5  },
     // Topic cluster pillar pages - high priority, they anchor the content strategy

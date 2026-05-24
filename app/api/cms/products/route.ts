@@ -26,18 +26,19 @@ export async function GET(req: NextRequest) {
     return fail('VALIDATION_ERROR', parsed.error.issues.map(i => `${i.path.join('.')}: ${i.message}`).join('; '));
   }
 
-  const { page, per_page, type, active } = parsed.data;
+  const { page, per_page, type, category, active } = parsed.data;
   const from = (page - 1) * per_page;
   const to   = from + per_page - 1;
 
   const db = getShopDb();
   let query = db
     .from('products')
-    .select('id, slug, name, type, prices, recurring, featured, active, cover_image_url, created_at, updated_at', { count: 'exact' })
+    .select('id, slug, name, type, category, prices, recurring, featured, active, cover_image_url, description, created_at, updated_at', { count: 'exact' })
     .order('created_at', { ascending: false })
     .range(from, to);
 
-  if (type) query = query.eq('type', type);
+  if (type)     query = query.eq('type', type);
+  if (category) query = query.eq('category', category);
   if (active === 'true')  query = query.eq('active', true);
   if (active === 'false') query = query.eq('active', false);
 

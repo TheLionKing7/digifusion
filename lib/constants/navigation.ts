@@ -23,9 +23,25 @@ export const MAIN_NAV: NavItem[] = [
     ],
   },
   {
+    label: 'Intelligence',
+    href: '/intelligence',
+    description: 'Premium knowledge, tools & resources',
+    children: [
+      { label: 'Field Guides', href: '/intelligence/field-guides', description: 'Premium books on advertising & business' },
+      { label: 'Automation Playbooks', href: '/intelligence/playbooks', description: 'Workflows, prompt libraries & templates' },
+      { label: 'Research & Case Studies', href: '/intelligence/research', description: 'In-depth analysis and real-world findings' },
+      { label: 'Tools & Extensions', href: '/intelligence/tools', description: 'Lightweight utilities to sharpen your edge' },
+    ],
+  },
+  {
     label: 'Products',
     href: '/products',
-    description: 'Digital tools & SaaS',
+    description: 'AI-powered SaaS built for modern businesses',
+    children: [
+      { label: 'SabiWork', href: '/products/sabiwork', description: 'AI cost-estimator for artisans & contractors' },
+      { label: 'Receptra', href: '/products/receptra', description: 'AI-powered receptionist for hospitality & law' },
+      { label: 'AdPilot', href: '/products/adpilot', description: 'AI marketing assistant inside WhatsApp' },
+    ],
   },
   {
     label: 'Blog',
@@ -49,13 +65,22 @@ export const FOOTER_LINKS = {
       { label: 'Book a Call', href: '/agency/booking' },
     ],
   },
+  intelligence: {
+    label: 'Intelligence',
+    links: [
+      { label: 'Field Guides', href: '/intelligence/field-guides' },
+      { label: 'Automation Playbooks', href: '/intelligence/playbooks' },
+      { label: 'Research & Case Studies', href: '/intelligence/research' },
+      { label: 'Tools & Extensions', href: '/intelligence/tools' },
+    ],
+  },
   products: {
     label: 'Products',
     links: [
       { label: 'All Products', href: '/products' },
-      { label: 'Software', href: '/products?category=software' },
-      { label: 'Extensions', href: '/products?category=extension' },
-      { label: 'Templates', href: '/products?category=template' },
+      { label: 'SabiWork', href: '/products/sabiwork' },
+      { label: 'Receptra', href: '/products/receptra' },
+      { label: 'AdPilot', href: '/products/adpilot' },
     ],
   },
   blog: {

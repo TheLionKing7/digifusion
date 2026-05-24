@@ -287,9 +287,11 @@
     margin: 2em 0;
   }
 
-  /* Hide PathGuru social caption blocks — these are for social scheduling,
-     not for rendering inside a published blog post */
-  .prose-blog-light .post-social { display: none !important; }
+  /* Hide PathGuru-injected elements that DigiFusion renders in its own header */
+  .prose-blog-light .post-social   { display: none !important; } /* social captions — for scheduling only */
+  .prose-blog-light .post-meta     { display: none !important; } /* categories · reading time — shown in header */
+  .prose-blog-light .post-excerpt  { display: none !important; } /* excerpt — shown in header */
+  .prose-blog-light .post-image    { display: none !important; } /* featured image handled separately */
 
   .prose-blog-light table { width: 100%; border-collapse: collapse; margin: 1.5em 0; }
   .prose-blog-light th,

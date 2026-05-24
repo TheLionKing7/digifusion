@@ -90,11 +90,25 @@ export const PostListQuerySchema = z.object({
 
 // ── Products ───────────────────────────────────────────────────────────────
 
+// Intelligence Library + Products hub classification
+export const ProductCategoryEnum = z.enum([
+  'field-guide',   // /intelligence/field-guides — books, reference manuals
+  'playbook',      // /intelligence/playbooks    — workflow packs, SOPs
+  'research',      // /intelligence/research     — papers, case studies
+  'tool',          // /intelligence/tools        — extensions, utilities
+  'saas',          // /products/*                — SabiWork, Receptra, AdPilot
+  'service',       // /agency                   — done-for-you consultancy
+  'bundle',        // any section               — multi-item packs
+]);
+
+export const ProductTypeEnum = z.enum(['download', 'subscription', 'service', 'saas']);
+
 export const ProductWriteSchema = z.object({
   slug:             z.string().min(1).max(120).regex(/^[a-z0-9-]+$/, 'slug must be lowercase, numbers, hyphens only'),
   name:             z.string().min(1).max(200),
   description:      z.string().max(8000).default(''),
-  type:             z.enum(['download', 'subscription', 'service']),
+  type:             ProductTypeEnum,
+  category:         ProductCategoryEnum.nullable().optional(),
   recurring:        z.enum(['monthly', 'yearly']).nullable().optional(),
   active:           z.boolean().default(true),
   featured:         z.boolean().default(false),
@@ -109,7 +123,8 @@ export const ProductPatchSchema = ProductWriteSchema.partial();
 export const ProductListQuerySchema = z.object({
   page:     z.coerce.number().int().min(1).default(1),
   per_page: z.coerce.number().int().min(1).max(100).default(50),
-  type:     z.enum(['download', 'subscription', 'service']).optional(),
+  type:     ProductTypeEnum.optional(),
+  category: ProductCategoryEnum.optional(),
   active:   z.enum(['true', 'false', 'all']).default('all'),
 });
 

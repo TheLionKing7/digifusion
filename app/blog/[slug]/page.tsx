@@ -170,15 +170,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                       {post.postType.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase())}
                     </span>
                   )}
-                  <h1 className="font-serif text-3xl sm:text-4xl font-bold leading-tight tracking-tight text-gray-900 mb-4">
-                    {post.title}
-                  </h1>
                   {post.excerpt && (
                     <p className="text-gray-500 text-base leading-relaxed mb-4">
                       {post.excerpt}
                     </p>
                   )}
-                  <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-gray-400">
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-gray-400">
                     <time dateTime={post.publishedAt}>
                       {new Date(post.publishedAt).toLocaleDateString('en-GB', {
                         day: 'numeric',
@@ -188,6 +185,18 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     </time>
                     <span aria-hidden="true">&middot;</span>
                     <span>{post.author.name}</span>
+                    {post.categories.length > 0 && (
+                      <>
+                        <span aria-hidden="true">&middot;</span>
+                        <span>{post.categories[0]}</span>
+                      </>
+                    )}
+                    {post.readingTimeMinutes > 0 && (
+                      <>
+                        <span aria-hidden="true">&middot;</span>
+                        <span>{post.readingTimeMinutes} min read</span>
+                      </>
+                    )}
                   </div>
                 </header>
 

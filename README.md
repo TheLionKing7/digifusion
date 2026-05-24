@@ -1,8 +1,42 @@
 # DigiFusion
 
-**Enterprise AI consultancy, digital media, products and a knowledge base.**
+**Enterprise AI agency, digital media, SaaS products, and a premium intelligence library.**
 
 Live at [www.digitafusion.com](https://www.digitafusion.com) — deployed on Vercel, database on Supabase.
+
+---
+
+## Site Architecture
+
+DigiFusion is structured around four interconnected pillars:
+
+```
+Blog (attract)  →  Intelligence (convert)  →  Products (retain)  →  Agency (upsell)
+```
+
+| Pillar | Route | Purpose |
+|---|---|---|
+| **Blog** | `/blog` | Free intelligence — attracts organic traffic, builds trust |
+| **Intelligence** | `/intelligence` | Premium knowledge library — field guides, playbooks, research, tools |
+| **Products** | `/products` | SaaS products — SabiWork, Receptra, AdPilot |
+| **Agency** | `/agency` | Done-for-you AI consultancy services |
+
+### Navigation structure
+
+```
+Home · Agency · Intelligence · Products · Blog · About
+```
+
+**Intelligence** sub-sections:
+- `/intelligence/field-guides` — Premium advertising & AI books (3 advertising volumes + AI titles planned)
+- `/intelligence/playbooks` — Industry-specific automation workflow packs
+- `/intelligence/research` — Research papers and case studies
+- `/intelligence/tools` — Browser extensions and lightweight utilities ($9–$29)
+
+**Products** sub-pages:
+- `/products/sabiwork` — AI cost-estimator for artisans & contractors
+- `/products/receptra` — AI-powered receptionist for hospitality & law
+- `/products/adpilot` — AI marketing assistant inside WhatsApp
 
 ---
 
@@ -13,18 +47,25 @@ Live at [www.digitafusion.com](https://www.digitafusion.com) — deployed on Ver
 | Area | Status |
 |---|---|
 | Site — Strategy Session landing page (`/agency/booking`) | ✓ Live |
-| Site — Four Pillars grid (Agency, Digital Media, Products, Knowledge Base) | ✓ Live |
-| Site — Social links (Facebook, Twitter/X, Quora, email) | ✓ Live |
+| Site — Blog with PathGuru CMS integration | ✓ Live |
+| Site — About, Privacy Policy, Agency Case Studies pages | ✓ Live |
+| Site — Topic cluster pillar pages (AI Automation, Digital Business, Content Visibility) | ✓ Live |
+| Site — Intelligence hub + 4 sub-pages | ✓ Live |
+| Site — Products hub + SabiWork, Receptra, AdPilot landing pages | ✓ Live |
+| Site — XML sitemap + robots.txt + JSON-LD schema | ✓ Live |
 | CMS API — 15 endpoints under `/api/cms/*` | ✓ Built |
 | Database — `posts` table with RLS (blog content) | ✓ Migrated |
 | Database — `settings` table seeded with `terms` and `shipping` keys | ✓ Migrated |
 | PathGuru integration — bearer token auth on all CMS routes | ✓ Live |
+| Blog post page — white card layout, prose-blog-light, ToC sidebar | ✓ Live |
+| Blog post page — PathGuru meta element suppression (CSS) | ✓ Live |
 
 ### Pending
 
-- **`/blog` page** — posts are stored in the `posts` table (PathGuru publishes to it); no public-facing page renders them yet
 - **Checkout** — orders, payment gateways (Flutterwave active for testing, Stripe pending), buyer flow
+- **Intelligence product purchases** — payment flow for Field Guides and Tools when ready
 - **`/terms` page** — reads from `settings` where key = `'terms'`; page exists as a placeholder
+- **SabiWork / Receptra / AdPilot** — SaaS products currently in development; landing pages live with "Early Access" CTA
 
 ---
 
