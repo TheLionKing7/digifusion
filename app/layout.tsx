@@ -54,16 +54,56 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Instrument+Serif:wght@400;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
           rel="stylesheet"
         />
+        {/* Organization + WebSite schema — global, picked up by every page */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@graph': [
+                {
+                  '@type': 'Organization',
+                  '@id': 'https://www.digitafusion.com/#organization',
+                  name: 'DigiFusion',
+                  url: 'https://www.digitafusion.com',
+                  logo: 'https://www.digitafusion.com/assets/digilogo.png',
+                  contactPoint: {
+                    '@type': 'ContactPoint',
+                    email: 'enquiries@digitafusion.com',
+                    contactType: 'customer service',
+                  },
+                  sameAs: [
+                    'https://web.facebook.com/profile.php?id=61589805234698',
+                    'https://x.com/digifusion_hq',
+                    'https://www.quora.com/profile/DigiFusion-Inc',
+                  ],
+                },
+                {
+                  '@type': 'WebSite',
+                  '@id': 'https://www.digitafusion.com/#website',
+                  url: 'https://www.digitafusion.com',
+                  name: 'DigiFusion',
+                  description: 'Enterprise AI agency delivering automation, digital media, products and intelligence solutions.',
+                  publisher: { '@id': 'https://www.digitafusion.com/#organization' },
+                  potentialAction: {
+                    '@type': 'SearchAction',
+                    target: 'https://www.digitafusion.com/blog?q={search_term_string}',
+                    'query-input': 'required name=search_term_string',
+                  },
+                },
+              ],
+            }),
+          }}
+        />
       </head>
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
 
-        {/* ── Lightweight page-view tracker ── */}
+        {/* Lightweight page-view tracker */}
         <Script id="df-tracker" strategy="afterInteractive">{`
 (function(){
-  // Generate or retrieve a session ID (tab-scoped, not persisted)
   var sid = window.__dfSid;
   if(!sid){
     sid = Math.random().toString(36).slice(2) + Date.now().toString(36);
@@ -81,13 +121,11 @@ export default function RootLayout({
       fetch('/api/track',{method:'POST',body:payload,headers:{'Content-Type':'application/json'},keepalive:true}).catch(function(){});
     }
   }
-  // Track initial page load
   if(document.readyState==='loading'){
     document.addEventListener('DOMContentLoaded',track);
   } else {
     track();
   }
-  // Track Next.js client-side navigation
   var _pushState = history.pushState.bind(history);
   history.pushState = function(){
     _pushState.apply(history, arguments);

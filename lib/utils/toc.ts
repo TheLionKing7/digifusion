@@ -12,6 +12,9 @@ export function extractToc(html: string): { html: string; items: TocItem[] } {
   html = html.replace(/<style[\s\S]*?<\/style>/gi, '');
   html = html.replace(/<script[\s\S]*?<\/script>/gi, '');
 
+  // Add loading="lazy" and decoding="async" to all images for performance
+  html = html.replace(/<img(?![^>]*loading=)([^>]*)\/?>/gi, '<img loading="lazy" decoding="async"$1/>');
+
   const items: TocItem[] = [];
   const seen = new Map<string, number>();
 

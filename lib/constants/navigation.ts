@@ -32,6 +32,11 @@ export const MAIN_NAV: NavItem[] = [
     href: '/blog',
     description: 'AI insights & knowledge base',
   },
+  {
+    label: 'About',
+    href: '/about',
+    description: 'Our story, team and mission',
+  },
 ];
 
 export const FOOTER_LINKS = {

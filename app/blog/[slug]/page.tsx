@@ -27,22 +27,32 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: BlogPostPageProps) {
   const { slug } = await params;
+  const BASE = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.digitafusion.com').replace(/\/$/, '');
+  const postUrl = `${BASE}/blog/${slug}`;
+  const defaultOg = `${BASE}/og-default.png`;
   try {
     const post = await fetchBlogPost(slug);
+    const ogImage = post.featuredImageUrl
+      ? { url: post.featuredImageUrl, width: 1200, height: 630, alt: post.title }
+      : { url: defaultOg, width: 1200, height: 630, alt: 'DigiFusion' };
     return {
       title: post.title,
       description: post.metaDescription || post.excerpt,
+      alternates: { canonical: postUrl },
       openGraph: {
         title: post.title,
         description: post.metaDescription || post.excerpt,
         type: 'article',
+        url: postUrl,
         publishedTime: post.publishedAt,
         authors: [post.author.name],
+        images: [ogImage],
       },
       twitter: {
         card: 'summary_large_image',
         title: post.title,
         description: post.metaDescription || post.excerpt,
+        images: [post.featuredImageUrl ?? defaultOg],
       },
     };
   } catch {
@@ -76,12 +86,42 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     // ignore
   }
 
+  const BASE = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.digitafusion.com').replace(/\/$/, '');
+  const postUrl = `${BASE}/blog/${post.slug}`;
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Article',
+            headline: post.title,
+            description: post.metaDescription || post.excerpt,
+            url: postUrl,
+            datePublished: post.publishedAt,
+            dateModified: post.publishedAt,
+            author: {
+              '@type': 'Person',
+              name: post.author.name,
+              url: `${BASE}/about`,
+            },
+            publisher: {
+              '@type': 'Organization',
+              name: 'DigiFusion',
+              '@id': `${BASE}/#organization`,
+              logo: { '@type': 'ImageObject', url: `${BASE}/assets/digilogo.png` },
+            },
+            mainEntityOfPage: { '@type': 'WebPage', '@id': postUrl },
+            ...(post.featuredImageUrl && {
+              image: { '@type': 'ImageObject', url: post.featuredImageUrl },
+            }),
+          }),
+        }}
+      />
       <ReadingProgress targetId="post-body" />
 
-      {/* Back link: pt-24 (96px) = 64px fixed header + 32px breathing room.
-          Same mx-auto max-w-7xl px-6 pattern used by every homepage section. */}
       <div className="mx-auto max-w-7xl px-6 pt-24 pb-2">
         <Link
           href="/blog"
@@ -105,11 +145,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         </Link>
       </div>
 
-      {/* Article body + sidebar TOC */}
       <div className="mx-auto max-w-7xl px-6 pt-8 pb-10">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_240px] gap-12 lg:gap-16">
           <article id="post-body" className="min-w-0">
-            {/* White card — centers content at a comfortable reading width */}
             <div className="bg-white rounded-2xl shadow-sm px-8 py-10 lg:px-14 lg:py-12">
               <div
                 className="prose-blog-light max-w-3xl mx-auto"
@@ -122,8 +160,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         </div>
       </div>
 
-      {/* Tags + Author: mirrors the same grid as the article body so the left
-          edge of both sections lines up perfectly at every viewport width. */}
       <div className="mx-auto max-w-7xl px-6 pb-20">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_240px] gap-12 lg:gap-16">
           <div>
@@ -179,12 +215,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </div>
           </div>
 
-          {/* Empty sidebar column: keeps author/tags flush with prose above */}
           <div className="hidden lg:block" />
         </div>
       </div>
 
-      {/* More from the Blog */}
       {related.length > 0 && (
         <section className="border-t border-border/40 bg-surface/30">
           <div className="mx-auto max-w-7xl px-6 py-16">
