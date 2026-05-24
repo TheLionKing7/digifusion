@@ -287,6 +287,10 @@
     margin: 2em 0;
   }
 
+  /* Hide PathGuru social caption blocks — these are for social scheduling,
+     not for rendering inside a published blog post */
+  .prose-blog-light .post-social { display: none !important; }
+
   .prose-blog-light table { width: 100%; border-collapse: collapse; margin: 1.5em 0; }
   .prose-blog-light th,
   .prose-blog-light td { padding: 0.75em 1em; border: 1px solid hsl(0, 0%, 85%); text-align: left; }
