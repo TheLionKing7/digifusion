@@ -115,13 +115,10 @@ export function SystemMonitor({ agents }: SystemMonitorProps) {
                     </div>
                   </div>
 
-                  {/* Current Task */}
-                  {agent.currentTask && (
-                    <div className="mt-3 pt-3 border-t border-border">
-                      <div className="text-xs text-muted mb-1">Current task</div>
-                      <div className="text-xs text-foreground/80 truncate">{agent.currentTask}</div>
-                    </div>
-                  )}
+                  {/* Agent Description */}
+                  <div className="mt-3 pt-3 border-t border-border">
+                    <div className="text-xs text-foreground/70 italic">{config.description}</div>
+                  </div>
 
                   {/* Progress bar */}
                   <div className="mt-3 h-0.5 rounded-full bg-surface-lighter overflow-hidden">

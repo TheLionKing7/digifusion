@@ -4,7 +4,7 @@ import Image from 'next/image';
 export const metadata = {
   title: 'About',
   description:
-    'DigiFusion is an enterprise AI agency and digital media company fusing system design expertise with intelligent tools to help SMBs scale. Part of the Digital Nation ecosystem.',
+    'DigiFusion is an enterprise AI agency and digital media company fusing system design expertise with intelligent tools to help SMBs scale. Part of the Digital Fusion Labs ecosystem.',
   alternates: { canonical: 'https://www.digitafusion.com/about' },
   openGraph: {
     title: 'About DigiFusion — Where Digital Knowledge Meets Intelligent Execution',
@@ -37,16 +37,16 @@ const FAQ_ITEMS = [
     a: 'Both. We offer done-for-you agency services for businesses that want expert implementation, and we publish digital tools, templates, and guides for those who prefer a self-serve path. The Knowledge Base on this site is the public-facing layer of that publishing engine.',
   },
   {
-    q: 'What is Digital Nation?',
-    a: 'Digital Nation is the parent ecosystem that DigiFusion operates under. It is a portfolio of digital brands focused on helping creators, entrepreneurs, and businesses grow in the modern digital economy.',
+    q: 'What is Digital Fusion Labs?',
+    a: 'Digital Fusion Labs is the parent ecosystem that DigiFusion operates under. It is a portfolio of digital brands focused on helping creators, entrepreneurs, and businesses grow in the modern digital economy.',
   },
 ];
 
 const LENSES = [
   {
     label: 'Lens 01',
-    title: 'Digital Business',
-    desc: 'We help you turn knowledge into income. From ebook publishing and info-product strategy to digital product launches and pricing architecture — we build the asset layer of your business.',
+    title: 'Business Development',
+    desc: 'We help you turn knowledge into income, ideas into economic engine. From on-demand digital product strategies to high velocity global ventures — we build the asset layer of your business.',
     tags: ['Digital Products', 'Ebooks & Courses', 'Monetisation', 'Pricing Strategy'],
     href: '/blog/topics/digital-business',
     icon: (
@@ -122,7 +122,7 @@ export default function AboutPage() {
             {/* Left: headline + copy + buttons */}
             <div className="pb-20">
               <p className="text-xs font-semibold tracking-[0.2em] uppercase text-accent mb-4">
-                Part of Digital Nation
+                Part of Digital Fusion Labs
               </p>
               <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight max-w-3xl mb-6">
                 Where Digital Knowledge Meets{' '}
@@ -242,8 +242,8 @@ export default function AboutPage() {
                   competitors automate ahead.
                 </p>
                 <p>
-                  Founded under the <span className="text-foreground font-medium">Digital Nation</span> ecosystem,
-                  we sit at the intersection of digital knowledge and intelligent tools. Our team of
+                  Founded as <span className="text-foreground font-medium">Digital Fusion Labs</span>,
+                  we sit at the intersection of knowledge and intelligent tools. Our team of
                   system designers, marketing experts, business developers, and creatives brings
                   over two decades of combined experience to every engagement.
                 </p>
@@ -285,25 +285,24 @@ export default function AboutPage() {
         <h2 className="font-serif text-3xl font-bold tracking-tight mb-10">
           Expertise Behind the Platform
         </h2>
-        <div className="max-w-2xl">
+        <div className="space-y-6 max-w-2xl">
           <div className="glass-strong rounded-2xl p-8 flex flex-col sm:flex-row items-center sm:items-start gap-7">
             <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-accent/30 shrink-0 ring-2 ring-accent/10">
               <Image src="/images/founder.jpg" alt="Boroji Adebayo" width={80} height={80} className="object-cover w-full h-full" />
             </div>
             <div className="flex-1 min-w-0 text-center sm:text-left">
               <p className="text-[10px] uppercase tracking-[0.18em] text-accent font-semibold mb-1">Founder &amp; Lead Strategist</p>
-              <p className="font-serif text-2xl font-bold text-foreground mb-1">Boroji Adebayo</p>
+              <p className="font-serif text-2xl font-bold text-foreground mb-1">Boroji Adebayo-Hopewell</p>
               <p className="text-sm text-accent font-medium mb-3">
-                User Research &amp; System Designer · Design Strategist · AI Automation Engineer
+                User Research &amp; System Designer · AI Automation Engineer
               </p>
               <p className="text-sm text-muted leading-relaxed mb-4">
-                7 years building user-centered, innovative solutions at the intersection of
-                design strategy and AI engineering. Boroji leads DigiFusion&apos;s system design
-                practice — crafting intelligent workflows, product architectures, and automation
-                pipelines that solve real operational problems for SMBs.
+                A techno-economist, Boroji has 7 years building user-centered, innovative solutions. As a design
+                strategist, he leads DigiFusion&apos;s research and system design ventures — crafting automation
+                pipelines, product architectures and intelligent workflows that solve real operational problems for SMBs.
               </p>
               <div className="flex flex-wrap gap-2 mb-4">
-                {['User Research', 'System Design', 'Design Strategy', 'AI Automation', '7 Years Experience'].map((tag) => (
+                {['User Research', 'System Design', 'AI Automation', 'Techno-Economics', '7 Years Experience'].map((tag) => (
                   <span key={tag} className="text-[10px] px-2.5 py-1 rounded-full bg-surface border border-border/40 text-muted">
                     {tag}
                   </span>
@@ -311,6 +310,46 @@ export default function AboutPage() {
               </div>
               <a
                 href="https://www.linkedin.com/in/boroji-adebayo-5956b12b4/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm text-accent hover:underline font-medium"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+                Connect on LinkedIn
+              </a>
+            </div>
+          </div>
+
+          {/* Oluwakayode Adeniji */}
+          <div className="glass-strong rounded-2xl p-8 flex flex-col sm:flex-row items-center sm:items-start gap-7">
+            <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-accent/30 shrink-0 ring-2 ring-accent/10">
+              <Image src="/images/kayode.jpg" alt="Oluwakayode Adeniji" width={80} height={80} className="object-cover w-full h-full" />
+            </div>
+            <div className="flex-1 min-w-0 text-center sm:text-left">
+              <p className="text-[10px] uppercase tracking-[0.18em] text-accent font-semibold mb-1">Lawyer · Brand Specialist &amp; AI Automation Expert</p>
+              <p className="font-serif text-2xl font-bold text-foreground mb-1">Oluwakayode Adeniji</p>
+              <p className="text-sm text-accent font-medium mb-3">
+                Lawyer · Brand Designer · AI Automation Strategist
+              </p>
+              <p className="text-sm text-muted leading-relaxed mb-4">
+                Oluwakayode Adeniji is a lawyer, brand designer, and AI automation strategist who helps small
+                businesses and law firms grow through intelligent systems that improve operations, client conversion,
+                and customer engagement. Having worked with over 200+ small businesses alongside his legal practice,
+                he bridges the gap between law, branding, business growth, and technology — developing Self-Funding
+                Growth Systems that help businesses find hidden revenue opportunities, recover lost income, fix
+                operational gaps, and scale through AI-powered automation and conversion infrastructure.
+              </p>
+              <div className="flex flex-wrap gap-2 mb-4">
+                {['Law & Legal Practice', 'Brand Design', 'AI Automation', 'Business Growth', '200+ SMBs Served'].map((tag) => (
+                  <span key={tag} className="text-[10px] px-2.5 py-1 rounded-full bg-surface border border-border/40 text-muted">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <a
+                href="https://www.linkedin.com/in/oluwakayode-adeniji/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-sm text-accent hover:underline font-medium"

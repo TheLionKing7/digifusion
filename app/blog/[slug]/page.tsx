@@ -178,28 +178,30 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                       {post.excerpt}
                     </p>
                   )}
-                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-gray-400">
-                    <time dateTime={post.publishedAt}>
-                      {new Date(post.publishedAt).toLocaleDateString('en-GB', {
-                        day: 'numeric',
-                        month: 'long',
-                        year: 'numeric',
-                      })}
-                    </time>
-                    <span aria-hidden="true">&middot;</span>
-                    <span>{post.author.name}</span>
-                    {post.categories.length > 0 && (
-                      <>
-                        <span aria-hidden="true">&middot;</span>
-                        <span>{post.categories[0]}</span>
-                      </>
-                    )}
-                    {post.readingTimeMinutes > 0 && (
-                      <>
-                        <span aria-hidden="true">&middot;</span>
-                        <span>{post.readingTimeMinutes} min read</span>
-                      </>
-                    )}
+                  <div className="flex flex-wrap items-center justify-between gap-y-2 text-sm text-gray-400">
+                    {/* Left — date · author */}
+                    <div className="flex items-center gap-x-3">
+                      <time dateTime={post.publishedAt}>
+                        {new Date(post.publishedAt).toLocaleDateString('en-GB', {
+                          day: 'numeric',
+                          month: 'long',
+                          year: 'numeric',
+                        })}
+                      </time>
+                      <span aria-hidden="true">&middot;</span>
+                      <span>{post.author.name}</span>
+                    </div>
+                    {/* Right — category · reading time */}
+                    <div className="flex items-center gap-x-3">
+                      {post.categories.length > 0 && (
+                        <span className="px-2 py-0.5 rounded bg-gray-100 text-gray-500 text-xs font-medium">
+                          {post.categories[0]}
+                        </span>
+                      )}
+                      {post.readingTimeMinutes > 0 && (
+                        <span className="text-gray-400">{post.readingTimeMinutes} min read</span>
+                      )}
+                    </div>
                   </div>
                 </header>
 

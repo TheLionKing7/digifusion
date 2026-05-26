@@ -7,9 +7,9 @@ import { RevealOnScroll } from '@/components/animations/reveal-on-scroll';
 const PILLARS = [
   {
     title: 'Agency',
-    tagline: 'Enterprise AI Consultancy',
+    tagline: 'Enterprise Development & AI Consultancy',
     description:
-      'High-end strategy, custom AI agent development, and automation workflows for businesses that demand results.',
+      'Business development with high-end strategy, custom AI agent solution, and automation workflows for discerning businesses that demand results.',
     href: '/agency/services',
     icon: (
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
