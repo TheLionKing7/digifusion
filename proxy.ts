@@ -1,5 +1,5 @@
 /**
- * Edge middleware — Basic Auth gate for everything under /admin.
+ * Edge proxy — Basic Auth gate for everything under /admin.
  *
  * Set ADMIN_USER and ADMIN_PASSWORD env vars. We compare in constant time
  * to avoid timing-attack leaks even though Basic Auth itself is weak.
@@ -13,7 +13,7 @@ export const config = {
   matcher: ['/admin/:path*'],
 };
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   const expectedUser = process.env.ADMIN_USER || 'admin';
   const expectedPass = process.env.ADMIN_PASSWORD;
 
