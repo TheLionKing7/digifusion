@@ -342,7 +342,7 @@ export default function VektorPage() {
                 <div className="vk-plan-price"><sup>$</sup>0</div>
                 <div className="vk-plan-period">forever</div>
                 <ul className="vk-plan-features">
-                  <li>5 sweeps per month</li>
+                  <li>3 sweeps per month</li>
                   <li>All 9 niche categories</li>
                   <li>LLM market analysis</li>
                   <li>Trend momentum scoring</li>
