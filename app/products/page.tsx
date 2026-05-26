@@ -14,6 +14,26 @@ export const metadata = {
   },
 };
 
+const LIVE_PRODUCTS = [
+  {
+    slug: 'vektor',
+    name: 'Vektor',
+    tagline: 'Find your next bestselling ebook before anyone else.',
+    description:
+      'A Chrome extension for KDP publishers that autonomously sweeps Amazon Kindle and Google for real buyer intent — then delivers a complete publishing brief in under 60 seconds. No seed keywords. No guesswork. Zero-input niche discovery powered by LLM pain-point synthesis.',
+    category: 'Market Intelligence · Chrome Extension',
+    audiences: ['KDP Publishers', 'Self-Publishers', 'Niche Researchers', 'Content Creators'],
+    keyFeature: 'Autonomous niche discovery',
+    status: 'Live',
+    href: '/products/vektor',
+    icon: (
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+      </svg>
+    ),
+  },
+];
+
 const PRODUCTS = [
   {
     slug: 'sabiwork',
@@ -75,8 +95,8 @@ export default function ProductsPage() {
     name: 'DigiFusion Products',
     description: 'AI-powered SaaS products built by DigiFusion for SMB operators.',
     url: 'https://www.digitafusion.com/products',
-    numberOfItems: PRODUCTS.length,
-    itemListElement: PRODUCTS.map((p, i) => ({
+    numberOfItems: LIVE_PRODUCTS.length + PRODUCTS.length,
+    itemListElement: [...LIVE_PRODUCTS, ...PRODUCTS].map((p, i) => ({
       '@type': 'ListItem',
       position: i + 1,
       name: p.name,
@@ -130,16 +150,86 @@ export default function ProductsPage() {
             </Link>
           </div>
 
-          {/* Status badge */}
-          <div className="inline-flex items-center gap-2 text-xs text-muted bg-surface border border-border/40 px-4 py-2 rounded-full">
-            <span className="w-2 h-2 rounded-full bg-warning animate-pulse" />
-            All products currently in development — early access available via strategy session
+          <div className="flex flex-wrap gap-3">
+            <div className="inline-flex items-center gap-2 text-xs text-muted bg-surface border border-border/40 px-4 py-2 rounded-full">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              Vektor is live — available now
+            </div>
+            <div className="inline-flex items-center gap-2 text-xs text-muted bg-surface border border-border/40 px-4 py-2 rounded-full">
+              <span className="w-2 h-2 rounded-full bg-warning animate-pulse" />
+              SabiWork, Receptra, AdPilot in development — early access via strategy session
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── Product Cards ── */}
-      <section className="mx-auto max-w-7xl px-6 py-20">
+      {/* ── Live Products ── */}
+      <section className="mx-auto max-w-7xl px-6 pt-20 pb-8">
+        <div className="flex items-center gap-3 mb-10">
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          <p className="text-xs font-semibold tracking-[0.2em] uppercase text-emerald-400">Live Now</p>
+        </div>
+        <div className="space-y-12">
+          {LIVE_PRODUCTS.map((product) => (
+            <div key={product.slug} className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+              <div>
+                <div className="flex items-start gap-4 mb-6">
+                  <div className="w-14 h-14 rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent shrink-0">
+                    {product.icon}
+                  </div>
+                  <div>
+                    <p className="text-[10px] uppercase tracking-[0.18em] text-accent font-semibold mb-0.5">{product.category}</p>
+                    <h2 className="font-serif text-3xl font-bold text-foreground">{product.name}</h2>
+                  </div>
+                </div>
+                <p className="text-xl text-muted font-medium italic mb-4">&ldquo;{product.tagline}&rdquo;</p>
+                <p className="text-muted leading-relaxed mb-6">{product.description}</p>
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {product.audiences.map((a) => (
+                    <span key={a} className="text-[10px] px-2.5 py-1.5 rounded-full border border-accent/20 bg-accent/5 text-accent font-medium">{a}</span>
+                  ))}
+                </div>
+                <Link href={product.href} className="inline-flex items-center gap-2 text-sm font-semibold text-accent hover:underline">
+                  Explore {product.name}
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" /></svg>
+                </Link>
+              </div>
+              <div>
+                <div className="rounded-2xl bg-surface-lighter border border-border/50 p-8">
+                  <div className="flex items-center justify-between mb-6">
+                    <p className="text-xs font-mono text-accent uppercase tracking-widest">01 / 01</p>
+                    <span className="text-[10px] px-3 py-1 rounded-full bg-emerald-400/10 text-emerald-400 border border-emerald-400/20 font-medium flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      {product.status}
+                    </span>
+                  </div>
+                  <p className="font-serif text-5xl font-bold text-foreground mb-2">{product.name}</p>
+                  <p className="text-sm text-muted mb-6">{product.keyFeature}</p>
+                  <div className="h-px bg-border/40 mb-6" />
+                  <div className="space-y-3 mb-6">
+                    {product.audiences.map((a) => (
+                      <div key={a} className="flex items-center gap-3">
+                        <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                        <span className="text-sm text-muted">{a}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <Link href={product.href} className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-accent text-background text-sm font-semibold hover:bg-accent-dim transition-all">
+                    Get Free API Key →
+                  </Link>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── In Development ── */}
+      <section className="mx-auto max-w-7xl px-6 py-8">
+        <div className="flex items-center gap-3 mb-10">
+          <span className="w-2 h-2 rounded-full bg-warning animate-pulse" />
+          <p className="text-xs font-semibold tracking-[0.2em] uppercase text-warning">In Development</p>
+        </div>
         <div className="space-y-12">
           {PRODUCTS.map((product, idx) => (
             <div
