@@ -200,7 +200,7 @@ const TRACKS = [
 const PRICING_NOTES = [
   'All prices shown in USD. Africa pricing reflects local market conditions for Nigeria, Ghana, Kenya, and South Africa.',
   'Retainers are billed monthly with a 3-month minimum. No hidden fees — scope changes are agreed in writing.',
-  'Projects begin with a free 30-minute strategy session. No commitment until you've seen the roadmap.',
+  "Projects begin with a free 30-minute strategy session. No commitment until you've seen the roadmap.",
   'Combination packages available when engaging two or more service tracks simultaneously.',
 ];
 
