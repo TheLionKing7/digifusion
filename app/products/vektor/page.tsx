@@ -13,7 +13,9 @@ export default function VektorPage() {
         .then((r) => r.json())
         .then((d) => {
           if (d.ok) {
-            window.location.href = `/products/vektor/success?plan=${d.plan}`;
+            const qs = new URLSearchParams({ plan: d.plan || 'solo' });
+            if (d.apiKey) qs.set('key', d.apiKey);
+            window.location.href = `/products/vektor/success?${qs.toString()}`;
           }
         });
     }
@@ -179,6 +181,17 @@ export default function VektorPage() {
         .vk-success { font-size:13px; color:var(--vk-green); margin-bottom:12px; display:none; line-height:1.5; }
         .vk-success.visible { display:block; }
         .vk-copy-hint { font-size:11px; color:var(--vk-muted); text-align:center; margin-top:8px; }
+        .vk-download-wrap { margin-top:16px; display:none; }
+        .vk-download-wrap.visible { display:block; }
+        .vk-download-btn {
+          display:flex; align-items:center; justify-content:center; gap:10px;
+          width:100%; padding:14px 24px; background:transparent;
+          border:1px solid var(--vk-amber); border-radius:8px;
+          color:var(--vk-amber); font-family:var(--vk-display); font-size:14px; font-weight:700;
+          text-decoration:none; cursor:pointer; transition:all 0.2s; letter-spacing:0.5px;
+        }
+        .vk-download-btn:hover { background:rgba(244,166,29,0.1); transform:translateY(-1px); }
+        .vk-download-hint { font-size:11px; color:var(--vk-muted); text-align:center; margin-top:8px; }
 
         /* Live dot */
         @keyframes vk-pulse { 0%,100%{opacity:1}50%{opacity:0.3} }
@@ -411,6 +424,12 @@ export default function VektorPage() {
                   Paste this key into the Vektor Chrome extension when prompted.
                 </div>
                 <button className="vk-plan-btn primary" id="vk-reg-btn" onClick={doRegister} style={{ marginTop: 4 }}>Generate free API key →</button>
+                <div className="vk-download-wrap" id="vk-reg-download">
+                  <a id="vk-reg-download-btn" href="#" className="vk-download-btn" target="_blank" rel="noopener noreferrer">
+                    ⬇ Download Vektor Extension
+                  </a>
+                  <p className="vk-download-hint">Chrome extension (.zip) — load it unpacked in chrome://extensions</p>
+                </div>
               </div>
 
               <div id="vk-panel-login" style={{ display: 'none' }}>
@@ -423,6 +442,12 @@ export default function VektorPage() {
                   <button onClick={copyLoginKey} style={{ color: 'var(--vk-amber)', background: 'none', border: '1px solid var(--vk-border)', borderRadius: 6, padding: '8px 20px', cursor: 'pointer', fontSize: 13, width: '100%', marginBottom: 8 }}>📋 Copy API key</button>
                 </div>
                 <button className="vk-plan-btn primary" id="vk-login-btn" onClick={doLogin}>Retrieve my key →</button>
+                <div className="vk-download-wrap" id="vk-login-download">
+                  <a id="vk-login-download-btn" href="#" className="vk-download-btn" target="_blank" rel="noopener noreferrer">
+                    ⬇ Download Vektor Extension
+                  </a>
+                  <p className="vk-download-hint">Chrome extension (.zip) — load it unpacked in chrome://extensions</p>
+                </div>
               </div>
             </div>
           </div>
@@ -468,6 +493,13 @@ async function doRegister() {
     hintEl.style.display = 'block';
     sucEl.textContent = data.isNew ? '✓ API key generated! Copy it and paste into the extension.' : '✓ You already have an account — here is your existing key.';
     sucEl.className = 'vk-success visible';
+    // Show download button
+    const dlWrap = document.getElementById('vk-reg-download');
+    const dlBtn  = document.getElementById('vk-reg-download-btn') as HTMLAnchorElement;
+    if (dlWrap && dlBtn) {
+      dlBtn.href = `https://vektor-xr-1.onrender.com/auth/download?key=${encodeURIComponent(data.apiKey)}`;
+      dlWrap.className = 'vk-download-wrap visible';
+    }
   } catch { errEl.textContent = 'Network error — please try again.'; errEl.className = 'vk-error visible'; }
   finally { btn.disabled = false; btn.textContent = 'Generate free API key →'; }
 }
@@ -491,6 +523,13 @@ async function doLogin() {
     window.__vk_login_key = data.apiKey;
     hintEl.style.display = 'block';
     sucEl.textContent = '✓ Here is your API key.'; sucEl.className = 'vk-success visible';
+    // Show download button
+    const dlWrap = document.getElementById('vk-login-download');
+    const dlBtn  = document.getElementById('vk-login-download-btn') as HTMLAnchorElement;
+    if (dlWrap && dlBtn) {
+      dlBtn.href = `https://vektor-xr-1.onrender.com/auth/download?key=${encodeURIComponent(data.apiKey)}`;
+      dlWrap.className = 'vk-download-wrap visible';
+    }
   } catch { errEl.textContent = 'Network error.'; errEl.className = 'vk-error visible'; }
   finally { btn.disabled = false; btn.textContent = 'Retrieve my key →'; }
 }
