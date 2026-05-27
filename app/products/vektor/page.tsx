@@ -2,14 +2,17 @@
 
 import { useEffect } from 'react';
 
-const VEKTOR_API = 'https://vektor-xr-1.onrender.com';
+// All requests go through the Next.js proxy to avoid CORS issues.
+// The proxy forwards server-to-server to the Render backend.
+const VEKTOR_API  = 'https://vektor-xr-1.onrender.com'; // used only for /auth/download redirect
+const VEKTOR_PROXY = '/api/vektor';                      // used for all data calls
 
 export default function VektorPage() {
   useEffect(() => {
     // Handle Paystack redirect on page load
     const params = new URLSearchParams(window.location.search);
     if (params.get('success') && params.get('ref')) {
-      fetch(`${VEKTOR_API}/billing/verify?ref=${params.get('ref')}`)
+      fetch(`${VEKTOR_PROXY}/billing/verify?ref=${params.get('ref')}`)
         .then((r) => r.json())
         .then((d) => {
           if (d.ok) {
@@ -485,7 +488,7 @@ async function doRegister() {
   if (!email || !email.includes('@')) { errEl.textContent = 'Please enter a valid email.'; errEl.className = 'vk-error visible'; return; }
   btn.disabled = true; btn.textContent = 'Generating...';
   try {
-    const res  = await fetch(`https://vektor-xr-1.onrender.com/auth/register`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) });
+    const res  = await fetch(`${VEKTOR_PROXY}/auth/register`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) });
     const data = await res.json();
     if (!res.ok) { errEl.textContent = data.error || 'Registration failed.'; errEl.className = 'vk-error visible'; return; }
     keyEl.textContent = data.apiKey; keyEl.className = 'vk-key-reveal visible';
@@ -500,7 +503,12 @@ async function doRegister() {
       dlBtn.href = `https://vektor-xr-1.onrender.com/auth/download?key=${encodeURIComponent(data.apiKey)}`;
       dlWrap.className = 'vk-download-wrap visible';
     }
-  } catch { errEl.textContent = 'Network error — please try again.'; errEl.className = 'vk-error visible'; }
+  } catch(err: unknown) {
+    const msg = err instanceof Error ? err.message : 'Network error';
+    errEl.textContent = `${msg} — please try again.`;
+    errEl.className = 'vk-error visible';
+    console.error('[Vektor register]', err);
+  }
   finally { btn.disabled = false; btn.textContent = 'Generate free API key →'; }
 }
 
@@ -516,7 +524,7 @@ async function doLogin() {
   if (!email) { errEl.textContent = 'Please enter your email.'; errEl.className = 'vk-error visible'; return; }
   btn.disabled = true; btn.textContent = 'Looking up...';
   try {
-    const res  = await fetch(`https://vektor-xr-1.onrender.com/auth/login`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) });
+    const res  = await fetch(`${VEKTOR_PROXY}/auth/login`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) });
     const data = await res.json();
     if (!res.ok) { errEl.textContent = data.error || 'Not found.'; errEl.className = 'vk-error visible'; return; }
     keyEl.textContent = data.apiKey; keyEl.className = 'vk-key-reveal visible';
@@ -538,7 +546,7 @@ async function startCheckout(plan: string) {
   const email = prompt('Enter your registered email address:');
   if (!email) return;
   try {
-    const res  = await fetch(`https://vektor-xr-1.onrender.com/billing/checkout`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email.trim(), plan }) });
+    const res  = await fetch(`${VEKTOR_PROXY}/billing/checkout`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email.trim(), plan }) });
     const data = await res.json();
     if (!res.ok) { alert(data.error || 'Checkout failed. Please register first.'); return; }
     window.location.href = data.url;
