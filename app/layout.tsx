@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
+import { AssistantChat } from '@/components/ui/AssistantChat';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -100,6 +101,28 @@ export default function RootLayout({
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
+        {/* DigiFusion Assistant — floating chat widget for lead qualification */}
+        <AssistantChat />
+
+        {/* OneSignal Web Push — app registered to https://www.digitafusion.com
+            notifyButton disabled: opt-in is driven by the AssistantChat widget.
+            The service worker is at /public/OneSignalSDKWorker.js. */}
+        <Script
+          src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js"
+          strategy="afterInteractive"
+        />
+        <Script id="onesignal-init" strategy="afterInteractive">{`
+window.OneSignalDeferred = window.OneSignalDeferred || [];
+OneSignalDeferred.push(async function(OneSignal) {
+  await OneSignal.init({
+    appId: "3b533b15-d684-4e35-8b95-a4ddbca6c6ac",
+    notifyButton: { enable: false },
+    serviceWorkerPath: "/OneSignalSDKWorker.js",
+  });
+  window._osReady = true;
+  window.dispatchEvent(new CustomEvent('onesignal:ready'));
+});
+        `}</Script>
 
         {/* Lightweight page-view tracker */}
         <Script id="df-tracker" strategy="afterInteractive">{`
