@@ -22,11 +22,14 @@ const SECTIONS = [
   {
     title: 'Agency',
     links: [
-      { label: 'Agency Overview', href: '/agency', desc: 'Enterprise AI consultancy services' },
-      { label: 'Our Services', href: '/agency/services', desc: 'Full list of AI and automation services' },
-      { label: 'Methodology', href: '/agency/methodology', desc: 'How we work and deliver results' },
-      { label: 'Case Studies', href: '/agency/case-studies', desc: 'Real results from real clients' },
-      { label: 'Book a Strategy Call', href: '/agency/booking', desc: 'Free 30-minute strategy session' },
+      { label: 'Agency Overview', href: '/agency', desc: 'Three practice areas — AI Automation, Business Development, Digital Media' },
+      { label: '→ AI & SaaS Automation', href: '/agency#ai-automation', desc: 'Automation Velocity Engine (AVE) — Nova\'s 5-phase framework' },
+      { label: '→ Business Development', href: '/agency#business-development', desc: 'Deal Engine — Atlas\'s 5-phase BD framework' },
+      { label: '→ Digital Media', href: '/agency#digital-media', desc: 'C2C Pipeline — pillar-cluster content authority system' },
+      { label: 'Services & Pricing', href: '/agency/services', desc: 'Transparent pricing for all three service tracks' },
+      { label: 'Methodology', href: '/agency/methodology', desc: '4-phase engagement model — diagnosis before prescription' },
+      { label: 'Case Studies', href: '/agency/case-studies', desc: 'Measured results from real client engagements' },
+      { label: 'Book a Strategy Session', href: '/agency/booking', desc: 'Free 30-minute diagnostic — leaves with a roadmap and ROI projection' },
     ],
   },
   {

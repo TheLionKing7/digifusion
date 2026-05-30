@@ -124,37 +124,48 @@ OneSignalDeferred.push(async function(OneSignal) {
 });
         `}</Script>
 
-        {/* Lightweight page-view tracker */}
+        {/* DigiFusion Analytics — full visitor footprint tracker */}
         <Script id="df-tracker" strategy="afterInteractive">{`
 (function(){
-  var sid = window.__dfSid;
-  if(!sid){
-    sid = Math.random().toString(36).slice(2) + Date.now().toString(36);
-    window.__dfSid = sid;
+  var SID_KEY='__dfSid';
+  var sid=sessionStorage.getItem(SID_KEY);
+  if(!sid){sid=Math.random().toString(36).slice(2)+Date.now().toString(36);sessionStorage.setItem(SID_KEY,sid);}
+  var _utmS,_utmM,_utmC;
+  (function(){var sp=new URLSearchParams(window.location.search);
+    _utmS=sp.get('utm_source')||sessionStorage.getItem('__dfUtmS')||undefined;
+    _utmM=sp.get('utm_medium')||sessionStorage.getItem('__dfUtmM')||undefined;
+    _utmC=sp.get('utm_campaign')||sessionStorage.getItem('__dfUtmC')||undefined;
+    if(_utmS)sessionStorage.setItem('__dfUtmS',_utmS);
+    if(_utmM)sessionStorage.setItem('__dfUtmM',_utmM);
+    if(_utmC)sessionStorage.setItem('__dfUtmC',_utmC);
+  })();
+  function getDevice(){var ua=navigator.userAgent;if(/mobi|android|iphone|ipod/i.test(ua))return'mobile';if(/tablet|ipad/i.test(ua))return'tablet';return'desktop';}
+  function beacon(p){var b=new Blob([JSON.stringify(p)],{type:'application/json'});if(navigator.sendBeacon){navigator.sendBeacon('/api/track',b);}else{fetch('/api/track',{method:'POST',body:JSON.stringify(p),headers:{'Content-Type':'application/json'},keepalive:true}).catch(function(){});}}
+  var _entered=Date.now(),_maxScroll=0,_sent=false;
+  function trackPageview(){
+    _entered=Date.now();_maxScroll=0;_sent=false;
+    beacon({event:'pageview',path:window.location.pathname,referrer:document.referrer||null,sessionId:sid,pageTitle:document.title,
+      viewport:window.innerWidth+'x'+window.innerHeight,language:navigator.language,
+      timezone:Intl.DateTimeFormat().resolvedOptions().timeZone,
+      deviceType:getDevice(),utmSource:_utmS,utmMedium:_utmM,utmCampaign:_utmC});
   }
-  function track(){
-    var payload = JSON.stringify({
-      path: window.location.pathname,
-      referrer: document.referrer || null,
-      sessionId: sid
-    });
-    if(navigator.sendBeacon){
-      navigator.sendBeacon('/api/track', new Blob([payload],{type:'application/json'}));
-    } else {
-      fetch('/api/track',{method:'POST',body:payload,headers:{'Content-Type':'application/json'},keepalive:true}).catch(function(){});
-    }
-  }
-  if(document.readyState==='loading'){
-    document.addEventListener('DOMContentLoaded',track);
-  } else {
-    track();
-  }
-  var _pushState = history.pushState.bind(history);
-  history.pushState = function(){
-    _pushState.apply(history, arguments);
-    setTimeout(track, 0);
-  };
-  window.addEventListener('popstate', track);
+  function getScroll(){var dH=Math.max(document.documentElement.scrollHeight,document.body.scrollHeight),wH=window.innerHeight,sY=window.scrollY||window.pageYOffset;if(dH<=wH)return 100;return Math.min(100,Math.round((sY+wH)/dH*100));}
+  window.addEventListener('scroll',function(){var d=getScroll();if(d>_maxScroll)_maxScroll=d;},{passive:true});
+  function sendExit(){if(_sent)return;_sent=true;beacon({event:'exit',path:window.location.pathname,sessionId:sid,scrollDepth:_maxScroll,timeOnPage:Math.round((Date.now()-_entered)/1000)});}
+  document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden')sendExit();});
+  window.addEventListener('pagehide',sendExit);
+  document.addEventListener('click',function(e){
+    var el=e.target;for(var i=0;i<5&&el;i++){
+      if(el.tagName==='A'||el.tagName==='BUTTON'||(el.dataset&&el.dataset.track)){
+        var lbl=(el.getAttribute('aria-label')||el.innerText||el.getAttribute('href')||'').trim().slice(0,120);
+        if(lbl)beacon({event:'click',path:window.location.pathname,sessionId:sid,clickTarget:lbl});
+        break;
+      }el=el.parentElement;}
+  },{passive:true});
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',trackPageview);}else{trackPageview();}
+  var _ps=history.pushState.bind(history);
+  history.pushState=function(){sendExit();_ps.apply(history,arguments);setTimeout(trackPageview,100);};
+  window.addEventListener('popstate',function(){sendExit();setTimeout(trackPageview,100);});
 })();
         `}</Script>
       </body>
