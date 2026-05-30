@@ -85,7 +85,7 @@ export async function GET(request: NextRequest) {
     created_at: string;
   };
 
-  const all = (rows ?? []) as Row[];
+  const all = (rows ?? []) as unknown as Row[];
 
   // ── Pageview-only rows ─────────────────────────────────────────────────────
   const pvRows = all.filter((r) => !r.event || r.event === 'pageview');
