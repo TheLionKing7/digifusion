@@ -25,11 +25,11 @@ export default async function Homepage() {
       {/* Four Pillars - Agency | Digital Media | Products | Knowledge Base */}
       <PillarsGrid />
 
-      {/* Latest Blog Posts - ISR powered from PathGuru engine */}
-      <LatestPosts posts={posts.posts} />
-
       {/* CTA - Booking consultation */}
       <CtaSection />
+
+      {/* Latest Blog Posts - ISR powered from PathGuru engine */}
+      <LatestPosts posts={posts.posts} />
     </>
   );
 }

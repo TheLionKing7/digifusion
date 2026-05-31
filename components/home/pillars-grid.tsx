@@ -7,9 +7,9 @@ import { RevealOnScroll } from '@/components/animations/reveal-on-scroll';
 const PILLARS = [
   {
     title: 'Agency',
-    tagline: 'Enterprise Development & AI Consultancy',
+    tagline: 'AI Automation · Business Development · Digital Media',
     description:
-      'Business development with high-end strategy, custom AI agent solution, and automation workflows for discerning businesses that demand results.',
+      'Three proven frameworks — AVE, Deal Engine, and C2C Pipeline — that help SMBs automate operations, grow revenue, and build a content presence that compounds.',
     href: '/agency/services',
     icon: (
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -18,7 +18,7 @@ const PILLARS = [
       </svg>
     ),
     color: '#00d4aa',
-    stats: ['50+ Clients', '200+ Agents', '99.7% Uptime'],
+    stats: ['AVE Framework', 'Deal Engine', 'C2C Pipeline'],
   },
   {
     title: 'Digital Media',
@@ -61,7 +61,7 @@ const PILLARS = [
     title: 'Knowledge Base',
     tagline: 'AI-Powered Publishing',
     description:
-      'A living library of insights, guides, and case studies — generated and published by our proprietary AI engine.',
+      'Practical guides, case studies, and playbooks written by our specialist team — real insight you can act on, not generic filler.',
     href: '/blog',
     icon: (
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -80,11 +80,11 @@ export function PillarsGrid() {
         <RevealOnScroll>
           <div className="text-center mb-16">
             <p className="text-xs font-mono text-accent tracking-widest uppercase mb-3">
-              Four Pillars · One Platform
+              Strategy · Execution · Growth
             </p>
             <h2 className="text-3xl md:text-4xl font-serif font-bold">
-              Everything You Need to{' '}
-              <span className="text-gradient">Scale with AI</span>
+              Four Ways We{' '}
+              <span className="text-gradient">Move Your Business Forward</span>
             </h2>
           </div>
         </RevealOnScroll>

@@ -37,7 +37,7 @@ export function Hero() {
           >
             <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
             <span className="text-xs font-mono text-accent tracking-widest uppercase">
-              AI Agency · Digital Media · Automation · Intelligence
+              AI Agency · Business Development · Digital Media
             </span>
           </motion.div>
 
@@ -49,7 +49,7 @@ export function Hero() {
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-bold leading-[1.1] tracking-tight mb-6"
           >
             We Build the{' '}
-            <span className="text-gradient">Intelligence Layer</span>
+            <span className="text-gradient">Operating System</span>
             {' '}for Your Business
           </motion.h1>
 
@@ -60,8 +60,7 @@ export function Hero() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-lg md:text-xl text-muted leading-relaxed max-w-2xl mb-10"
           >
-            Enterprise AI consultancy, digital media, products and a knowledge base powered by our proprietary publishing engine.
-            We don&apos;t just consult — we build, ship, and scale.
+            We help growing businesses automate operations, win more clients, and build a content presence that compounds — using proven frameworks, AI tools, and hands-on specialists who do the work with you.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -71,12 +70,12 @@ export function Hero() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="flex flex-wrap gap-4"
           >
-            <BookingDropdown size="lg" label="Book a Strategy Session" />
+            <BookingDropdown size="lg" label="Book a Free Strategy Session" />
             <Link
-              href="/blog"
+              href="/agency/services"
               className="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium rounded-lg border border-border-light text-foreground hover:bg-surface-light transition-all"
             >
-              Explore the Knowledge Base
+              See What We Do
             </Link>
           </motion.div>
 
@@ -88,10 +87,10 @@ export function Hero() {
             className="flex flex-wrap gap-8 mt-16 pt-8 border-t border-border"
           >
             {[
-              { value: '50+', label: 'Enterprise Clients' },
-              { value: '200+', label: 'AI Agents Deployed' },
-              { value: '99.7%', label: 'System Uptime' },
-              { value: '24/7', label: 'Active Monitoring' },
+              { value: '3', label: 'Proprietary Frameworks' },
+              { value: '7', label: 'Specialist AI Agents' },
+              { value: 'SMB', label: 'Focused · Africa, US, UK, CA, AU' },
+              { value: 'Free', label: 'Strategy Session to Start' },
             ].map((stat) => (
               <div key={stat.label}>
                 <div className="text-2xl font-bold text-foreground font-mono">{stat.value}</div>

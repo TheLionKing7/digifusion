@@ -38,8 +38,8 @@ export function SystemMonitor({ agents }: SystemMonitorProps) {
               </span>
             </div>
             <h2 className="text-2xl md:text-3xl font-serif font-bold">
-              Our AI Agents Are{' '}
-              <span className="text-gradient-accent">Always On</span>
+              The Team Working{' '}
+              <span className="text-gradient-accent">Behind the Scenes</span>
             </h2>
           </div>
           <div className="hidden md:flex items-center gap-2 text-xs font-mono text-muted">
@@ -94,21 +94,21 @@ export function SystemMonitor({ agents }: SystemMonitorProps) {
                   {/* Metrics */}
                   <div className="space-y-2.5">
                     <div className="flex justify-between text-xs">
-                      <span className="text-muted">Tasks completed</span>
+                      <span className="text-muted">Outputs delivered</span>
                       <span className="text-foreground font-mono">
                         {agent.tasksCompleted.toLocaleString()}
                       </span>
                     </div>
                     <div className="flex justify-between text-xs">
-                      <span className="text-muted">In queue</span>
+                      <span className="text-muted">Active work items</span>
                       <span className="text-foreground font-mono">{agent.tasksInQueue}</span>
                     </div>
                     <div className="flex justify-between text-xs">
-                      <span className="text-muted">Uptime</span>
+                      <span className="text-muted">Available since</span>
                       <span className="text-foreground font-mono">{formatUptime(agent.uptime)}</span>
                     </div>
                     <div className="flex justify-between text-xs">
-                      <span className="text-muted">Success rate</span>
+                      <span className="text-muted">Accuracy</span>
                       <span className="text-foreground font-mono">
                         {(agent.metrics.successRate * 100).toFixed(1)}%
                       </span>

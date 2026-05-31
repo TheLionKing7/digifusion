@@ -4,7 +4,7 @@ import Link from 'next/link';
 export const metadata: Metadata = {
   title: 'Agency Services | DigiFusion',
   description:
-    'Three proprietary practice areas — AI & SaaS Automation (Automation Velocity Engine), Business Development (Deal Engine), and Digital Media — built to turn operational chaos into measurable growth.',
+    'Three proprietary practice areas — AI Automation & SaaS (Automation Velocity Engine), Business Development (Deal Engine), and Digital Media — built to turn operational chaos into measurable growth.',
   alternates: { canonical: 'https://www.digitafusion.com/agency' },
   openGraph: {
     title: 'DigiFusion Agency — AI Automation · Business Development · Digital Media',
@@ -24,7 +24,7 @@ const TRACKS = [
     slug: 'ai-automation',
     agent: 'Nova',
     agentRole: 'Automation Architect',
-    label: 'AI & SaaS Automation',
+    label: 'AI Automation & SaaS',
     framework: 'Automation Velocity Engine (AVE)',
     color: '#00d4aa',
     bgClass: 'from-[#00d4aa]/8 via-transparent',
