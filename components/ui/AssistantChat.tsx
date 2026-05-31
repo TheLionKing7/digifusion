@@ -27,19 +27,27 @@ interface LeadState {
   bookingOffered?: boolean;
 }
 
+interface IntakeProgress {
+  step: number;
+  total: number;
+}
+
 interface ChatResponse {
   response: string;
   leadState: LeadState;
   score: number;
-  action: 'continue' | 'offer_booking';
+  action: 'continue' | 'offer_booking' | 'offer_intake' | 'intake_started';
   bookingUrl?: string | null;
+  intakeActive?: boolean;
+  intakeProgress?: IntakeProgress | null;
 }
 
 // ── Config ─────────────────────────────────────────────────────────────────
 
 const API_BASE  = (process.env.NEXT_PUBLIC_PATHGURU_API || '').replace(/\/$/, '');
-const CHAT_URL  = `${API_BASE}/api/agents/assistant/chat`;
-const LEAD_URL  = `${API_BASE}/api/agents/assistant/lead`;
+const CHAT_URL   = `${API_BASE}/api/agents/assistant/chat`;
+const LEAD_URL   = `${API_BASE}/api/agents/assistant/lead`;
+const INTAKE_URL = `${API_BASE}/api/agents/assistant/intake`;
 
 const WELCOME = "Hi there 👋 I'm the DigiFusion assistant. I can help you understand our frameworks, services, and whether we're the right fit. What brings you here today?";
 
@@ -174,13 +182,15 @@ function MessageBubble({ msg }: { msg: Message }) {
 // ── Main Component ─────────────────────────────────────────────────────────
 
 export function AssistantChat() {
-  const [isOpen,      setIsOpen]      = useState(false);
-  const [messages,    setMessages]    = useState<Message[]>([
+  const [isOpen,        setIsOpen]        = useState(false);
+  const [messages,      setMessages]      = useState<Message[]>([
     { role: 'assistant', content: WELCOME },
   ]);
-  const [input,       setInput]       = useState('');
-  const [isLoading,   setIsLoading]   = useState(false);
-  const [leadState,   setLeadState]   = useState<LeadState>({});
+  const [input,         setInput]         = useState('');
+  const [isLoading,     setIsLoading]     = useState(false);
+  const [leadState,     setLeadState]     = useState<LeadState>({});
+  const [intakeActive,  setIntakeActive]  = useState(false);
+  const [intakeProgress, setIntakeProgress] = useState<IntakeProgress | null>(null);
   const [sessionId] = useState(
     () => `df-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
   );
@@ -315,6 +325,10 @@ export function AssistantChat() {
           saveLead(data.leadState, finalMessages);
         }
       }
+
+      if (data.intakeActive !== undefined) setIntakeActive(data.intakeActive);
+      if (data.intakeProgress !== undefined) setIntakeProgress(data.intakeProgress ?? null);
+
     } catch {
       setMessages(prev => [
         ...prev,
@@ -480,19 +494,60 @@ export function AssistantChat() {
         {messages.length === 1 && !isLoading && (
           <div className="flex flex-wrap gap-1.5 px-3 pb-2 flex-shrink-0">
             {[
-              'How does the AVE framework work?',
-              'What is the Deal Engine?',
-              'Tell me about pricing',
-              'Book a strategy session',
-            ].map((q) => (
+              { label: 'I need to automate my ops', track: 'automation' },
+              { label: 'I want to grow my sales pipeline', track: 'bd' },
+              { label: 'I need a content strategy', track: 'digital_media' },
+              { label: 'How does your pricing work?', track: null },
+            ].map(({ label, track }) => (
               <button
-                key={q}
-                onClick={() => { setInput(q); setTimeout(() => inputRef.current?.focus(), 50); }}
+                key={label}
+                onClick={async () => {
+                  if (track) {
+                    // Start structured intake immediately
+                    setIsLoading(true);
+                    const userMsg: Message = { role: 'user', content: label };
+                    setMessages(prev => [...prev, userMsg]);
+                    try {
+                      const res = await fetch(INTAKE_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ track, leadState, sessionId }),
+                      });
+                      if (res.ok) {
+                        const data: ChatResponse = await res.json();
+                        setMessages(prev => [...prev, { role: 'assistant', content: data.response }]);
+                        if (data.leadState) setLeadState(data.leadState);
+                        setIntakeActive(true);
+                        setIntakeProgress(data.intakeProgress ?? null);
+                      }
+                    } catch { /* ignore */ }
+                    setIsLoading(false);
+                  } else {
+                    setInput(label);
+                    setTimeout(() => inputRef.current?.focus(), 50);
+                  }
+                }}
                 className="px-2.5 py-1 text-[11px] rounded-full border border-border/60 text-muted hover:text-foreground hover:border-accent/40 transition-colors"
               >
-                {q}
+                {label}
               </button>
             ))}
+          </div>
+        )}
+
+        {/* Intake progress bar — shown during structured intake */}
+        {intakeActive && intakeProgress && (
+          <div className="px-3 pb-2 flex-shrink-0">
+            <div className="flex items-center justify-between text-[10px] text-muted mb-1">
+              <span>Intake questionnaire</span>
+              <span>{intakeProgress.step}/{intakeProgress.total}</span>
+            </div>
+            <div className="h-1 rounded-full bg-border overflow-hidden">
+              <div
+                className="h-full rounded-full bg-accent transition-all duration-500"
+                style={{ width: `${(intakeProgress.step / intakeProgress.total) * 100}%` }}
+              />
+            </div>
           </div>
         )}
 
