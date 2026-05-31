@@ -49,7 +49,7 @@ const CHAT_URL   = `${API_BASE}/api/agents/assistant/chat`;
 const LEAD_URL   = `${API_BASE}/api/agents/assistant/lead`;
 const INTAKE_URL = `${API_BASE}/api/agents/assistant/intake`;
 
-const WELCOME = "Hi there 👋 I'm the DigiFusion assistant. I can help you understand our frameworks, services, and whether we're the right fit. What brings you here today?";
+const WELCOME = "Hi there 👋 I'm Aria from DigiFusion. I can help you understand our frameworks, services, and whether we're the right fit. What brings you here today?";
 
 // ── Proprietary Knowledge Base ─────────────────────────────────────────────
 // Injected into every conversation so the VA can answer framework questions
@@ -393,7 +393,7 @@ export function AssistantChat() {
             </svg>
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-semibold text-foreground leading-none">DigiFusion Assistant</p>
+            <p className="text-sm font-semibold text-foreground leading-none">Aria</p>
             <p className="text-xs text-accent mt-0.5 flex items-center gap-1">
               <span className="w-1.5 h-1.5 rounded-full bg-accent inline-block animate-pulse" />
               Online now

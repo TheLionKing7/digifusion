@@ -244,6 +244,17 @@ export default function AgencyPage() {
         </div>
       </section>
 
+      {/* ── Trust anchor ─────────────────────────────────────────────────────── */}
+      <section className="border-b border-border/40">
+        <div className="mx-auto max-w-7xl px-6 py-12">
+          <p className="text-base md:text-lg text-muted leading-relaxed max-w-3xl border-l-2 border-accent/40 pl-6">
+            Every track runs on a documented, proprietary framework — not improvised consulting.
+            Before a single deliverable is commissioned, you know the method, the rationale,
+            and the projected return. That{'’'}s the standard we hold ourselves to from day one.
+          </p>
+        </div>
+      </section>
+
       {/* ── Why DigiFusion ───────────────────────────────────────────────────── */}
       <section className="py-20 border-b border-border/40 bg-surface/30">
         <div className="mx-auto max-w-7xl px-6">

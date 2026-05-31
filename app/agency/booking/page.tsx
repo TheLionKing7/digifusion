@@ -128,6 +128,16 @@ export default function BookingPage() {
           with a concrete deliverable — regardless of whether you hire us.
         </p>
 
+        {/* ── Pre-session reassurance ── */}
+        <div className="mb-14 p-6 rounded-2xl bg-surface border border-border/50 border-l-2 border-l-accent/60">
+          <p className="text-sm font-mono text-accent tracking-widest uppercase mb-3">Before we meet</p>
+          <p className="text-base text-foreground leading-relaxed max-w-2xl">
+            You won't arrive at a blank slate. We map your situation against our framework
+            in advance and come prepared with a draft scope — so the session produces
+            a real roadmap, not a list of follow-up questions.
+          </p>
+        </div>
+
         {/* ── Service Track Selector ── */}
         <div className="mb-16">
           <p className="text-xs font-mono text-accent tracking-widest uppercase mb-6">
@@ -221,35 +231,95 @@ export default function BookingPage() {
         </div>
 
         {/* ── CTA Block ── */}
-        <div className="flex flex-col items-start gap-5">
+        <div className="flex flex-col gap-6">
           <div>
-            <p className="text-xs font-mono text-muted uppercase tracking-widest mb-3">
-              Ready? Pick your track and book below.
+            <p className="text-xs font-mono text-muted uppercase tracking-widest mb-1">
+              Choose your track to book
             </p>
-            <div className="flex flex-wrap gap-3">
-              <a
-                href="https://tally.so/r/2ED80A"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex items-center gap-3 px-8 py-4 text-sm font-semibold rounded-lg bg-accent text-background hover:bg-accent-dim transition-all active:scale-[0.98]"
-              >
-                <span className="w-2 h-2 rounded-full bg-background animate-pulse" />
-                Book My Strategy Session
-                <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <p className="text-sm text-muted leading-relaxed max-w-xl">
+              Each form takes under two minutes and routes your session to the right specialist.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-3 gap-4">
+            {/* AI Automation */}
+            <a
+              href="https://tally.so/r/2ED80A"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex flex-col gap-3 p-6 rounded-2xl bg-surface border border-border/50 hover:border-[#00d4aa]/40 hover:bg-[#00d4aa]/5 transition-all active:scale-[0.98]"
+            >
+              <div className="flex items-center justify-between">
+                <span className="w-2 h-2 rounded-full bg-[#00d4aa]" />
+                <svg className="w-4 h-4 text-muted group-hover:text-[#00d4aa] group-hover:translate-x-0.5 transition-all" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M5 12h14M12 5l7 7-7 7" />
                 </svg>
-              </a>
-              <Link
-                href="/agency/services"
-                className="inline-flex items-center gap-2 px-6 py-4 text-sm font-medium rounded-lg border border-border text-muted hover:text-foreground hover:border-accent/40 transition-all"
-              >
-                View pricing first
-              </Link>
-            </div>
+              </div>
+              <div>
+                <p className="font-serif font-bold text-foreground mb-0.5">AI Automation</p>
+                <p className="text-xs text-muted leading-relaxed">Workflows, agents &amp; intelligent systems</p>
+              </div>
+              <span className="text-[10px] font-mono text-[#00d4aa] tracking-widest uppercase">
+                Book session →
+              </span>
+            </a>
+
+            {/* Business Development */}
+            <a
+              href="https://tally.so/r/VLDMkg"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex flex-col gap-3 p-6 rounded-2xl bg-surface border border-border/50 hover:border-[#7c3aed]/40 hover:bg-[#7c3aed]/5 transition-all active:scale-[0.98]"
+            >
+              <div className="flex items-center justify-between">
+                <span className="w-2 h-2 rounded-full bg-[#7c3aed]" />
+                <svg className="w-4 h-4 text-muted group-hover:text-[#7c3aed] group-hover:translate-x-0.5 transition-all" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </div>
+              <div>
+                <p className="font-serif font-bold text-foreground mb-0.5">Business Development</p>
+                <p className="text-xs text-muted leading-relaxed">Pipeline, strategy &amp; revenue systems</p>
+              </div>
+              <span className="text-[10px] font-mono text-[#7c3aed] tracking-widest uppercase">
+                Book session →
+              </span>
+            </a>
+
+            {/* Digital Media */}
+            <a
+              href="https://tally.so/r/EkN0xr"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex flex-col gap-3 p-6 rounded-2xl bg-surface border border-border/50 hover:border-[#f59e0b]/40 hover:bg-[#f59e0b]/5 transition-all active:scale-[0.98]"
+            >
+              <div className="flex items-center justify-between">
+                <span className="w-2 h-2 rounded-full bg-[#f59e0b]" />
+                <svg className="w-4 h-4 text-muted group-hover:text-[#f59e0b] group-hover:translate-x-0.5 transition-all" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </div>
+              <div>
+                <p className="font-serif font-bold text-foreground mb-0.5">Digital Media</p>
+                <p className="text-xs text-muted leading-relaxed">SEO, content, social &amp; visibility</p>
+              </div>
+              <span className="text-[10px] font-mono text-[#f59e0b] tracking-widest uppercase">
+                Book session →
+              </span>
+            </a>
           </div>
-          <p className="text-xs font-mono text-muted tracking-widest uppercase">
-            Strictly for founders &amp; decision-makers · Africa &amp; global bookings welcome
-          </p>
+
+          <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
+            <p className="text-xs font-mono text-muted tracking-widest uppercase">
+              Strictly for founders &amp; decision-makers · Africa &amp; global bookings welcome
+            </p>
+            <Link
+              href="/agency/services"
+              className="text-xs text-muted hover:text-foreground underline underline-offset-4 transition-colors"
+            >
+              View pricing first
+            </Link>
+          </div>
         </div>
 
       </div>

@@ -243,6 +243,11 @@ export default function MethodologyPage() {
             The DigiFusion{' '}
             <span className="text-accent">Engagement Model</span>
           </h1>
+          <p className="text-xl md:text-2xl text-foreground/90 font-serif leading-snug max-w-3xl mb-5">
+            We are the only agency that runs your engagement on a documented, proprietary framework —
+            so you see exactly what we are doing, why we are doing it, and what it should return
+            before the work begins.
+          </p>
           <p className="text-lg md:text-xl text-muted max-w-2xl leading-relaxed mb-8">
             A 4-phase diagnostic and delivery framework that starts with your real numbers
             — not a generic playbook. Every recommendation is tied to a payback timeline before a single hour of build time begins.
