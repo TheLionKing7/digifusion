@@ -1,160 +1,211 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { cn } from '@/lib/utils/cn';
-import { formatUptime } from '@/lib/utils/formatters';
+import Link from 'next/link';
 import type { Agent } from '@/types/agent';
-import { AGENT_ROLE_CONFIG } from '@/types/agent';
 
 interface SystemMonitorProps {
   agents: Agent[];
 }
 
+// ── Proprietary Methodology Stack ────────────────────────────────────────────
+// Framed as client-facing IP, not internal agent infrastructure.
+
+const FRAMEWORKS = [
+  {
+    id: 'deal-engine',
+    name: 'The Deal Engine',
+    track: 'Business Development',
+    tagline: 'Predictable revenue, by design.',
+    hook: 'Most BD efforts are reactive — we run a documented 5-phase system that maps your Dream 50, qualifies at executive level, and closes with a measurable ROI case. Clients move from ad-hoc prospecting to a growth engine that compounds.',
+    proof: 'Converts qualified leads into signed engagements with a structured decision-maker entry strategy.',
+    pill: 'BD Framework',
+    color: '#7c3aed',
+    stat: { value: '5-Phase', label: 'Systematic Pipeline' },
+    href: '/agency/methodology',
+  },
+  {
+    id: 'ave',
+    name: 'Automation Velocity Engine',
+    track: 'AI & SaaS Automation',
+    tagline: 'Turn your biggest bottleneck into your fastest return.',
+    hook: 'We invented a diagnostic-first methodology that maps your manual processes against an Automation Opportunity Matrix, calculates the real cost of inaction, and deploys in 14-day build sprints — so ROI is visible before the project ends.',
+    proof: 'Clients typically recover the engagement cost within 90 days, moving from manual operations to intelligent systems.',
+    pill: 'Automation Framework',
+    color: '#00d4aa',
+    stat: { value: '14-Day', label: 'Sprint-to-Deploy' },
+    href: '/agency/methodology',
+  },
+  {
+    id: 'c2c',
+    name: 'Content-to-Capital Pipeline',
+    track: 'Digital Media',
+    tagline: 'Authority that converts, not content that fills space.',
+    hook: 'Built on pillar-cluster architecture and an ICP Search Journey Map, our C2C Pipeline turns content into a compounding asset — each piece engineered to rank, attract decision-makers, and move them toward a commercial conversation.',
+    proof: 'Every strategy begins with a Topic Authority Index and ends with an Attribution Dashboard showing which content drove revenue.',
+    pill: 'Content Framework',
+    color: '#f59e0b',
+    stat: { value: 'Full-Funnel', label: 'Attribution Model' },
+    href: '/agency/methodology',
+  },
+];
+
 export function SystemMonitor({ agents }: SystemMonitorProps) {
-  const systemHealth = agents.every((a) => a.status === 'active' || a.status === 'idle')
-    ? 'healthy'
-    : agents.some((a) => a.status === 'error')
-    ? 'degraded'
-    : 'healthy';
+  const allHealthy =
+    agents.length === 0 ||
+    agents.every((a) => a.status === 'active' || a.status === 'idle');
 
   return (
-    <section className="relative py-24 border-y border-border overflow-hidden">
+    <section className="relative pt-10 pb-24 border-y border-border overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-surface/50 to-background" />
 
       <div className="relative mx-auto max-w-7xl px-6">
         {/* Header */}
-        <div className="flex items-center justify-between mb-12">
+        <div className="flex items-start justify-between mb-12 gap-4 flex-wrap">
           <div>
             <div className="flex items-center gap-3 mb-3">
               <div
-                className={cn(
-                  'w-2 h-2 rounded-full animate-pulse',
-                  systemHealth === 'healthy' ? 'bg-emerald-400' : 'bg-amber-400'
-                )}
+                className={`w-2 h-2 rounded-full animate-pulse ${
+                  allHealthy ? 'bg-emerald-400' : 'bg-amber-400'
+                }`}
               />
               <span className="text-xs font-mono text-emerald-400 tracking-widest uppercase">
-                System Status · Live
+                Proprietary Frameworks · Active
               </span>
             </div>
-            <h2 className="text-2xl md:text-3xl font-serif font-bold">
-              The Team Working{' '}
-              <span className="text-gradient-accent">Behind the Scenes</span>
+            <h2 className="text-2xl md:text-3xl font-serif font-bold text-foreground">
+              The Methodologies{' '}
+              <span className="text-gradient-accent">We Built and Run</span>
             </h2>
+            <p className="mt-3 text-sm text-muted max-w-xl leading-relaxed">
+              Every engagement runs on documented, proprietary IP — not improvised consulting.
+              Three frameworks, each invented in-house, each delivering a measurable return.
+            </p>
           </div>
-          <div className="hidden md:flex items-center gap-2 text-xs font-mono text-muted">
+          <div className="hidden md:flex items-center gap-2 text-xs font-mono text-muted shrink-0 mt-1">
             <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-            Last updated: {new Date().toLocaleTimeString()}
+            Deployed across active client engagements
           </div>
         </div>
 
-        {/* Agent Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {agents.map((agent, i) => {
-            const config = AGENT_ROLE_CONFIG[agent.role];
-            const statusColor =
-              agent.status === 'active'
-                ? 'bg-emerald-400'
-                : agent.status === 'busy'
-                ? 'bg-amber-400'
-                : agent.status === 'error'
-                ? 'bg-red-400'
-                : 'bg-slate-500';
+        {/* Framework Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {FRAMEWORKS.map((fw, i) => (
+            <motion.div
+              key={fw.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: i * 0.12 }}
+              className="group relative flex flex-col rounded-2xl bg-surface border border-border hover:border-accent/20 transition-all duration-300 overflow-hidden"
+            >
+              {/* Top accent bar */}
+              <div className="h-0.5 w-full" style={{ background: fw.color }} />
 
-            return (
-              <motion.div
-                key={agent.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.1 }}
-                className="group relative p-5 rounded-xl bg-surface border border-border hover:border-accent/20 transition-all duration-300"
-              >
-                {/* Hover glow */}
-                <div className="absolute inset-0 rounded-xl bg-gradient-to-b from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              {/* Hover glow */}
+              <div className="absolute inset-0 bg-gradient-to-b from-accent/3 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-                <div className="relative">
-                  {/* Header */}
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-2.5">
-                      <div
-                        className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold"
-                        style={{ backgroundColor: `${config.color}20`, color: config.color }}
-                      >
-                        {agent.name.charAt(0)}
-                      </div>
-                      <div>
-                        <div className="text-sm font-semibold text-foreground">{agent.name}</div>
-                        <div className="text-xs text-muted">{config.label}</div>
-                      </div>
+              <div className="relative flex flex-col flex-1 p-6">
+                {/* Pill + stat row */}
+                <div className="flex items-center justify-between mb-5">
+                  <span
+                    className="text-[10px] font-mono tracking-widest uppercase px-2.5 py-1 rounded-full border"
+                    style={{
+                      color: fw.color,
+                      borderColor: `${fw.color}40`,
+                      background: `${fw.color}10`,
+                    }}
+                  >
+                    {fw.pill}
+                  </span>
+                  <div className="text-right">
+                    <div className="text-sm font-bold font-mono" style={{ color: fw.color }}>
+                      {fw.stat.value}
                     </div>
-                    <div className={cn('w-2 h-2 rounded-full', statusColor)} />
-                  </div>
-
-                  {/* Metrics */}
-                  <div className="space-y-2.5">
-                    <div className="flex justify-between text-xs">
-                      <span className="text-muted">Outputs delivered</span>
-                      <span className="text-foreground font-mono">
-                        {agent.tasksCompleted.toLocaleString()}
-                      </span>
-                    </div>
-                    <div className="flex justify-between text-xs">
-                      <span className="text-muted">Active work items</span>
-                      <span className="text-foreground font-mono">{agent.tasksInQueue}</span>
-                    </div>
-                    <div className="flex justify-between text-xs">
-                      <span className="text-muted">Available since</span>
-                      <span className="text-foreground font-mono">{formatUptime(agent.uptime)}</span>
-                    </div>
-                    <div className="flex justify-between text-xs">
-                      <span className="text-muted">Accuracy</span>
-                      <span className="text-foreground font-mono">
-                        {(agent.metrics.successRate * 100).toFixed(1)}%
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Agent Description */}
-                  <div className="mt-3 pt-3 border-t border-border">
-                    <div className="text-xs text-foreground/70 italic">{config.description}</div>
-                  </div>
-
-                  {/* Progress bar */}
-                  <div className="mt-3 h-0.5 rounded-full bg-surface-lighter overflow-hidden">
-                    <motion.div
-                      className="h-full rounded-full"
-                      style={{ backgroundColor: config.color }}
-                      initial={{ width: '0%' }}
-                      whileInView={{ width: agent.status === 'busy' ? '65%' : '100%' }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 1.5, ease: 'easeOut' }}
-                    />
+                    <div className="text-[10px] text-muted">{fw.stat.label}</div>
                   </div>
                 </div>
-              </motion.div>
-            );
-          })}
+
+                {/* Track */}
+                <p className="text-[10px] font-mono text-muted tracking-widest uppercase mb-2">
+                  {fw.track}
+                </p>
+
+                {/* Name */}
+                <h3 className="text-lg font-serif font-bold text-foreground mb-2 leading-tight">
+                  {fw.name}
+                </h3>
+
+                {/* Tagline */}
+                <p className="text-sm font-medium text-foreground/80 mb-4 italic">
+                  &ldquo;{fw.tagline}&rdquo;
+                </p>
+
+                {/* Hook */}
+                <p className="text-xs text-muted leading-relaxed mb-4 flex-1">{fw.hook}</p>
+
+                {/* Proof callout */}
+                <div
+                  className="flex items-start gap-2 text-xs rounded-lg p-3 mb-5"
+                  style={{
+                    background: `${fw.color}08`,
+                    borderLeft: `2px solid ${fw.color}60`,
+                  }}
+                >
+                  <span style={{ color: fw.color }} className="shrink-0 mt-0.5">
+                    →
+                  </span>
+                  <span className="text-muted leading-relaxed">{fw.proof}</span>
+                </div>
+
+                {/* CTA */}
+                <Link
+                  href={fw.href}
+                  className="flex items-center justify-between text-xs font-mono tracking-wide group/link"
+                  style={{ color: fw.color }}
+                >
+                  <span className="uppercase tracking-widest">See the methodology</span>
+                  <svg
+                    className="w-3.5 h-3.5 group-hover/link:translate-x-0.5 transition-transform"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </Link>
+              </div>
+            </motion.div>
+          ))}
         </div>
 
-        {/* System Health Footer */}
-        <div className="mt-8 flex items-center justify-center gap-6 text-xs text-muted font-mono">
+        {/* Footer credibility bar */}
+        <div className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-xs font-mono text-muted">
           <div className="flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-            Active
+            All three frameworks currently deployed
           </div>
           <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-            Busy
+            <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+            Proprietary to DigiFusion — not available elsewhere
           </div>
-          <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-slate-500" />
-            Idle
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-red-400" />
-            Error
-          </div>
+          <Link
+            href="/agency/methodology"
+            className="flex items-center gap-1.5 hover:text-foreground transition-colors underline underline-offset-4"
+          >
+            Read the full methodology
+            <svg
+              className="w-3 h-3"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </Link>
         </div>
       </div>
     </section>
