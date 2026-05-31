@@ -51,8 +51,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE}/products/adpilot`,              lastModified: now, changeFrequency: 'monthly', priority: 0.8  },
     { url: `${BASE}/products/vektor`,               lastModified: now, changeFrequency: 'monthly', priority: 0.8  },
 
-    // ── HTML sitemap (human nav, low priority) ──────────────────────────────
-    { url: `${BASE}/sitemap`,                       lastModified: now, changeFrequency: 'monthly', priority: 0.3  },
+    // NOTE: /sitemap (HTML page) is intentionally excluded here.
+    // It is noindex and must not appear in the XML sitemap — including it
+    // causes the GSC "HTML page submitted as XML sitemap" error.
   ];
 
   // ── Dynamic blog post routes ─────────────────────────────────────────────
