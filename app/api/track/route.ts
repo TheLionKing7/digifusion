@@ -102,7 +102,7 @@ export async function POST(request: Request) {
     const ip     = getIp(request);
     const device = typeof clientDevice === 'string' ? clientDevice : detectDevice(ua);
 
-    await supabase.from('pageviews').insert({
+    const { error: insertError } = await supabase.from('pageviews').insert({
       path:         String(path).slice(0, 500),
       event:        typeof event === 'string' ? event.slice(0, 50) : 'pageview',
       referrer:     referrer    ? String(referrer).slice(0, 500)    : null,
@@ -126,9 +126,16 @@ export async function POST(request: Request) {
       utm_campaign: utmCampaign ? String(utmCampaign).slice(0, 100) : null,
     });
 
+    if (insertError) {
+      // Surface in Vercel function logs without breaking the caller
+      console.error('[track] Supabase insert error:', insertError.message, insertError.details ?? '');
+      return NextResponse.json({ ok: false, error: insertError.message });
+    }
+
     return NextResponse.json({ ok: true });
-  } catch {
+  } catch (err) {
     // Never break the page for analytics failures
+    console.error('[track] Unexpected error:', err instanceof Error ? err.message : String(err));
     return NextResponse.json({ ok: false });
   }
 }

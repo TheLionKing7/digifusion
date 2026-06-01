@@ -115,7 +115,7 @@ export default function RootLayout({
 window.OneSignalDeferred = window.OneSignalDeferred || [];
 OneSignalDeferred.push(async function(OneSignal) {
   await OneSignal.init({
-    appId: "3b533b15-d684-4e35-8b95-a4ddbca6c6ac",
+    appId: "${process.env.NEXT_PUBLIC_ONESIGNAL_APP_ID}",
     notifyButton: { enable: false },
     serviceWorkerPath: "/OneSignalSDKWorker.js",
   });

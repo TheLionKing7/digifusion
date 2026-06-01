@@ -1,11 +1,91 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
+import { useState } from 'react';
 import digiLogo from '@/assets/digilogo.png';
 import { FOOTER_LINKS, SOCIAL_LINKS } from '@/lib/constants/navigation';
+
+const API_BASE = (process.env.NEXT_PUBLIC_PATHGURU_API || '').replace(/\/$/, '');
+
+function NewsletterSignup() {
+  const [email, setEmail]   = useState('');
+  const [name,  setName]    = useState('');
+  const [state, setState]   = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [msg,   setMsg]     = useState('');
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!email) return;
+    setState('loading');
+    try {
+      const res = await fetch(`${API_BASE}/api/newsletter/subscribe`, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ email: email.trim(), name: name.trim(), source: 'website' }),
+      });
+      if (!res.ok) throw new Error('Subscribe failed');
+      setState('success');
+      setMsg('You\'re in. Expect sharp, practical insights every week.');
+    } catch {
+      setState('error');
+      setMsg('Something went wrong — try again or email us directly.');
+    }
+  }
+
+  return (
+    <div className="border-b border-border bg-surface">
+      <div className="mx-auto max-w-7xl px-6 py-12">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+          <div>
+            <p className="text-xs font-semibold text-accent uppercase tracking-widest mb-1">Weekly Intelligence</p>
+            <h3 className="text-xl font-semibold text-foreground">Stay ahead of the curve.</h3>
+            <p className="text-sm text-muted mt-1 max-w-sm">
+              AI, automation, and growth strategy insights curated for African business leaders. No fluff.
+            </p>
+          </div>
+
+          {state === 'success' ? (
+            <p className="text-sm text-accent font-medium">{msg}</p>
+          ) : (
+            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 w-full md:w-auto md:min-w-[420px]">
+              <input
+                type="text"
+                placeholder="Your name (optional)"
+                value={name}
+                onChange={e => setName(e.target.value)}
+                className="px-4 py-2.5 rounded-lg bg-background border border-border text-sm text-foreground placeholder:text-muted focus:outline-none focus:border-accent w-full sm:w-36"
+              />
+              <input
+                type="email"
+                required
+                placeholder="Your email address"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                className="px-4 py-2.5 rounded-lg bg-background border border-border text-sm text-foreground placeholder:text-muted focus:outline-none focus:border-accent flex-1"
+              />
+              <button
+                type="submit"
+                disabled={state === 'loading'}
+                className="px-5 py-2.5 rounded-lg bg-accent text-background text-sm font-semibold hover:opacity-90 transition-opacity disabled:opacity-60 whitespace-nowrap"
+              >
+                {state === 'loading' ? 'Subscribing…' : 'Subscribe'}
+              </button>
+            </form>
+          )}
+          {state === 'error' && <p className="text-xs text-red-400 mt-1">{msg}</p>}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function Footer() {
   return (
     <footer className="border-t border-border bg-surface">
+
+      {/* Newsletter signup */}
+      <NewsletterSignup />
 
       {/* Main columns */}
       <div className="mx-auto max-w-7xl px-6 py-16">
