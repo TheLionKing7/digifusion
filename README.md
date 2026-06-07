@@ -130,7 +130,7 @@ How it works:
 | SabiWork | `/products/sabiwork` | AI cost-estimator for artisans & contractors |
 | Receptra | `/products/receptra` | AI-powered receptionist for hospitality & law |
 | AdPilot | `/products/adpilot` | AI marketing assistant inside WhatsApp |
-| Vektor | `/products/vektor` | AI-powered prospecting intelligence |
+| Vektor | `/products/vektor` | KDP discovery, P1–P3 validation, competitor BSR, ads packs, LLM briefs |
 
 ---
 
@@ -262,9 +262,14 @@ CREATE INDEX IF NOT EXISTS pageviews_utm_source_idx  ON pageviews (utm_source);
 
 ```bash
 npm install
+npm run prepare                    # Husky pre-commit hooks
 cp .env.local.example .env.local   # fill in values
 npm run dev
 ```
+
+Pre-commit runs automatically on `git commit`: **secrets guard** → **eslint (staged)** → **tsc --noEmit**.
+
+Manual checks: `npm run lint` · `npm run typecheck` · `npm run guard`
 
 App runs at `http://localhost:3000`.
 

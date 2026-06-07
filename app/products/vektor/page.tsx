@@ -4,8 +4,7 @@ import { useEffect } from 'react';
 
 // All requests go through the Next.js proxy to avoid CORS issues.
 // The proxy forwards server-to-server to the Render backend.
-const VEKTOR_API  = 'https://vektor-xr-1.onrender.com'; // used only for /auth/download redirect
-const VEKTOR_PROXY = '/api/vektor';                      // used for all data calls
+const VEKTOR_PROXY = '/api/vektor';
 
 export default function VektorPage() {
   useEffect(() => {
@@ -117,7 +116,7 @@ export default function VektorPage() {
         .vk-section-sub { font-size:16px; color:var(--vk-text2); max-width:540px; line-height:1.7; margin-bottom:56px; }
 
         /* Steps */
-        .vk-steps { display:grid; grid-template-columns:repeat(4,1fr); gap:2px; }
+        .vk-steps { display:grid; grid-template-columns:repeat(5,1fr); gap:2px; }
         .vk-step { background:var(--vk-bg2); border:1px solid var(--vk-border); border-radius:12px; padding:28px 22px; transition:border-color 0.2s; }
         .vk-step:hover { border-color:rgba(244,166,29,0.3); }
         .vk-step-num { font-family:var(--vk-display); font-size:36px; font-weight:800; color:rgba(244,166,29,0.15); line-height:1; margin-bottom:14px; }
@@ -231,8 +230,9 @@ export default function VektorPage() {
                 </h1>
                 <p className="vk-sub">
                   Vektor autonomously sweeps Amazon Kindle and Google for real buyer intent —
-                  then hands you a complete publishing brief. No seed keywords. No guesswork.
-                  Just opportunities.
+                  then delivers competitor BSR data, niche revenue economics, keyword validation,
+                  KDP category fit, Amazon Ads packs, and a complete publishing brief.
+                  No seed keywords. No guesswork.
                 </p>
                 <div className="vk-actions">
                   <button className="vk-btn-primary" onClick={() => document.getElementById('vk-register')?.scrollIntoView({ behavior: 'smooth' })}>
@@ -243,9 +243,9 @@ export default function VektorPage() {
                   </button>
                 </div>
                 <div className="vk-stats">
-                  <div><div className="vk-stat-num">9</div><div className="vk-stat-lbl">Non-fiction niches</div></div>
-                  <div><div className="vk-stat-num">2×</div><div className="vk-stat-lbl">Daily sweeps</div></div>
-                  <div><div className="vk-stat-num">40s</div><div className="vk-stat-lbl">Signal to brief</div></div>
+                  <div><div className="vk-stat-num">11</div><div className="vk-stat-lbl">Niche modes</div></div>
+                  <div><div className="vk-stat-num">2×</div><div className="vk-stat-lbl">Daily auto sweeps</div></div>
+                  <div><div className="vk-stat-num">60s</div><div className="vk-stat-lbl">Signal to brief</div></div>
                 </div>
               </div>
 
@@ -254,15 +254,15 @@ export default function VektorPage() {
                   <div className="vk-card-label">⚡ Latest sweep result</div>
                   <div className="vk-card-niche">AI-Powered Job Search Strategies: Free Tools &amp; Workflows for First-Time Tech Applicants</div>
                   <div className="vk-card-metrics">
-                    <div className="vk-metric"><div className="vk-metric-val amber">9/10</div><div className="vk-metric-lbl">Opportunity</div></div>
-                    <div className="vk-metric"><div className="vk-metric-val green">Low</div><div className="vk-metric-lbl">Competition</div></div>
-                    <div className="vk-metric"><div className="vk-metric-val amber">Rising</div><div className="vk-metric-lbl">Velocity</div></div>
+                    <div className="vk-metric"><div className="vk-metric-val amber">8/10</div><div className="vk-metric-lbl">Revenue band</div></div>
+                    <div className="vk-metric"><div className="vk-metric-val green">5G·3A</div><div className="vk-metric-lbl">Keywords</div></div>
+                    <div className="vk-metric"><div className="vk-metric-val amber">7/10</div><div className="vk-metric-lbl">Category fit</div></div>
                   </div>
                   <div className="vk-pain">
-                    <strong>Reader pain points detected</strong>
-                    <div className="vk-pain-item">Can&apos;t find AI tools that actually work in job search</div>
-                    <div className="vk-pain-item">Overwhelmed by generic advice that ignores cost constraints</div>
-                    <div className="vk-pain-item">No step-by-step workflow to automate applications</div>
+                    <strong>Included in every sweep</strong>
+                    <div className="vk-pain-item">Niche revenue band — page-1 units, royalty range, conquest ASINs</div>
+                    <div className="vk-pain-item">Keyword traffic lights + KDP category paths (primary/secondary)</div>
+                    <div className="vk-pain-item">Competitor BSR table, ads pack, pain points, outline, manuscript prompt</div>
                   </div>
                   <div className="vk-card-footer">
                     <span className="vk-card-badge">Amazon KDP</span>
@@ -279,12 +279,13 @@ export default function VektorPage() {
           <div className="vk-container">
             <div className="vk-tag">The pipeline</div>
             <h2 className="vk-h2">From zero to publishable brief<br />in under 60 seconds</h2>
-            <p className="vk-section-sub">Four automated stages. No manual research. No typing seed keywords. Vektor finds what buyers are searching for — you decide what to write.</p>
+            <p className="vk-section-sub">Five automated stages — discovery, validation, scoring, market intel, and LLM synthesis. No manual research. No typing seed keywords.</p>
             <div className="vk-steps">
-              <div className="vk-step"><div className="vk-step-num">01</div><h3>Amazon Kindle Sweep</h3><p>Queries Amazon Kindle autocomplete across your chosen niche — capturing real buyer searches without any seed input from you.</p></div>
-              <div className="vk-step"><div className="vk-step-num">02</div><h3>Google Cross-Validation</h3><p>Every signal is cross-validated against Google Suggest. Only topics confirmed on both platforms reach the scoring stage.</p></div>
-              <div className="vk-step"><div className="vk-step-num">03</div><h3>Opportunity Scoring</h3><p>Demand minus competition multiplied by buyer intent. Top signals trigger SerpApi PAA for deep pain-point extraction.</p></div>
-              <div className="vk-step"><div className="vk-step-num">04</div><h3>LLM Publishing Brief</h3><p>The winner becomes a full brief: pain points, unmet desires, chapter outline, 3 title options, BSR data, and a manuscript prompt.</p></div>
+              <div className="vk-step"><div className="vk-step-num">01</div><h3>Kindle Sweep</h3><p>Amazon autocomplete across your niche letter-space — capturing real buyer searches with zero seed input.</p></div>
+              <div className="vk-step"><div className="vk-step-num">02</div><h3>Google Validation</h3><p>Every signal cross-checked on Google Suggest. Only dual-platform confirmed topics advance.</p></div>
+              <div className="vk-step"><div className="vk-step-num">03</div><h3>Opportunity Scoring</h3><p>Demand × intent × competition. Top signals unlock premium SerpApi PAA for deeper buyer questions.</p></div>
+              <div className="vk-step"><div className="vk-step-num">04</div><h3>Market Intel</h3><p>Competitor BSR, sweet-spot verdict, niche revenue band (P1), keyword validation (P2), category fit (P3) — Rainforest + SerpApi on Solo/Pro.</p></div>
+              <div className="vk-step"><div className="vk-step-num">05</div><h3>Publishing Brief</h3><p>Pain points, outline, 3 titles, Amazon Ads pack (7 backend + PPC + ASINs), and a ready-to-paste manuscript prompt.</p></div>
             </div>
           </div>
         </section>
@@ -294,53 +295,59 @@ export default function VektorPage() {
           <div className="vk-container">
             <div className="vk-tag">Honest comparison</div>
             <h2 className="vk-h2">Vektor vs. the existing<br />KDP research stack</h2>
-            <p className="vk-section-sub">We tested every major tool publishers use. Here is how they compare — and where each one earns its place in your workflow.</p>
+            <p className="vk-section-sub">Benchmarked against Publisher Rocket, KDSpy, and Book Bolt — the tools KDP publishers actually use. Scores reflect discovery depth, intel breadth, and time-to-publishable output.</p>
 
             <div className="vk-compare-wrap">
               <table className="vk-compare">
                 <thead>
                   <tr>
-                    <th style={{ width: '36%' }}>Feature</th>
+                    <th style={{ width: '34%' }}>Capability</th>
                     <th className="vc">⚡ Vektor</th>
                     <th>Publisher Rocket</th>
+                    <th>KDSpy</th>
                     <th>Book Bolt</th>
-                    <th>BookBeam</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr><td className="rl">Autonomous niche discovery</td><td className="vc"><span className="vk-tick">✓ Zero seed needed</span></td><td><span className="vk-cross">✗ Seed required</span></td><td><span className="vk-cross">✗ Seed required</span></td><td><span className="vk-cross">✗ Seed required</span></td></tr>
-                  <tr><td className="rl">Real Amazon buyer intent data</td><td className="vc"><span className="vk-tick">✓</span></td><td><span className="vk-tick">✓</span></td><td><span className="vk-tick">✓</span></td><td><span className="vk-tick">✓</span></td></tr>
-                  <tr><td className="rl">BSR &amp; review count data</td><td className="vc"><span className="vk-tick">✓</span></td><td><span className="vk-tick">✓ Best-in-class</span></td><td><span className="vk-partial">~ Partial</span></td><td><span className="vk-tick">✓</span></td></tr>
-                  <tr><td className="rl">LLM pain-point synthesis</td><td className="vc"><span className="vk-tick">✓ 7 pain points</span></td><td><span className="vk-cross">✗</span></td><td><span className="vk-cross">✗</span></td><td><span className="vk-cross">✗</span></td></tr>
-                  <tr><td className="rl">Chapter outline + title options</td><td className="vc"><span className="vk-tick">✓</span></td><td><span className="vk-cross">✗</span></td><td><span className="vk-cross">✗</span></td><td><span className="vk-cross">✗</span></td></tr>
-                  <tr><td className="rl">Ready-to-paste manuscript prompt</td><td className="vc"><span className="vk-tick">✓</span></td><td><span className="vk-cross">✗</span></td><td><span className="vk-cross">✗</span></td><td><span className="vk-cross">✗</span></td></tr>
+                  <tr><td className="rl">Zero-seed autonomous discovery</td><td className="vc"><span className="vk-tick">✓ Unique</span></td><td><span className="vk-cross">✗ Seed required</span></td><td><span className="vk-cross">✗ Browse-first</span></td><td><span className="vk-cross">✗ Seed required</span></td></tr>
+                  <tr><td className="rl">Live competitor BSR table</td><td className="vc"><span className="vk-tick">✓ Premium</span></td><td><span className="vk-tick">✓ Best-in-class</span></td><td><span className="vk-tick">✓ Real-time</span></td><td><span className="vk-partial">~ Partial</span></td></tr>
+                  <tr><td className="rl">Market-entry sweet-spot verdict</td><td className="vc"><span className="vk-tick">✓ Scored</span></td><td><span className="vk-cross">✗</span></td><td><span className="vk-cross">✗</span></td><td><span className="vk-cross">✗</span></td></tr>
+                  <tr><td className="rl">Niche revenue band (page-1 economics)</td><td className="vc"><span className="vk-tick">✓ P1</span></td><td><span className="vk-partial">~ Per-keyword est.</span></td><td><span className="vk-partial">~ Page revenue</span></td><td><span className="vk-cross">✗</span></td></tr>
+                  <tr><td className="rl">Keyword validation (traffic lights)</td><td className="vc"><span className="vk-tick">✓ P2</span></td><td><span className="vk-tick">✓ + volume</span></td><td><span className="vk-partial">~ Basic</span></td><td><span className="vk-partial">~ Basic</span></td></tr>
+                  <tr><td className="rl">KDP category fit (primary/secondary)</td><td className="vc"><span className="vk-tick">✓ P3</span></td><td><span className="vk-tick">✓ 16k+ browser</span></td><td><span className="vk-partial">~ Basic</span></td><td><span className="vk-tick">✓ LCB focus</span></td></tr>
+                  <tr><td className="rl">Amazon Ads pack (backend + PPC + ASINs)</td><td className="vc"><span className="vk-tick">✓ Export-ready</span></td><td><span className="vk-partial">~ AMS seeds only</span></td><td><span className="vk-cross">✗</span></td><td><span className="vk-cross">✗</span></td></tr>
+                  <tr><td className="rl">LLM pain-point synthesis</td><td className="vc"><span className="vk-tick">✓ Ranked brief</span></td><td><span className="vk-cross">✗</span></td><td><span className="vk-cross">✗</span></td><td><span className="vk-cross">✗</span></td></tr>
+                  <tr><td className="rl">Outline + titles + manuscript prompt</td><td className="vc"><span className="vk-tick">✓ One step</span></td><td><span className="vk-cross">✗</span></td><td><span className="vk-cross">✗</span></td><td><span className="vk-cross">✗</span></td></tr>
+                  <tr><td className="rl">Fiction &amp; children&apos;s analyst modes</td><td className="vc"><span className="vk-tick">✓ Dedicated</span></td><td><span className="vk-partial">~ General</span></td><td><span className="vk-partial">~ General</span></td><td><span className="vk-partial">~ Low-content focus</span></td></tr>
+                  <tr><td className="rl">BSR history &amp; trend curves</td><td className="vc"><span className="vk-cross">P4 roadmap</span></td><td><span className="vk-partial">~ Static</span></td><td><span className="vk-tick">✓ Real-time</span></td><td><span className="vk-cross">✗</span></td></tr>
                   <tr><td className="rl">Scheduled autonomous sweeps</td><td className="vc"><span className="vk-tick">✓ 2× daily</span></td><td><span className="vk-cross">✗</span></td><td><span className="vk-cross">✗</span></td><td><span className="vk-cross">✗</span></td></tr>
-                  <tr><td className="rl">Feedback learning system</td><td className="vc"><span className="vk-tick">✓</span></td><td><span className="vk-cross">✗</span></td><td><span className="vk-cross">✗</span></td><td><span className="vk-cross">✗</span></td></tr>
-                  <tr><td className="rl">Pricing</td><td className="vc" style={{ color: 'var(--vk-amber)', fontWeight: 500 }}>Free · $19 · $39/mo</td><td>$199 one-time</td><td>$19–$49/mo</td><td>~$20/mo</td></tr>
-                  <tr><td className="rl">Overall score</td><td className="vc"><span className="vk-score">87</span></td><td><span style={{ fontWeight: 600 }}>74</span></td><td><span style={{ fontWeight: 600 }}>62</span></td><td><span style={{ fontWeight: 600 }}>58</span></td></tr>
+                  <tr><td className="rl">Feedback learning loop</td><td className="vc"><span className="vk-tick">✓</span></td><td><span className="vk-cross">✗</span></td><td><span className="vk-cross">✗</span></td><td><span className="vk-cross">✗</span></td></tr>
+                  <tr><td className="rl">Pricing</td><td className="vc" style={{ color: 'var(--vk-amber)', fontWeight: 500 }}>Free · $19 · $39/mo</td><td>$97–199 once</td><td>~$47–69 once</td><td>$10–20/mo</td></tr>
+                  <tr><td className="rl">Overall score*</td><td className="vc"><span className="vk-score">93</span></td><td><span style={{ fontWeight: 600 }}>78</span></td><td><span style={{ fontWeight: 600 }}>71</span></td><td><span style={{ fontWeight: 600 }}>65</span></td></tr>
                 </tbody>
               </table>
             </div>
+            <p style={{ fontSize: 11, color: 'var(--vk-muted)', marginTop: 12, fontFamily: 'DM Mono,monospace' }}>*Weighted: discovery autonomy (30%), validation depth (25%), brief quality (25%), workflow speed (20%). Vektor P1–P3 closes the Rocket validation gap; Rocket still leads on search volume numbers and category node browsing.</p>
 
             <div style={{ marginTop: 64 }}>
               <div className="vk-two-col">
                 <div>
                   <div className="vk-tag" style={{ marginBottom: 20 }}>Where Vektor wins</div>
-                  <div className="vk-win-item"><h4>Zero-seed discovery</h4><p>Every competitor requires you to think of a topic first. You can only find what you already know to look for. Vektor sweeps the full niche space without any input — surfacing opportunities you would never have searched for manually.</p></div>
-                  <div className="vk-win-item"><h4>Signal to publishable brief in one step</h4><p>Publisher Rocket gives you a keyword spreadsheet. Vektor gives you ranked pain points, unmet desires, a 5-chapter outline, three title angles, and a 300-word manuscript prompt. The gap between research and writing collapses from days to minutes.</p></div>
-                  <div className="vk-win-item"><h4>Gets smarter with use</h4><p>Thumbs up reinforces a signal pattern. Thumbs down permanently blocks that signal and logs it as noise. The system learns your quality standard over time. No other KDP tool has a feedback loop.</p></div>
+                  <div className="vk-win-item"><h4>Zero-seed discovery</h4><p>Publisher Rocket, KDSpy, and Book Bolt all start from a keyword or Amazon page you already found. Vektor sweeps the full niche space autonomously — surfacing opportunities you would never have thought to search.</p></div>
+                  <div className="vk-win-item"><h4>Discover → validate → brief in one sweep</h4><p>Competitors give keyword spreadsheets. Vektor delivers P1 niche revenue economics, P2 keyword traffic lights, P3 category fit, a BSR table, sweet-spot verdict, ads pack, pain points, outline, titles, and a manuscript prompt — in one pass.</p></div>
+                  <div className="vk-win-item"><h4>Gets smarter with use</h4><p>Thumbs up reinforces signal patterns. Thumbs down blocks noise permanently. Per-user diversity spreads concurrent users across 12 sub-niche angles. No other KDP tool combines a feedback loop with autonomous discovery.</p></div>
                 </div>
                 <div>
                   <div className="vk-tag" style={{ marginBottom: 20 }}>Honest gaps</div>
-                  <div className="vk-gap-item"><h4>BSR data is scraped, not official</h4><p>Publisher Rocket has a direct Amazon data relationship. Vektor scrapes review counts from search results — directionally accurate, but treat it as a signal rather than a guarantee.</p></div>
-                  <div className="vk-gap-item"><h4>No KDP category mapping yet</h4><p>Publisher Rocket maps every Amazon category. Vektor identifies the niche and platform but does not yet show specific KDP category paths. This is on the roadmap.</p></div>
-                  <div className="vk-gap-item"><h4>New — no track record yet</h4><p>Rocket has thousands of verified success stories. Vektor is new. The methodology is sound — but you are an early adopter. The upside: pricing reflects that.</p></div>
+                  <div className="vk-gap-item"><h4>Premium Amazon data on paid plans</h4><p>Live BSR via Rainforest API is Solo/Pro only. Free tier uses Google Books catalog fallback — useful, but not the same as page-1 Amazon Kindle rankings.</p></div>
+                  <div className="vk-gap-item"><h4>Category browser vs category fit</h4><p>P3 recommends primary/secondary KDP paths with fit scores. Publisher Rocket still wins for browsing 16,000+ category nodes and exact search-volume numbers.</p></div>
+                  <div className="vk-gap-item"><h4>Coming in P4–P5</h4><p>BSR history curves (Keepa-style) and an Amazon Lens overlay while browsing are on the roadmap. Use KDSpy today for live on-page competitor spying between sweeps.</p></div>
                 </div>
               </div>
             </div>
 
             <div style={{ marginTop: 56, background: 'var(--vk-bg2)', border: '1px solid var(--vk-border)', borderLeft: '3px solid var(--vk-amber)', borderRadius: 12, padding: '28px 32px' }}>
-              <p style={{ fontSize: 17, color: 'var(--vk-text)', lineHeight: 1.7, fontStyle: 'italic', marginBottom: 10 }}>&ldquo;Publisher Rocket tells you whether your idea will work. Vektor tells you what your next idea should be. Use Vektor to discover the opportunity, then use Rocket to validate the keywords before you publish.&rdquo;</p>
+              <p style={{ fontSize: 17, color: 'var(--vk-text)', lineHeight: 1.7, fontStyle: 'italic', marginBottom: 10 }}>&ldquo;Use Vektor to discover what to write, validate revenue and keywords (P1–P3), and export your ads pack. Use Publisher Rocket for deep category browsing and search volume. Use KDSpy while on Amazon to spy live competitors. Three tools, one workflow.&rdquo;</p>
               <p style={{ fontSize: 12, color: 'var(--vk-muted)', fontFamily: 'DM Mono,monospace', letterSpacing: 1 }}>— RECOMMENDED WORKFLOW FOR SERIOUS KDP PUBLISHERS</p>
             </div>
           </div>
@@ -359,12 +366,14 @@ export default function VektorPage() {
                 <div className="vk-plan-period">forever</div>
                 <ul className="vk-plan-features">
                   <li>3 sweeps per month</li>
-                  <li>All 9 niche categories</li>
-                  <li>LLM market analysis</li>
-                  <li>Trend momentum scoring</li>
-                  <li className="dim">SerpApi PAA validation</li>
-                  <li className="dim">Sweep history</li>
-                  <li className="dim">Feedback learning</li>
+                  <li>11 niche modes (9 auto + fiction + children&apos;s)</li>
+                  <li>Full LLM publishing brief</li>
+                  <li>Heuristic keyword validation (P2)</li>
+                  <li>Heuristic category fit (P3)</li>
+                  <li>Google Books competitor fallback</li>
+                  <li className="dim">Live Amazon BSR + revenue band (P1)</li>
+                  <li className="dim">Amazon Ads keyword pack</li>
+                  <li className="dim">Live catalog counts (SerpApi)</li>
                 </ul>
                 <button className="vk-plan-btn ghost" onClick={() => document.getElementById('vk-register')?.scrollIntoView({ behavior: 'smooth' })}>Get started free</button>
               </div>
@@ -375,12 +384,14 @@ export default function VektorPage() {
                 <div className="vk-plan-period">per month</div>
                 <ul className="vk-plan-features">
                   <li>40 sweeps per month</li>
-                  <li>All 9 niche categories</li>
-                  <li>SerpApi PAA validation</li>
-                  <li>Amazon BSR competition data</li>
-                  <li>Price range intelligence</li>
-                  <li>Sweep history (10 reports)</li>
-                  <li>Feedback learning system</li>
+                  <li>Everything in Free</li>
+                  <li>Live competitor BSR table (Rainforest)</li>
+                  <li>Niche revenue band — units &amp; royalty range (P1)</li>
+                  <li>Keyword validation with live catalog counts (P2)</li>
+                  <li>Category fit + Rainforest refinements (P3)</li>
+                  <li>Market-entry sweet-spot verdict</li>
+                  <li>Amazon Ads pack — 7 backend + PPC + ASINs</li>
+                  <li>Sweep history + feedback learning</li>
                 </ul>
                 <button className="vk-plan-btn primary" onClick={() => startCheckout('solo')}>Upgrade to Solo →</button>
               </div>
@@ -391,10 +402,9 @@ export default function VektorPage() {
                 <ul className="vk-plan-features">
                   <li>Unlimited sweeps</li>
                   <li>Everything in Solo</li>
-                  <li>Priority LLM (Cerebras)</li>
-                  <li>Real-time SSE streaming</li>
-                  <li>API access</li>
-                  <li>Admin dashboard access</li>
+                  <li>Priority LLM inference</li>
+                  <li>Real-time SSE pipeline streaming</li>
+                  <li>Full sweep history</li>
                   <li>Early feature access</li>
                 </ul>
                 <button className="vk-plan-btn ghost" onClick={() => startCheckout('pro')}>Upgrade to Pro →</button>

@@ -248,9 +248,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 return (
                   <div className="glass-strong rounded-xl p-8 flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left">
                     {post.author.avatar ? (
-                      <img
+                      <Image
                         src={post.author.avatar}
                         alt={post.author.name}
+                        width={64}
+                        height={64}
                         className="w-16 h-16 rounded-full object-cover shrink-0 ring-2 ring-accent/20"
                       />
                     ) : (
@@ -268,7 +270,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                         {post.author.name}
                       </p>
                       <p className="mt-2 text-sm text-muted leading-relaxed">
-                        {post.author.name} is a contributor at DigiFusion — writing about AI, automation, and digital strategy for growing businesses.
+                        {post.author.name.includes('Boroji')
+                          ? 'Founder of DigiFusion and Digital Fusion Labs — writing on procurement intelligence, automation, and growth strategy for operators who need answers, not fluff.'
+                          : `${post.author.name} is a contributor at DigiFusion — writing about AI, automation, and digital strategy for growing businesses.`}
                       </p>
                     </div>
                   </div>

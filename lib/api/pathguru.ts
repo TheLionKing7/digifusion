@@ -11,7 +11,7 @@
  */
 
 import { getShopDb } from '@/lib/shop/supabase';
-import type { BlogPost, BlogPostCollection, BlogPostType } from '@/types/blog';
+import type { BlogPost, BlogPostCollection, BlogPostSummary, BlogPostType, ExpertQuote, HowToStep } from '@/types/blog';
 import type { AgentStatusResponse } from '@/types/agent';
 
 /* ── Blog Posts ─────────────────────────────────────────────────────────── */
@@ -81,43 +81,73 @@ export async function fetchBlogPost(slug: string): Promise<BlogPost> {
 
 /* ── Map DB row → BlogPostSummary ───────────────────────────────────────── */
 
-function mapPostSummaryFromDB(post: any) {
+/** Supabase `posts` row shape (subset used by mappers). */
+interface PostRow {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt?: string | null;
+  post_type?: string | null;
+  featured_image_url?: string | null;
+  categories?: string[] | null;
+  tags?: string[] | null;
+  reading_time_minutes?: number | null;
+  published_at?: string | null;
+  created_at?: string | null;
+  author_name?: string | null;
+  author_avatar?: string | null;
+  content?: string | null;
+  meta_description?: string | null;
+  focus_keyword?: string | null;
+  featured_image_credit?: string | null;
+  social_caption?: string | null;
+  linkedin_caption?: string | null;
+  word_count?: number | null;
+  list_items?: string[] | null;
+  steps?: HowToStep[] | null;
+  client_name?: string | null;
+  client_results?: { metric: string; value: string }[] | null;
+  rating?: number | null;
+  pros_cons?: { pros: string[]; cons: string[] } | null;
+  experts?: ExpertQuote[] | null;
+}
+
+function mapPostSummaryFromDB(post: PostRow): BlogPostSummary {
   return {
     id:                 post.id,
     slug:               post.slug,
     title:              post.title,
     excerpt:            post.excerpt            || '',
-    postType:           post.post_type          || 'article',
+    postType:           (post.post_type || 'article') as BlogPostType,
     featuredImageUrl:   post.featured_image_url || null,
     categories:         post.categories         || [],
     tags:               post.tags               || [],
     readingTimeMinutes: post.reading_time_minutes ?? 5,
-    publishedAt:        post.published_at        || post.created_at,
+    publishedAt:        post.published_at || post.created_at || '',
     author: {
-      name:   post.author_name   || 'DigiFusion',
-      avatar: post.author_avatar || null,
+      name:   post.author_name   || '',
+      avatar: post.author_avatar || undefined,
     },
   };
 }
 
 /* ── Map DB row → BlogPost (full) ───────────────────────────────────────── */
 
-function mapPostFromDB(post: any): any {
+function mapPostFromDB(post: PostRow): BlogPost {
   return {
     ...mapPostSummaryFromDB(post),
     content:            post.content             || '',
     metaDescription:    post.meta_description    || '',
     focusKeyword:       post.focus_keyword       || '',
-    featuredImageCredit:post.featured_image_credit || null,
+    featuredImageCredit: post.featured_image_credit || undefined,
     socialCaption:      post.social_caption      || '',
     linkedinCaption:    post.linkedin_caption    || '',
-    wordCount:          post.word_count          ?? 0,
     // Type-specific fields
     listItems:    post.list_items    || [],
     steps:        post.steps         || [],
-    clientName:   post.client_name   || null,
+    clientName:   post.client_name   || undefined,
     clientResults:post.client_results|| [],
-    rating:       post.rating        ?? null,
+    rating:       post.rating        ?? undefined,
     prosCons:     post.pros_cons     || { pros: [], cons: [] },
     experts:      post.experts       || [],
   };
@@ -132,7 +162,7 @@ export async function fetchAgentStatus(
 ): Promise<AgentStatusResponse> {
   if (!PATHGURU_API) return getMockAgentStatus();
   try {
-    const res = await fetch(`${PATHGURU_API}/api/agent-status`, {
+    const res = await fetch(`${PATHGURU_API}/api/agents/status`, {
       next: { revalidate },
     });
     if (!res.ok) return getMockAgentStatus();

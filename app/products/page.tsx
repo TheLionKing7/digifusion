@@ -20,10 +20,10 @@ const LIVE_PRODUCTS = [
     name: 'Vektor',
     tagline: 'Find your next bestselling ebook before anyone else.',
     description:
-      'A Chrome extension for KDP publishers that autonomously sweeps Amazon Kindle and Google for real buyer intent — then delivers a complete publishing brief in under 60 seconds. No seed keywords. No guesswork. Zero-input niche discovery powered by LLM pain-point synthesis.',
+      'Autonomous KDP market intelligence: zero-seed discovery, P1 niche revenue band, P2 keyword validation, P3 category fit, live competitor BSR, Amazon Ads packs, and LLM publishing briefs — in under 60 seconds.',
     category: 'Market Intelligence · Chrome Extension',
-    audiences: ['KDP Publishers', 'Self-Publishers', 'Niche Researchers', 'Content Creators'],
-    keyFeature: 'Autonomous niche discovery',
+    audiences: ['KDP Publishers', 'Self-Publishers', 'Fiction & Children\'s Authors', 'Niche Researchers'],
+    keyFeature: 'Discover → validate (P1–P3) → brief → ads',
     status: 'Live',
     href: '/products/vektor',
     icon: (
@@ -284,7 +284,7 @@ export default function ProductsPage() {
                   <p className="text-sm text-muted mb-6">{product.keyFeature}</p>
                   <div className="h-px bg-border/40 mb-6" />
                   <div className="space-y-3">
-                    {product.audiences.map((a, i) => (
+                    {product.audiences.map((a) => (
                       <div key={a} className="flex items-center gap-3">
                         <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
                         <span className="text-sm text-muted">{a}</span>

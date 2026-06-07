@@ -9,7 +9,7 @@ const PILLARS = [
     title: 'Agency',
     tagline: 'AI Automation · Business Development · Digital Media',
     description:
-      'Three proven frameworks — AVE, Deal Engine, and C2C Pipeline — that help SMBs automate operations, grow revenue, and build a content presence that compounds.',
+      'Four operating frameworks (AVE, Deal Engine, C2C, Engagement Model) plus seven Intelligence Library blueprints — anchoring how we run technology, BD, and digital marketing engagements.',
     href: '/agency/services',
     icon: (
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -18,7 +18,7 @@ const PILLARS = [
       </svg>
     ),
     color: '#00d4aa',
-    stats: ['AVE Framework', 'Deal Engine', 'C2C Pipeline'],
+    stats: ['AVE', 'Deal Engine', 'C2C', 'Engagement Model', 'SME Scale', 'Enterprise', 'GovTech', 'FIRA'],
   },
   {
     title: 'Digital Media',

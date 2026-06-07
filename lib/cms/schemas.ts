@@ -46,7 +46,7 @@ export const PostWriteSchema = z.object({
   word_count:             z.number().int().min(0).default(0),
 
   // Author
-  author_name:            z.string().max(100).default('DigiFusion'),
+  author_name:            z.string().max(100).default('Boroji Adebayo-Hopewell, Founder'),
   author_avatar:          z.string().url().nullable().optional(),
 
   // Post-type specific (all optional — only sent when relevant)

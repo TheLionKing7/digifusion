@@ -169,7 +169,7 @@ const WHY_ITEMS = [
   {
     num: '01',
     title: 'Proprietary frameworks, not recycled decks',
-    body: 'Each service track runs on a purpose-built framework — the AVE, the Deal Engine, the C2C Pipeline — synthesised from the world\'s best methodologies and calibrated for agency and SME deployment.',
+    body: 'Each service track runs on a purpose-built operating framework — AVE, Deal Engine, and C2C — unified by the Engagement Model on every delivery. Segment blueprints (SME Scale, Enterprise Velocity, GovTech, FIRA, and more) live in the paywalled Intelligence Library.',
   },
   {
     num: '02',
@@ -207,7 +207,7 @@ export default function AgencyPage() {
             <span className="text-accent">Your Business Is Missing</span>
           </h1>
           <p className="text-lg md:text-xl text-muted max-w-2xl leading-relaxed mb-10">
-            Three proprietary practice areas — each powered by a framework built from the world's
+            Three proprietary practice areas — each powered by a framework built from the world&apos;s
             best methodologies. Not consulting theatre. Measurable operational change.
           </p>
 

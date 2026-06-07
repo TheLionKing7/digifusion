@@ -48,6 +48,42 @@ const FRAMEWORKS = [
     stat: { value: 'Full-Funnel', label: 'Attribution Model' },
     href: '/agency/methodology',
   },
+  {
+    id: 'engagement-model',
+    name: 'DigiFusion Engagement Model',
+    track: 'Every client engagement',
+    tagline: 'Diagnosis before prescription — on every track.',
+    hook: 'Our proprietary 4-phase delivery architecture: Discovery Audit → Gap Analysis → Solution Design → Build, Deploy & Measure. Every engagement runs on this documented system — not improvised consulting.',
+    proof: 'Phases 01–02 delivered in the strategy session; ROI calculated before build begins.',
+    pill: 'Engagement Model',
+    color: '#06b6d4',
+    stat: { value: '4-Phase', label: 'Delivery Architecture' },
+    href: '/agency/methodology',
+  },
+  {
+    id: 'enterprise-velocity',
+    name: 'Enterprise Velocity Architecture',
+    track: 'Enterprise segment',
+    tagline: 'Revenue intelligence at enterprise scale.',
+    hook: 'Six Velocity Drivers, KAM Engine, and C-suite engagement architecture — built for large corporations that need systematic BD intelligence, not ad-hoc account management.',
+    proof: 'Documented in the Enterprise Velocity Architecture Blueprint — firm IP for corporate operators.',
+    pill: 'Enterprise Velocity',
+    color: '#3b82f6',
+    stat: { value: '6 Drivers', label: 'Velocity Architecture' },
+    href: '/intelligence/playbooks',
+  },
+  {
+    id: 'sme-scale-engine',
+    name: 'SME Scale Engine (5-Pillar)',
+    track: 'SME growth architecture',
+    tagline: 'One integrated system for SMEs ready to scale revenue.',
+    hook: 'Weaves AVE, Deal Engine, and C2C into a 5-Pillar activation plan with a 90-day execution rhythm — built for owner-led businesses that have outgrown ad-hoc growth.',
+    proof: 'Documented in the SME Scale Engine Blueprint — firm IP for small and mid-market operators.',
+    pill: 'SME Scale Engine',
+    color: '#ec4899',
+    stat: { value: '5-Pillar', label: 'SME Architecture' },
+    href: '/intelligence/playbooks',
+  },
 ];
 
 export function SystemMonitor({ agents }: SystemMonitorProps) {
@@ -79,8 +115,7 @@ export function SystemMonitor({ agents }: SystemMonitorProps) {
               <span className="text-gradient-accent">We Built and Run</span>
             </h2>
             <p className="mt-3 text-sm text-muted max-w-xl leading-relaxed">
-              Every engagement runs on documented, proprietary IP — not improvised consulting.
-              Three frameworks, each invented in-house, each delivering a measurable return.
+              Four operating frameworks plus the Intelligence Library — each invented in-house, each anchoring how we run technology, BD, and digital marketing.
             </p>
           </div>
           <div className="hidden md:flex items-center gap-2 text-xs font-mono text-muted shrink-0 mt-1">

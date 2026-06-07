@@ -12,6 +12,7 @@
  *   NextResponse  — 401 or 503, short-circuit the handler
  */
 
+import { timingSafeEqual } from 'node:crypto';
 import { NextRequest, NextResponse } from 'next/server';
 
 export function requireCmsToken(req: NextRequest): NextResponse | null {
@@ -36,8 +37,9 @@ export function requireCmsToken(req: NextRequest): NextResponse | null {
 
   const provided = auth.slice(7); // strip "Bearer "
 
-  // Constant-time comparison to prevent timing attacks
-  if (provided.length !== secret.length || provided !== secret) {
+  const a = Buffer.from(provided, 'utf8');
+  const b = Buffer.from(secret, 'utf8');
+  if (a.length !== b.length || !timingSafeEqual(a, b)) {
     return NextResponse.json(
       { ok: false, code: 'INVALID_TOKEN', error: 'Invalid CMS token.' },
       { status: 401 }

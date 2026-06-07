@@ -38,7 +38,7 @@ export const MAIN_NAV: NavItem[] = [
     href: '/products',
     description: 'AI-powered SaaS built for modern businesses',
     children: [
-      { label: 'Vektor', href: '/products/vektor', description: 'Autonomous market intelligence for KDP publishers' },
+      { label: 'Vektor', href: '/products/vektor', description: 'KDP discovery, P1–P3 validation, competitor BSR, ads packs' },
       { label: 'SabiWork', href: '/products/sabiwork', description: 'AI cost-estimator for artisans & contractors' },
       { label: 'Receptra', href: '/products/receptra', description: 'AI-powered receptionist for hospitality & law' },
       { label: 'AdPilot', href: '/products/adpilot', description: 'AI marketing assistant inside WhatsApp' },
