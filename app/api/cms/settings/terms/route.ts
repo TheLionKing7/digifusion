@@ -20,6 +20,25 @@ const TermsSchema = z.object({
   content: z.string().min(1, 'content must not be empty'),
 });
 
+export async function GET(req: NextRequest) {
+  const gate = requireCmsToken(req);
+  if (gate) return gate;
+
+  const { data, error } = await getShopDb()
+    .from('settings')
+    .select('value')
+    .eq('key', 'terms')
+    .maybeSingle();
+
+  if (error) {
+    console.error('[cms/settings/terms GET]', error);
+    return fail('DB_ERROR', error.message, 500);
+  }
+
+  const content = (data?.value as { content?: string } | null)?.content || '';
+  return ok({ content });
+}
+
 export async function PUT(req: NextRequest) {
   const gate = requireCmsToken(req);
   if (gate) return gate;

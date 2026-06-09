@@ -40,6 +40,29 @@ const ShippingSchema = z.object({
   notes:                z.string().default(''),
 });
 
+export async function GET(req: NextRequest) {
+  const gate = requireCmsToken(req);
+  if (gate) return gate;
+
+  const { data, error } = await getShopDb()
+    .from('settings')
+    .select('value')
+    .eq('key', 'shipping')
+    .maybeSingle();
+
+  if (error) {
+    console.error('[cms/settings/shipping GET]', error);
+    return fail('DB_ERROR', error.message, 500);
+  }
+
+  const value = (data?.value as Record<string, unknown> | null) || {
+    rules: [],
+    free_threshold_usd: 0,
+    notes: '',
+  };
+  return ok(value);
+}
+
 export async function PUT(req: NextRequest) {
   const gate = requireCmsToken(req);
   if (gate) return gate;
