@@ -292,10 +292,15 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                       <p className="font-serif text-xl font-bold text-foreground">
                         {author.footerByline}
                       </p>
+                      {author.title && (
+                        <p className="text-sm text-muted mt-1">{author.title}</p>
+                      )}
                       <p className="mt-2 text-sm text-muted leading-relaxed">
                         {author.headerName.includes('Boroji')
                           ? 'Founder of DigiFusion and Digital Fusion Labs — writing on AI automation, business development, and digital media strategy for operators who need answers, not fluff.'
-                          : `${author.headerName} is a contributor at DigiFusion — writing about AI, automation, and digital strategy for growing businesses.`}
+                          : author.headerName.includes('Kayode')
+                            ? 'Head of Digital Media at DigiFusion — writing on content-to-capital, audience growth, and digital media strategy for African SMEs.'
+                            : `${author.headerName} is a contributor at DigiFusion — writing about AI, automation, and digital strategy for growing businesses.`}
                       </p>
                     </div>
                   </div>
