@@ -51,6 +51,7 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* eslint-disable-next-line @next/next/no-page-custom-font -- global font stack for app router */}
         <link
           href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Instrument+Serif:wght@400;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
           rel="stylesheet"
@@ -86,11 +87,6 @@ export default function RootLayout({
                   name: 'DigiFusion',
                   description: 'Enterprise AI agency delivering automation, digital media, products and intelligence solutions.',
                   publisher: { '@id': 'https://www.digitafusion.com/#organization' },
-                  potentialAction: {
-                    '@type': 'SearchAction',
-                    target: 'https://www.digitafusion.com/blog?q={search_term_string}',
-                    'query-input': 'required name=search_term_string',
-                  },
                 },
               ],
             }),

@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-const LAST_UPDATED = 'May 2025';
+const LAST_UPDATED = 'June 2026';
 const CONTACT_EMAIL = 'enquiries@digitafusion.com';
 const SITE_URL = 'https://www.digitafusion.com';
 

@@ -40,9 +40,20 @@ const SECTIONS = [
     title: 'Products',
     links: [
       { label: 'All Products', href: '/products', desc: 'Software, extensions and templates' },
-      { label: 'Software', href: '/products?category=software', desc: 'Standalone software tools' },
-      { label: 'Browser Extensions', href: '/products?category=extension', desc: 'Productivity extensions' },
-      { label: 'Templates', href: '/products?category=template', desc: 'Ready-to-use templates' },
+      { label: 'Vektor', href: '/products/vektor', desc: 'KDP discovery and validation — live' },
+      { label: 'SabiWork', href: '/products/sabiwork', desc: 'AI cost-estimator for artisans' },
+      { label: 'Receptra', href: '/products/receptra', desc: 'AI receptionist for hospitality & law' },
+      { label: 'AdPilot', href: '/products/adpilot', desc: 'AI marketing assistant for WhatsApp' },
+    ],
+  },
+  {
+    title: 'Intelligence',
+    links: [
+      { label: 'Intelligence Hub', href: '/intelligence', desc: 'Field guides, playbooks, research, and tools' },
+      { label: 'Field Guides', href: '/intelligence/field-guides', desc: 'Premium books on advertising & business' },
+      { label: 'Automation Playbooks', href: '/intelligence/playbooks', desc: 'Workflows and prompt libraries' },
+      { label: 'Research', href: '/intelligence/research', desc: 'In-depth analysis and findings' },
+      { label: 'Tools & Extensions', href: '/intelligence/tools', desc: 'Lightweight utilities' },
     ],
   },
   {
@@ -61,6 +72,7 @@ const SECTIONS = [
     title: 'Legal',
     links: [
       { label: 'Privacy Policy', href: '/privacy-policy', desc: 'How we handle your data' },
+      { label: 'Terms of Service', href: '/terms', desc: 'Terms and conditions for using our services' },
       { label: 'Site Map', href: '/sitemap', desc: 'This page' },
     ],
   },

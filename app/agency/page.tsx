@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Agency Services | DigiFusion',
+  title: 'Agency Services',
   description:
     'Three proprietary practice areas — AI Automation & SaaS (Automation Velocity Engine), Business Development (Deal Engine), and Digital Media — built to turn operational chaos into measurable growth.',
   alternates: { canonical: 'https://www.digitafusion.com/agency' },
@@ -126,7 +126,7 @@ const TRACKS = [
     bgClass: 'from-[#f59e0b]/8 via-transparent',
     tagline: 'Content that compounds. Visibility that converts. Systems that outlast any campaign.',
     description:
-      'The DigiFusion C2C (Content-to-Conversion) Pipeline is a pillar-cluster authority architecture built on four compounding layers: keyword intelligence, editorial architecture, multi-channel distribution, and attribution — all tied to one measurable outcome: qualified traffic that converts.',
+      'The DigiFusion C2C (Content-to-Capital) Pipeline is a pillar-cluster authority architecture built on four compounding layers: keyword intelligence, editorial architecture, multi-channel distribution, and attribution — all tied to one measurable outcome: qualified traffic that converts.',
     phases: [
       { num: '01', name: 'AUDIT', tool: 'Content Gap Analysis', color: '#f59e0b' },
       { num: '02', name: 'ARCHITECTURE', tool: 'Pillar-Cluster Design', color: '#e08e0a' },

@@ -86,12 +86,12 @@ export const FOOTER_LINKS = {
     ],
   },
   blog: {
-    label: 'Knowledge Base',
+    label: 'Blog',
     links: [
       { label: 'Latest Posts', href: '/blog' },
-      { label: 'Guides', href: '/blog?type=guide' },
-      { label: 'Case Studies', href: '/blog?type=case-study' },
-      { label: 'Tutorials', href: '/blog?type=how-to' },
+      { label: 'Guides', href: '/blog?postType=guide' },
+      { label: 'Case Studies', href: '/blog?postType=case-study' },
+      { label: 'Tutorials', href: '/blog?postType=how-to' },
     ],
   },
   company: {
@@ -99,6 +99,7 @@ export const FOOTER_LINKS = {
     links: [
       { label: 'About', href: '/about' },
       { label: 'Contact', href: '/contact' },
+      { label: 'Terms of Service', href: '/terms' },
       { label: 'enquiries@digitafusion.com', href: 'mailto:enquiries@digitafusion.com' },
     ],
   },

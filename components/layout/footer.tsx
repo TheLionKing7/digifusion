@@ -41,7 +41,7 @@ function NewsletterSignup() {
             <p className="text-xs font-semibold text-accent uppercase tracking-widest mb-1">Weekly Intelligence</p>
             <h3 className="text-xl font-semibold text-foreground">Stay ahead of the curve.</h3>
             <p className="text-sm text-muted mt-1 max-w-sm">
-              AI, automation, and growth strategy insights curated for African business leaders. No fluff.
+              AI, automation, and growth strategy for operators who want practical insight — not generic filler.
             </p>
           </div>
 
@@ -89,7 +89,7 @@ export function Footer() {
 
       {/* Main columns */}
       <div className="mx-auto max-w-7xl px-6 py-16">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
 
           {/* Brand + contact */}
           <div className="col-span-2 md:col-span-1">
@@ -117,8 +117,8 @@ export function Footer() {
             </a>
           </div>
 
-          {/* Agency, Products, Knowledge Base — skip Company */}
-          {(['agency', 'products', 'blog'] as const).map((key) => {
+          {/* Link columns */}
+          {(['agency', 'intelligence', 'products', 'blog', 'company'] as const).map((key) => {
             const section = FOOTER_LINKS[key];
             return (
               <div key={section.label}>
@@ -198,6 +198,10 @@ export function Footer() {
           <div className="flex items-center gap-3 text-xs text-muted">
             <Link href="/privacy-policy" className="hover:text-accent transition-colors">
               Privacy Policy
+            </Link>
+            <span>|</span>
+            <Link href="/terms" className="hover:text-accent transition-colors">
+              Terms of Service
             </Link>
             <span>|</span>
             <Link href="/sitemap" className="hover:text-accent transition-colors">

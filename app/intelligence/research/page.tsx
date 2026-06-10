@@ -138,7 +138,7 @@ export default function ResearchPage() {
               <div className="flex items-center justify-between pt-4 border-t border-border/30">
                 <span className="text-xs text-muted">Published {paper.publishedAt}</span>
                 <Link
-                  href={`/blog?type=case-study`}
+                  href={`/blog?postType=case-study`}
                   className="inline-flex items-center gap-1.5 text-sm text-accent font-semibold hover:underline"
                 >
                   Read on the Blog

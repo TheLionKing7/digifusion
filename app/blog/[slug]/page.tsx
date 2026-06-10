@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
   const { slug } = await params;
   const BASE = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.digitafusion.com').replace(/\/$/, '');
   const postUrl = `${BASE}/blog/${slug}`;
-  const defaultOg = `${BASE}/og-default.png`;
+  const defaultOg = `${BASE}/assets/digilogo.png`;
   try {
     const post = await fetchBlogPost(slug);
     const ogImage = post.featuredImageUrl
@@ -293,7 +293,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                       </p>
                       <p className="mt-2 text-sm text-muted leading-relaxed">
                         {author.headerName.includes('Boroji')
-                          ? 'Founder of DigiFusion and Digital Fusion Labs — writing on procurement intelligence, automation, and growth strategy for operators who need answers, not fluff.'
+                          ? 'Founder of DigiFusion and Digital Fusion Labs — writing on AI automation, business development, and digital media strategy for operators who need answers, not fluff.'
                           : `${author.headerName} is a contributor at DigiFusion — writing about AI, automation, and digital strategy for growing businesses.`}
                       </p>
                     </div>

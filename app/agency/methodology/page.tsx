@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Our Methodology | DigiFusion',
+  title: 'Our Methodology',
   description:
     'The DigiFusion engagement model — a 4-phase diagnostic and delivery framework built on process intelligence, gap analysis, and measurable ROI. No guesswork. No generic playbooks.',
   alternates: { canonical: 'https://www.digitafusion.com/agency/methodology' },

@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Digital Media Strategy Session | DigiFusion',
+  title: 'Digital Media Strategy Session',
   description:
-    'Book a free 15-minute digital media strategy session. We audit your brand presence, identify content gaps, and build a growth roadmap — tailored to where your audience lives.',
+    'Book a free 30-minute digital media strategy session. We audit your brand presence, identify content gaps, and build a growth roadmap — tailored to where your audience lives.',
 };
 
 export default function DigitalMediaBookingPage() {
@@ -44,7 +44,7 @@ export default function DigitalMediaBookingPage() {
         <div className="flex items-center gap-3 mb-8">
           <span className="w-2 h-2 rounded-full bg-[#7c3aed] animate-pulse" />
           <span className="text-xs font-mono tracking-widest uppercase" style={{ color: '#7c3aed' }}>
-            Digital Media Session · 15 Minutes · Free
+            Digital Media Session · 30 Minutes · Free
           </span>
         </div>
 
@@ -76,7 +76,7 @@ export default function DigitalMediaBookingPage() {
         {/* What You Get */}
         <div className="mb-16">
           <p className="text-xs font-mono tracking-widest uppercase mb-8" style={{ color: '#7c3aed' }}>
-            What you get in 15 minutes
+            What you get in 30 minutes
           </p>
 
           <div className="grid md:grid-cols-3 gap-5">

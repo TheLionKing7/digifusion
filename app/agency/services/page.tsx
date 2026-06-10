@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 export const metadata = {
-  title: 'Services & Pricing | DigiFusion',
+  title: 'Services & Pricing',
   description:
     'Transparent pricing for AI automation, digital media, and business development. Packages built for SMBs in the US, Canada, and Africa.',
   alternates: { canonical: 'https://www.digitafusion.com/agency/services' },
@@ -363,7 +363,7 @@ export default function ServicesPage() {
             The Session Tells Us Both
           </h2>
           <p className="text-muted max-w-xl mx-auto mb-8 leading-relaxed">
-            In 30 minutes we'll diagnose your biggest operational constraint and recommend
+            In 30 minutes we&apos;ll diagnose your biggest operational constraint and recommend
             exactly which track and tier makes sense. You leave with a roadmap — no commitment required.
           </p>
           <Link

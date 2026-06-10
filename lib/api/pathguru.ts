@@ -58,8 +58,15 @@ export async function fetchBlogPosts(options?: {
     };
   } catch (e) {
     console.error('[fetchBlogPosts] DB error:', e);
-    // Fallback to mock data so the blog listing never goes blank
-    return fetchMockBlogPosts(options);
+    if (process.env.NODE_ENV === 'development') {
+      return fetchMockBlogPosts(options);
+    }
+    return {
+      posts: [],
+      pagination: { page: 1, perPage: limit, total: 0, totalPages: 0 },
+      categories: [],
+      postTypes: ['listicle', 'how-to', 'case-study', 'review', 'roundup', 'guide', 'opinion', 'article'],
+    };
   }
 }
 

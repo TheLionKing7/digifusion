@@ -3,13 +3,21 @@ import { PostCard } from '@/components/blog/post-card';
 import { RevealOnScroll } from '@/components/animations/reveal-on-scroll';
 import { fetchBlogPosts } from '@/lib/api/pathguru';
 import type { BlogPostType, BlogPostSummary } from '@/types/blog';
+import type { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic'; // always fetch fresh posts — no stale cache
 
-export const metadata = {
-  title: 'Blog',
+export const metadata: Metadata = {
+  title: 'Blog — Insights & Intelligence',
   description:
-    'Insights, guides, and thought leadership on AI automation, digital products, and the future of intelligent business.',
+    'Insights, guides, and thought leadership on AI automation, digital products, and intelligent business growth from the DigiFusion team.',
+  alternates: { canonical: 'https://www.digitafusion.com/blog' },
+  openGraph: {
+    title: 'DigiFusion Blog — Insights & Intelligence',
+    description: 'Practical AI, automation, and growth strategy — no fluff.',
+    url: 'https://www.digitafusion.com/blog',
+    type: 'website',
+  },
 };
 
 const PER_PAGE = 12;

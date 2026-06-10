@@ -3,7 +3,7 @@ import Link from 'next/link';
 export const metadata = {
   title: 'Products — AI-Powered SaaS for Modern Businesses',
   description:
-    'DigiFusion builds AI-powered SaaS products for SMBs. SabiWork, Receptra, and AdPilot — practical tools that automate the operational work draining your team.',
+    'DigiFusion builds AI-powered SaaS products for SMBs — Vektor, SabiWork, Receptra, and AdPilot — practical tools that automate the operational work draining your team.',
   alternates: { canonical: 'https://www.digitafusion.com/products' },
   openGraph: {
     title: 'Products — DigiFusion',

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Book a Strategy Session | DigiFusion',
+  title: 'Book a Strategy Session',
   description:
     'Book a free 30-minute strategy session. We run a 3-phase diagnostic — audit your bottlenecks, calculate the cost of inaction, and deliver a prioritised roadmap. No obligation.',
   alternates: { canonical: 'https://www.digitafusion.com/agency/booking' },
@@ -124,7 +124,7 @@ export default function BookingPage() {
         </h1>
 
         <p className="text-xl text-muted leading-relaxed max-w-2xl mb-16">
-          This isn't a discovery call. It's a structured 3-phase session that ends
+          This isn&apos;t a discovery call. It&apos;s a structured 3-phase session that ends
           with a concrete deliverable — regardless of whether you hire us.
         </p>
 
@@ -132,7 +132,7 @@ export default function BookingPage() {
         <div className="mb-14 p-6 rounded-2xl bg-surface border border-border/50 border-l-2 border-l-accent/60">
           <p className="text-sm font-mono text-accent tracking-widest uppercase mb-3">Before we meet</p>
           <p className="text-base text-foreground leading-relaxed max-w-2xl">
-            You won't arrive at a blank slate. We map your situation against our framework
+            You won&apos;t arrive at a blank slate. We map your situation against our framework
             in advance and come prepared with a draft scope — so the session produces
             a real roadmap, not a list of follow-up questions.
           </p>
@@ -156,7 +156,7 @@ export default function BookingPage() {
                 <h3 className="font-serif text-lg font-bold text-foreground mb-1">{track.label}</h3>
                 <p className="text-xs text-muted mb-5">{track.desc}</p>
                 <p className="text-[10px] font-mono text-muted uppercase tracking-wider mb-3">
-                  We'll ask you:
+                  We&apos;ll ask you:
                 </p>
                 <ul className="space-y-2">
                   {track.questions.map((q) => (
@@ -177,7 +177,7 @@ export default function BookingPage() {
             How every session is structured
           </p>
           <div className="space-y-4">
-            {PHASES.map((phase, i) => (
+            {PHASES.map((phase) => (
               <div
                 key={phase.num}
                 className="relative rounded-2xl bg-surface border border-border/50 p-7 overflow-hidden"

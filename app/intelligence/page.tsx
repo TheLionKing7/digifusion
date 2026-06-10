@@ -270,7 +270,7 @@ export default function IntelligencePage() {
                 { label: 'AI & Automation', href: '/blog/topics/ai-automation', desc: 'Workflows, agents, and what actually works' },
                 { label: 'Digital Business', href: '/blog/topics/digital-business', desc: 'Products, monetisation, and growth' },
                 { label: 'Content & Visibility', href: '/blog/topics/content-visibility', desc: 'SEO and content systems that compound' },
-                { label: 'Field Guide Excerpts', href: '/blog?type=guide', desc: 'Sample chapters and methodology previews' },
+                { label: 'Field Guide Excerpts', href: '/blog?postType=guide', desc: 'Sample chapters and methodology previews' },
               ].map((t) => (
                 <Link
                   key={t.label}
