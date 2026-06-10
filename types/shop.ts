@@ -7,7 +7,15 @@
 
 export type Currency = 'USD' | 'NGN' | 'GBP';
 
-export type ProductType = 'download' | 'subscription' | 'service';
+export type ProductType = 'download' | 'subscription' | 'service' | 'saas';
+export type ProductCategory =
+  | 'field-guide'
+  | 'playbook'
+  | 'research'
+  | 'tool'
+  | 'saas'
+  | 'service'
+  | 'bundle';
 export type Recurring = 'monthly' | 'yearly';
 export type Gateway = 'stripe' | 'flutterwave' | 'opay' | 'manual';
 export type OrderStatus = 'pending' | 'paid' | 'failed' | 'refunded' | 'canceled';
@@ -55,6 +63,7 @@ export interface Product {
   name: string;
   description: string;
   type: ProductType;
+  category?: ProductCategory | null;
   prices: PriceMap;
   recurring: Recurring | null;
   fulfillment: ProductFulfillment;

@@ -7,9 +7,9 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export const metadata = {
-  title: 'Shop',
+  title: 'Intelligence Store',
   description:
-    'Digital downloads, services, and subscriptions from DigiFusion — built for the intelligence layer.',
+    'License DigiFusion playbooks, field guides, and research packs. Instant secure download after checkout.',
 };
 
 export default async function ShopPage() {

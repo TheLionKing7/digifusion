@@ -21,6 +21,7 @@ export interface BlogPostSummary {
   tags: string[];
   readingTimeMinutes: number;
   publishedAt: string;
+  updatedAt?: string;
   author: {
     name: string;
     avatar?: string;

@@ -103,7 +103,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             description: post.metaDescription || post.excerpt,
             url: postUrl,
             datePublished: post.publishedAt,
-            dateModified: post.publishedAt,
+            dateModified: post.updatedAt || post.publishedAt,
             author: {
               '@type': 'Person',
               name: post.author.name,
@@ -248,12 +248,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 <p className="text-sm font-semibold text-muted mb-3">Tags</p>
                 <div className="flex flex-wrap gap-2">
                   {post.tags.map((tag) => (
-                    <span
+                    <Link
                       key={tag}
-                      className="text-xs px-3 py-1.5 rounded-full bg-surface border border-border/40 text-muted hover:text-foreground transition-colors cursor-default"
+                      href={`/blog?tag=${encodeURIComponent(tag)}`}
+                      className="text-xs px-3 py-1.5 rounded-full bg-surface border border-border/40 text-muted hover:text-accent hover:border-accent/40 transition-colors"
                     >
                       #{tag}
-                    </span>
+                    </Link>
                   ))}
                 </div>
               </div>

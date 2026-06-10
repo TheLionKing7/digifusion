@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import { getPlaybookShopSlug, getCategoryCatalog } from '@/lib/intelligence/products';
+import { IntelligenceResourceCard } from '@/components/intelligence/resource-card';
 
 export const revalidate = 60;
 
@@ -85,8 +87,10 @@ async function getPlaybooks(): Promise<PlaybookEntry[]> {
 
 export default async function PlaybooksPage() {
   const playbooks = await getPlaybooks();
+  const catalog = await getCategoryCatalog('playbook');
   const liveItems   = playbooks.filter(p => p.isLive);
   const staticItems = playbooks.filter(p => !p.isLive);
+  const catalogPlaybooks = catalog.filter((c) => c.sku.status === 'available');
 
   return (
     <>
@@ -137,7 +141,25 @@ export default async function PlaybooksPage() {
       {/* Playbooks grid */}
       <section className="mx-auto max-w-7xl px-6 py-16">
 
-        {/* Live generated IP */}
+        {/* Licensed framework playbooks */}
+        {catalogPlaybooks.length > 0 && (
+          <div className="mb-16">
+            <div className="flex items-center gap-3 mb-8">
+              <span className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-accent">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+                Licensed Framework IP
+              </span>
+              <div className="flex-1 h-px bg-border/30" />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {catalogPlaybooks.map(({ sku, shopProduct }) => (
+                <IntelligenceResourceCard key={sku.slug} sku={sku} shopProduct={shopProduct} />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Live generated IP from R2 */}
         {liveItems.length > 0 && (
           <div className="mb-16">
             <div className="flex items-center gap-3 mb-8">
@@ -174,7 +196,10 @@ export default async function PlaybooksPage() {
                     <span className="text-[10px] text-muted-dim">
                       {pb.createdAt ? new Date(pb.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : ''}
                     </span>
-                    <Link href="/agency/booking" className="inline-flex items-center gap-1.5 text-xs font-semibold text-accent hover:underline">
+                    <Link
+                      href={getPlaybookShopSlug(pb.slug) ? `/shop/${getPlaybookShopSlug(pb.slug)}` : '/intelligence/pricing'}
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-accent hover:underline"
+                    >
                       Get Access
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />

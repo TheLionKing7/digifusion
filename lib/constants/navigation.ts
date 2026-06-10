@@ -31,6 +31,7 @@ export const MAIN_NAV: NavItem[] = [
       { label: 'Automation Playbooks', href: '/intelligence/playbooks', description: 'Workflows, prompt libraries & templates' },
       { label: 'Research & Case Studies', href: '/intelligence/research', description: 'In-depth analysis and real-world findings' },
       { label: 'Tools & Extensions', href: '/intelligence/tools', description: 'Lightweight utilities to sharpen your edge' },
+      { label: 'Pricing & Access', href: '/intelligence/pricing', description: 'License playbooks, guides, and Intelligence Pass' },
     ],
   },
   {
@@ -73,6 +74,8 @@ export const FOOTER_LINKS = {
       { label: 'Automation Playbooks', href: '/intelligence/playbooks' },
       { label: 'Research & Case Studies', href: '/intelligence/research' },
       { label: 'Tools & Extensions', href: '/intelligence/tools' },
+      { label: 'Pricing & Access', href: '/intelligence/pricing' },
+      { label: 'Intelligence Store', href: '/shop' },
     ],
   },
   products: {

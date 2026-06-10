@@ -35,12 +35,13 @@ const POST_TYPES: { value: BlogPostType | ''; label: string }[] = [
 ];
 
 interface BlogPageProps {
-  searchParams: Promise<{ postType?: string; page?: string }>;
+  searchParams: Promise<{ postType?: string; page?: string; tag?: string }>;
 }
 
 export default async function BlogPage({ searchParams }: BlogPageProps) {
   const params = await searchParams;
   const postType = (params.postType as BlogPostType) || undefined;
+  const tagFilter = params.tag?.toLowerCase().trim();
   const page = parseInt(params.page || '1', 10);
 
   // Fetch a large window so we can both derive per-type counts and paginate locally.
@@ -59,8 +60,13 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
     counts[p.postType] = (counts[p.postType] || 0) + 1;
   }
 
-  // Filter by type, then paginate locally
-  const filtered = postType ? allPosts.filter((p) => p.postType === postType) : allPosts;
+  // Filter by type and/or tag, then paginate locally
+  let filtered = postType ? allPosts.filter((p) => p.postType === postType) : allPosts;
+  if (tagFilter) {
+    filtered = filtered.filter((p) =>
+      p.tags.some((t) => t.toLowerCase().includes(tagFilter) || tagFilter.includes(t.toLowerCase()))
+    );
+  }
   const total = filtered.length;
   const totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
   const safePage = Math.min(Math.max(1, page), totalPages);

@@ -101,6 +101,7 @@ interface PostRow {
   reading_time_minutes?: number | null;
   published_at?: string | null;
   created_at?: string | null;
+  updated_at?: string | null;
   author_name?: string | null;
   author_avatar?: string | null;
   content?: string | null;
@@ -131,6 +132,7 @@ function mapPostSummaryFromDB(post: PostRow): BlogPostSummary {
     tags:               post.tags               || [],
     readingTimeMinutes: post.reading_time_minutes ?? 5,
     publishedAt:        post.published_at || post.created_at || '',
+    updatedAt:          post.updated_at || post.published_at || post.created_at || '',
     author: {
       name:   post.author_name   || '',
       avatar: post.author_avatar || undefined,

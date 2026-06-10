@@ -27,6 +27,27 @@ export async function listActiveProducts(): Promise<Product[]> {
   return (data || []) as Product[];
 }
 
+export async function listProductsByCategory(
+  category?: Product['category']
+): Promise<Product[]> {
+  const db = getShopDb();
+  let q = db
+    .from('products')
+    .select('*')
+    .eq('active', true)
+    .order('featured', { ascending: false })
+    .order('created_at', { ascending: false });
+
+  if (category) q = q.eq('category', category);
+
+  const { data, error } = await q;
+  if (error) {
+    console.warn('[shop] listProductsByCategory failed:', error.message);
+    return [];
+  }
+  return (data || []) as Product[];
+}
+
 export async function getProductBySlug(slug: string): Promise<Product | null> {
   const db = getShopDb();
   const { data, error } = await db

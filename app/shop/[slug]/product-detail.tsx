@@ -13,6 +13,7 @@ const TYPE_LABEL: Record<Product['type'], string> = {
   download:     'Digital download',
   subscription: 'Subscription',
   service:      'Service',
+  saas:         'SaaS',
 };
 
 export function ProductDetail({ product }: { product: Product }) {
@@ -68,6 +69,7 @@ function Inner({ product }: { product: Product }) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16">
         <div className="aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-surface-lighter via-surface to-surface flex items-center justify-center">
           {product.cover_image_url ? (
+            // eslint-disable-next-line @next/next/no-img-element -- dynamic product cover URLs from CMS
             <img src={product.cover_image_url} alt={product.name} className="w-full h-full object-cover" />
           ) : (
             <svg className="w-24 h-24 text-accent/15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">

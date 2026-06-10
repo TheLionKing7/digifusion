@@ -9,6 +9,7 @@ const TYPE_LABEL: Record<Product['type'], string> = {
   download:     'Download',
   subscription: 'Subscription',
   service:      'Service',
+  saas:         'SaaS',
 };
 
 export function ProductCard({ product }: { product: Product }) {
@@ -25,6 +26,7 @@ export function ProductCard({ product }: { product: Product }) {
     >
       <div className="relative h-48 overflow-hidden bg-gradient-to-br from-surface-lighter via-surface to-surface">
         {product.cover_image_url ? (
+          // eslint-disable-next-line @next/next/no-img-element -- dynamic product cover URLs from CMS
           <img
             src={product.cover_image_url}
             alt={product.name}
