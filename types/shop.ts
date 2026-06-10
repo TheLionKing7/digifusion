@@ -17,7 +17,7 @@ export type ProductCategory =
   | 'service'
   | 'bundle';
 export type Recurring = 'monthly' | 'yearly';
-export type Gateway = 'stripe' | 'flutterwave' | 'opay' | 'manual';
+export type Gateway = 'stripe' | 'flutterwave' | 'opay' | 'paystack' | 'manual';
 export type OrderStatus = 'pending' | 'paid' | 'failed' | 'refunded' | 'canceled';
 export type SubscriptionStatus =
   | 'trialing'

@@ -51,11 +51,11 @@ export function sumLineItems(items: { unit_price: number; qty: number }[]): numb
 }
 
 /** Which payment gateways can process this currency? */
-export function gatewaysForCurrency(currency: Currency): ('stripe' | 'flutterwave' | 'opay')[] {
+export function gatewaysForCurrency(currency: Currency): ('stripe' | 'flutterwave' | 'opay' | 'paystack')[] {
   switch (currency) {
-    case 'USD': return ['stripe', 'flutterwave'];
+    case 'USD': return ['stripe', 'paystack', 'flutterwave'];
     case 'GBP': return ['stripe'];
-    case 'NGN': return ['flutterwave', 'opay'];
+    case 'NGN': return ['paystack', 'flutterwave', 'opay'];
     default:    return [];
   }
 }

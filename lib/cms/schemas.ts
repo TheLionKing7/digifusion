@@ -134,7 +134,7 @@ export const OrderListQuerySchema = z.object({
   page:     z.coerce.number().int().min(1).default(1),
   per_page: z.coerce.number().int().min(1).max(100).default(25),
   status:   z.enum(['pending', 'paid', 'failed', 'refunded', 'canceled']).optional(),
-  gateway:  z.enum(['stripe', 'flutterwave', 'opay', 'manual']).optional(),
+  gateway:  z.enum(['stripe', 'flutterwave', 'opay', 'paystack', 'manual']).optional(),
   from:     z.string().datetime().optional(),   // ISO — filter by created_at
   to:       z.string().datetime().optional(),
 });

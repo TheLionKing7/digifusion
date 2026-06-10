@@ -17,10 +17,11 @@ import { gatewaysForCurrency, priceIn } from '@/lib/utils/money';
 import * as stripe from '@/lib/shop/gateways/stripe';
 import * as flutterwave from '@/lib/shop/gateways/flutterwave';
 import * as opay from '@/lib/shop/gateways/opay';
+import * as paystack from '@/lib/shop/gateways/paystack';
 import type { Currency, Order, OrderItem, Product } from '@/types/shop';
 
 const BodySchema = z.object({
-  gateway: z.enum(['stripe', 'flutterwave', 'opay']),
+  gateway: z.enum(['stripe', 'flutterwave', 'opay', 'paystack']),
   currency: z.enum(['USD', 'NGN', 'GBP']),
   customer_email: z.string().email().max(200),
   customer_name: z.string().max(120).nullable().optional(),
@@ -143,6 +144,8 @@ export async function POST(req: NextRequest) {
       session = await stripe.createCheckoutSession({ order, items: orderItems, products });
     } else if (body.gateway === 'flutterwave') {
       session = await flutterwave.createCheckoutSession({ order, items: orderItems });
+    } else if (body.gateway === 'paystack') {
+      session = await paystack.createCheckoutSession({ order, items: orderItems });
     } else {
       session = await opay.createCheckoutSession({ order, items: orderItems });
     }

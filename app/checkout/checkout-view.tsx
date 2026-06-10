@@ -7,8 +7,9 @@ import { useCart } from '@/lib/shop/cart';
 import { formatMoney, gatewaysForCurrency } from '@/lib/utils/money';
 import type { Gateway } from '@/types/shop';
 
-const GATEWAY_META: Record<'stripe' | 'flutterwave' | 'opay', { label: string; sub: string }> = {
+const GATEWAY_META: Record<'stripe' | 'flutterwave' | 'opay' | 'paystack', { label: string; sub: string }> = {
   stripe:      { label: 'Card',                     sub: 'Visa, Mastercard, Amex · powered by Stripe' },
+  paystack:    { label: 'Card / Bank / USSD',       sub: 'NGN, USD · powered by Paystack' },
   flutterwave: { label: 'Card / Bank transfer',     sub: 'NGN, USD · powered by Flutterwave' },
   opay:        { label: 'OPay / Mobile money',      sub: 'Nigeria — bank transfer, USSD, OPay wallet' },
 };
@@ -169,7 +170,7 @@ export function CheckoutView() {
           </button>
 
           <p className="text-[11px] text-muted text-center">
-            Your payment is processed securely by {gateway ? GATEWAY_META[gateway as 'stripe'|'flutterwave'|'opay'].label.split(' ')[0] : 'the gateway'}.
+            Your payment is processed securely by {gateway ? GATEWAY_META[gateway as 'stripe'|'flutterwave'|'opay'|'paystack'].label.split(' ')[0] : 'the gateway'}.
             DigiFusion never sees your card details.
           </p>
         </form>
