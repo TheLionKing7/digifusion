@@ -4,7 +4,9 @@ import { notFound } from 'next/navigation';
 import { PostCard } from '@/components/blog/post-card';
 import { ReadingProgress } from '@/components/blog/reading-progress';
 import { TableOfContents } from '@/components/blog/table-of-contents';
+import { PostTypeBadge } from '@/components/ui/badge';
 import { extractToc } from '@/lib/utils/toc';
+import { parseAuthorByline } from '@/lib/utils/formatters';
 import { fetchBlogPost, fetchBlogPosts } from '@/lib/api/pathguru';
 import type { BlogPost, BlogPostSummary } from '@/types/blog';
 
@@ -70,6 +72,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   }
 
   const { html: contentHtml, items: tocItems } = extractToc(post.content);
+  const author = parseAuthorByline(post.author.name);
 
   let related: BlogPostSummary[] = [];
   try {
@@ -166,9 +169,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 {/* Post header — badge · title · excerpt · meta row */}
                 <header className="mb-8 pb-8 border-b border-gray-100">
                   {post.postType && (
-                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-accent/10 text-accent border border-accent/20 mb-4">
-                      {post.postType.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase())}
-                    </span>
+                    <div className="mb-4">
+                      <PostTypeBadge type={post.postType} />
+                    </div>
                   )}
                   <h1 className="font-serif text-3xl md:text-4xl font-bold text-gray-900 leading-tight mb-4">
                     {post.title}
@@ -189,7 +192,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                         })}
                       </time>
                       <span aria-hidden="true">&middot;</span>
-                      <span>{post.author.name}</span>
+                      <span>{author.headerName}</span>
                     </div>
                     {/* Right — category · reading time */}
                     <div className="flex items-center gap-x-3">
@@ -204,6 +207,25 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     </div>
                   </div>
                 </header>
+
+                {post.featuredImageUrl && (
+                  <div className="relative mb-10 -mx-2 sm:mx-0 rounded-xl overflow-hidden aspect-[21/9] max-h-[420px] w-full">
+                    <Image
+                      src={post.featuredImageUrl}
+                      alt={post.title}
+                      fill
+                      className="object-cover"
+                      priority
+                      sizes="(max-width: 768px) 100vw, 768px"
+                      unoptimized
+                    />
+                    {post.featuredImageCredit && (
+                      <p className="text-[11px] text-gray-400 mt-2 px-1">
+                        Photo: {post.featuredImageCredit}
+                      </p>
+                    )}
+                  </div>
+                )}
 
                 {/* Post body */}
                 <div
@@ -267,12 +289,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                         Written by
                       </p>
                       <p className="font-serif text-xl font-bold text-foreground">
-                        {post.author.name}
+                        {author.footerByline}
                       </p>
                       <p className="mt-2 text-sm text-muted leading-relaxed">
-                        {post.author.name.includes('Boroji')
+                        {author.headerName.includes('Boroji')
                           ? 'Founder of DigiFusion and Digital Fusion Labs — writing on procurement intelligence, automation, and growth strategy for operators who need answers, not fluff.'
-                          : `${post.author.name} is a contributor at DigiFusion — writing about AI, automation, and digital strategy for growing businesses.`}
+                          : `${author.headerName} is a contributor at DigiFusion — writing about AI, automation, and digital strategy for growing businesses.`}
                       </p>
                     </div>
                   </div>

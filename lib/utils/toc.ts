@@ -1,4 +1,5 @@
 import type { TocItem } from '@/types/blog';
+import { sanitizeBlogContent } from '@/lib/utils/blog-content';
 
 /**
  * Walk an HTML string, find every h2 and h3, generate stable slug-style
@@ -7,6 +8,8 @@ import type { TocItem } from '@/types/blog';
  */
 export function extractToc(html: string): { html: string; items: TocItem[] } {
   if (!html) return { html: '', items: [] };
+
+  html = sanitizeBlogContent(html);
 
   // Strip <style> and <script> blocks that could leak into the global page layout
   html = html.replace(/<style[\s\S]*?<\/style>/gi, '');
