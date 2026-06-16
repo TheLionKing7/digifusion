@@ -65,6 +65,38 @@ export async function createCheckoutSession(args: {
   return { url: json.data.authorization_url as string, session_id: reference };
 }
 
+/** Re-fetch a transaction by reference — used when buyer returns before webhook fires. */
+export async function verifyPaystackTransaction(reference: string): Promise<boolean> {
+  const verifyRes = await fetch(`${PAYSTACK_BASE}/transaction/verify/${encodeURIComponent(reference)}`, {
+    headers: { Authorization: `Bearer ${secret()}` },
+  });
+  const verify = await verifyRes.json().catch(() => ({}));
+  return verify?.status === true && verify?.data?.status === 'success';
+}
+
+/** Shop checkout references are prefixed at initialize time. */
+export function isShopPaystackReference(reference: string | undefined | null): boolean {
+  return typeof reference === 'string' && reference.startsWith('df_');
+}
+
+/** AffiliateOS marketplace checkout — affos_* and affos_store_* (see AffiliateOS/workers). */
+export function isAffiliateOSPaystackReference(reference: string | undefined | null): boolean {
+  return typeof reference === 'string' && reference.toLowerCase().startsWith('affos_');
+}
+
+export function extractPaystackReference(rawBody: string): string | null {
+  try {
+    const payload = JSON.parse(rawBody) as { data?: { reference?: string } };
+    return payload?.data?.reference ?? null;
+  } catch {
+    return null;
+  }
+}
+
+export function verifyPaystackSignature(rawBody: string, signatureHeader: string | null): boolean {
+  return verifySignature(rawBody, signatureHeader);
+}
+
 function verifySignature(rawBody: string, signatureHeader: string | null): boolean {
   if (!signatureHeader) return false;
   const hash = createHmac('sha512', secret()).update(rawBody).digest('hex');

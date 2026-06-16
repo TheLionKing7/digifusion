@@ -29,6 +29,7 @@ const BodySchema = z.object({
     product_id: z.string().uuid(),
     qty: z.number().int().min(1).max(20),
   })).min(1).max(20),
+  return_path: z.string().max(200).optional(),
 });
 
 export async function POST(req: NextRequest) {
@@ -115,6 +116,7 @@ export async function POST(req: NextRequest) {
       metadata: {
         ua: req.headers.get('user-agent') || null,
         referer: req.headers.get('referer') || null,
+        ...(body.return_path ? { return_path: body.return_path } : {}),
       },
     })
     .select('*')

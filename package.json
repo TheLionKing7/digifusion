@@ -9,6 +9,7 @@
     "prepare": "husky",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
+    "test:paystack-router": "node scripts/test-paystack-router.mjs",
     "guard": "node scripts/guard-staged.mjs",
     "lint:staged": "lint-staged"
   },

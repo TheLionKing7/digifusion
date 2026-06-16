@@ -20,6 +20,8 @@ export function IntelligenceResourceCard({ sku, shopProduct, currency = 'USD' }:
   const isAvailable = sku.status === 'available' && (shopProduct || sku.shopReady);
   const priceMinor = shopProduct?.prices?.[currency] ?? sku.prices[currency] ?? sku.prices.USD;
   const shopHref = shopProduct ? `/shop/${shopProduct.slug}` : `/shop/${sku.slug}`;
+  const primaryHref = sku.experienceHref || shopHref;
+  const primaryLabel = sku.experienceHref ? 'Open case study' : 'Get Access';
   const cardStyle = TIER_STYLES[sku.tier] || TIER_STYLES.licensed;
 
   return (
@@ -94,10 +96,10 @@ export function IntelligenceResourceCard({ sku, shopProduct, currency = 'USD' }:
 
         {isAvailable ? (
           <Link
-            href={shopHref}
+            href={primaryHref}
             className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-accent text-background text-xs font-semibold hover:opacity-90 transition-opacity shrink-0"
           >
-            Get Access
+            {primaryLabel}
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
             </svg>

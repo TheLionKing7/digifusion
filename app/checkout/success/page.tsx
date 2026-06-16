@@ -1,7 +1,10 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
+import { getShopDb } from '@/lib/shop/supabase';
+import type { Order } from '@/types/shop';
 
 export const metadata = { title: 'Thanks for your order' };
+export const dynamic = 'force-dynamic';
 
 interface Props {
   searchParams: Promise<{ o?: string }>;
@@ -10,9 +13,25 @@ interface Props {
 export default async function CheckoutSuccessPage({ searchParams }: Props) {
   const { o } = await searchParams;
 
-  // If we have an order public_id, send the buyer straight to the order page
-  // (it shows everything we'd show here, plus the latest payment status).
-  if (o) redirect(`/orders/${o}`);
+  if (o) {
+    const db = getShopDb();
+    const { data: orderRow } = await db
+      .from('orders')
+      .select('metadata')
+      .eq('public_id', o)
+      .maybeSingle();
+
+    const meta = (orderRow as Pick<Order, 'metadata'> | null)?.metadata as
+      | { return_path?: string }
+      | null
+      | undefined;
+
+    if (meta?.return_path && meta.return_path.startsWith('/')) {
+      redirect(`${meta.return_path}?o=${encodeURIComponent(o)}`);
+    }
+
+    redirect(`/orders/${o}`);
+  }
 
   return (
     <div className="min-h-screen max-w-2xl mx-auto px-6 py-20 text-center">

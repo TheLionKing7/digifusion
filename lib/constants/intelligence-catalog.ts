@@ -33,6 +33,8 @@ export interface IntelligenceSku {
   status: 'available' | 'coming-soon' | 'waitlist';
   /** Maps to shop product when seeded */
   shopReady: boolean;
+  /** Interactive HTML experience (paywalled on-site) */
+  experienceHref?: string;
 }
 
 export const ACCESS_TIERS = [
@@ -189,6 +191,30 @@ export const INTELLIGENCE_SKUS: IntelligenceSku[] = [
     shopReady: true,
   },
   {
+    slug: 'affiliateos-headless-commerce-case-study',
+    name: 'AffiliateOS — The Headless Commerce Paradigm',
+    subtitle: 'Restructuring the creator economy settlement layer',
+    description:
+      'Full techno-economic case study: intent decay model, dual-engine Sigil + edge routing architecture, competitive capability matrix, TAM/SAM/SOM, and 5-year projections. Interactive HTML + PDF.',
+    category: 'research',
+    framework: 'AffiliateOS',
+    tag: 'Creator Commerce',
+    tier: 'licensed',
+    prices: { USD: 8499, NGN: 3950000, GBP: 6800 },
+    featured: true,
+    pages: 'Interactive + PDF',
+    experienceHref: '/intelligence/research/affiliateos-headless-commerce-case-study',
+    includes: [
+      'Full case study (PDF)',
+      'Interactive HTML edition with charts',
+      'Intent decay & settlement rate model',
+      'Architecture diagrams & competitive matrix',
+      'Implementation checklist for operators',
+    ],
+    status: 'available',
+    shopReady: true,
+  },
+  {
     slug: 'intelligence-pass-annual',
     name: 'DigiFusion Intelligence Pass',
     subtitle: 'Annual access to the full IP library',
@@ -256,4 +282,5 @@ export const RESEARCH_BLOG_LINKS: Record<string, string> = {
   'smb-automation-roi-2025': 'ai-automation-diagnostic-most-teams-skip',
   'ai-adoption-african-smbs': 'rewiring-the-african-c-suite-the-ai-first-playbook-for-automation-driven-growth',
   'content-systems-that-compound': 'pillar-cluster-authority-architecture',
+  'affiliateos-infrastructure-teaser': 'your-followers-are-ready-to-buy-affiliateos-infrastructure',
 };

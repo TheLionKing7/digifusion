@@ -35,11 +35,18 @@ const FREE_BRIEFS = [
     summary: 'Topical authority requires architecture, not volume. The C2C pillar-cluster model in practice.',
     highlights: ['ICP search journey map', 'Cluster minimum viable set', 'Content ROI attribution'],
   },
+  {
+    slug: 'affiliateos-infrastructure-teaser',
+    title: 'Your Followers Are Ready to Buy. Your Infrastructure Is Killing the Sale.',
+    type: 'Executive Brief',
+    tag: 'AffiliateOS · Creator Commerce',
+    summary: 'Why browser redirects destroy 82% of buyer intent on African mobile — and the headless settlement architecture that closes the gap.',
+    highlights: ['Intent decay model C(t)=C₀·e^(−λt)', '4.9× settlement yield vs link-in-bio', 'WhatsApp-native checkout rail'],
+  },
 ];
 
 const UPCOMING = [
   { title: 'The True Cost of Manual Operations', tag: 'Operations', teaser: 'Cost model by function, team size, and sector.' },
-  { title: 'WhatsApp as a Business Layer: ROI Analysis', tag: 'WhatsApp', teaser: 'Conversion and retention vs email-only operations.' },
 ];
 
 export default async function ResearchPage() {
