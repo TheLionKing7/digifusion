@@ -55,3 +55,34 @@ export function extractPostBody(html: string): string {
 export function sanitizeBlogContent(raw: string): string {
   return extractPostBody(raw);
 }
+
+function stripTags(s: string): string {
+  return s.replace(/<[^>]+>/g, '');
+}
+
+function normalizeHeadingText(s: string): string {
+  return stripTags(s)
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase()
+    .replace(/[^\w\s]/g, '');
+}
+
+/**
+ * Remove leading h1/h2 in body that duplicate the page title (editorial rule).
+ */
+export function stripDuplicateTitleFromContent(html: string, title: string): string {
+  if (!html?.trim() || !title?.trim()) return html || '';
+
+  const normTitle = normalizeHeadingText(title);
+  let out = html.trim();
+  const headingRe = /^<h[12][^>]*>([\s\S]*?)<\/h[12]>\s*/i;
+
+  for (let i = 0; i < 3; i++) {
+    const m = out.match(headingRe);
+    if (!m || normalizeHeadingText(m[1]) !== normTitle) break;
+    out = out.slice(m[0].length).trim();
+  }
+
+  return out;
+}

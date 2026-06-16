@@ -1,3 +1,5 @@
+import { resolveBlogAuthor } from '@/lib/constants/blog-authors';
+
 export function formatDate(dateString: string): string {
   const date = new Date(dateString);
   return date.toLocaleDateString('en-US', {
@@ -34,20 +36,18 @@ export function formatCurrency(amount: number, currency: string = 'USD'): string
   }).format(amount);
 }
 
-/** Header: name only. Footer: full byline including title after comma. */
+/** Resolve header (first name) and footer (full name) from CMS author_name. */
 export function parseAuthorByline(authorName: string): {
   headerName: string;
   footerByline: string;
   title?: string;
 } {
-  const full = (authorName || 'DigiFusion').trim();
-  const comma = full.indexOf(',');
-  if (comma === -1) {
-    return { headerName: full, footerByline: full };
-  }
-  const headerName = full.slice(0, comma).trim();
-  const title = full.slice(comma + 1).trim();
-  return { headerName, footerByline: full, title };
+  const profile = resolveBlogAuthor(authorName);
+  return {
+    headerName: profile.headerName,
+    footerByline: profile.fullName,
+    title: profile.title,
+  };
 }
 
 export function slugify(text: string): string {

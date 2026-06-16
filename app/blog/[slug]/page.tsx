@@ -7,6 +7,7 @@ import { TableOfContents } from '@/components/blog/table-of-contents';
 import { PostTypeBadge } from '@/components/ui/badge';
 import { extractToc } from '@/lib/utils/toc';
 import { parseAuthorByline } from '@/lib/utils/formatters';
+import { resolveBlogAuthor } from '@/lib/constants/blog-authors';
 import { fetchBlogPost, fetchBlogPosts } from '@/lib/api/pathguru';
 import type { BlogPost, BlogPostSummary } from '@/types/blog';
 
@@ -33,6 +34,7 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
   const defaultOg = `${BASE}/assets/digilogo.png`;
   try {
     const post = await fetchBlogPost(slug);
+    const authorProfile = resolveBlogAuthor(post.author.name);
     const ogImage = post.featuredImageUrl
       ? { url: post.featuredImageUrl, width: 1200, height: 630, alt: post.title }
       : { url: defaultOg, width: 1200, height: 630, alt: 'DigiFusion' };
@@ -46,7 +48,7 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
         type: 'article',
         url: postUrl,
         publishedTime: post.publishedAt,
-        authors: [post.author.name],
+        authors: [authorProfile.fullName],
         images: [ogImage],
       },
       twitter: {
@@ -71,8 +73,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     notFound();
   }
 
-  const { html: contentHtml, items: tocItems } = extractToc(post.content);
+  const { html: contentHtml, items: tocItems } = extractToc(post.content, post.title);
   const author = parseAuthorByline(post.author.name);
+  const authorProfile = resolveBlogAuthor(post.author.name);
 
   let related: BlogPostSummary[] = [];
   try {
@@ -106,7 +109,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             dateModified: post.updatedAt || post.publishedAt,
             author: {
               '@type': 'Person',
-              name: post.author.name,
+              name: authorProfile.fullName,
               url: `${BASE}/about`,
             },
             publisher: {
@@ -262,7 +265,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
             <div className="mt-12 pt-8 border-t border-border/40">
               {(() => {
-                const initials = post.author.name
+                const initials = authorProfile.fullName
                   .split(' ')
                   .map((w: string) => w[0])
                   .slice(0, 2)
@@ -273,7 +276,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                     {post.author.avatar ? (
                       <Image
                         src={post.author.avatar}
-                        alt={post.author.name}
+                        alt={authorProfile.fullName}
                         width={64}
                         height={64}
                         className="w-16 h-16 rounded-full object-cover shrink-0 ring-2 ring-accent/20"
@@ -296,11 +299,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                         <p className="text-sm text-muted mt-1">{author.title}</p>
                       )}
                       <p className="mt-2 text-sm text-muted leading-relaxed">
-                        {author.headerName.includes('Boroji')
-                          ? 'Founder of DigiFusion and Digital Fusion Labs — writing on AI automation, business development, and digital media strategy for operators who need answers, not fluff.'
-                          : author.headerName.includes('Kayode')
-                            ? 'Head of Digital Media at DigiFusion — writing on content-to-capital, audience growth, and digital media strategy for African SMEs.'
-                            : `${author.headerName} is a contributor at DigiFusion — writing about AI, automation, and digital strategy for growing businesses.`}
+                        {authorProfile.bio}
                       </p>
                     </div>
                   </div>
