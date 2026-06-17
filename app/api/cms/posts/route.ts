@@ -64,6 +64,7 @@ export async function POST(req: NextRequest) {
     experts:                data.experts,
     // Allow PathGuru to set/override published_at (e.g. backdated posts)
     ...(data.published_at !== undefined ? { published_at: data.published_at } : {}),
+    ...(data.scheduled_publish_at !== undefined ? { scheduled_publish_at: data.scheduled_publish_at } : {}),
   };
 
   const db = getShopDb();

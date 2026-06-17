@@ -1,0 +1,1568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenMarket Africa — The Coordination Imperative | Case Study</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --forest:    #0A2F1F;
+    --forest2:   #0F3D28;
+    --forest3:   #164D33;
+    --gold:      #C8963C;
+    --gold-lt:   #E4B96A;
+    --earth:     #8B5E3C;
+    --cream:     #F5F0E8;
+    --cream2:    #EDE6D9;
+    --green-pop: #22C55E;
+    --red-pop:   #EF4444;
+    --blue-pop:  #3B82F6;
+    --text:      #1A1A1A;
+    --muted:     #5A6672;
+    --border:    rgba(200,150,60,0.2);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 16px;
+  }
+
+  /* ── PAYWALL OVERLAY ── */
+  #paywall-overlay {
+    position: fixed; inset: 0; z-index: 9999;
+    background: rgba(10,47,31,0.97);
+    backdrop-filter: blur(12px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+  }
+  .pw-box {
+    background: var(--forest2);
+    border: 1px solid var(--gold);
+    border-radius: 16px;
+    max-width: 540px; width: 100%;
+    padding: 48px 40px;
+    text-align: center;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(200,150,60,0.1);
+  }
+  .pw-badge {
+    display: inline-block;
+    background: rgba(200,150,60,0.15);
+    border: 1px solid rgba(200,150,60,0.4);
+    color: var(--gold-lt);
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    font-family: sans-serif;
+    padding: 5px 14px; border-radius: 20px; margin-bottom: 24px;
+  }
+  .pw-logo {
+    font-size: 22px; font-weight: bold;
+    color: var(--gold); margin-bottom: 8px;
+    font-family: sans-serif; letter-spacing: 1px;
+  }
+  .pw-title {
+    font-size: 26px; color: var(--cream);
+    font-weight: bold; line-height: 1.3;
+    margin-bottom: 12px;
+  }
+  .pw-sub {
+    font-size: 14px; color: rgba(245,240,232,0.65);
+    font-family: sans-serif; margin-bottom: 32px; line-height: 1.6;
+  }
+  .pw-stats {
+    display: flex; gap: 16px; margin-bottom: 32px;
+  }
+  .pw-stat {
+    flex: 1; background: rgba(200,150,60,0.07);
+    border: 1px solid rgba(200,150,60,0.2);
+    border-radius: 10px; padding: 14px 8px;
+  }
+  .pw-stat-n { font-size: 22px; font-weight: bold; color: var(--gold); font-family: sans-serif; }
+  .pw-stat-l { font-size: 11px; color: rgba(245,240,232,0.5); font-family: sans-serif; margin-top: 2px; }
+  .pw-btn {
+    display: block; width: 100%;
+    background: var(--gold);
+    color: var(--forest);
+    font-family: sans-serif; font-weight: 700;
+    font-size: 15px; letter-spacing: 0.5px;
+    padding: 16px 24px; border-radius: 10px;
+    border: none; cursor: pointer;
+    text-decoration: none; margin-bottom: 16px;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .pw-btn:hover { background: var(--gold-lt); transform: translateY(-1px); }
+  .pw-divider {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 16px; color: rgba(245,240,232,0.3); font-family: sans-serif; font-size: 12px;
+  }
+  .pw-divider::before, .pw-divider::after {
+    content:''; flex:1; height:1px; background: rgba(245,240,232,0.15);
+  }
+  .pw-code-row { display: flex; gap: 10px; margin-bottom: 16px; }
+  .pw-code-input {
+    flex: 1;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(200,150,60,0.3);
+    color: var(--cream); font-family: monospace; font-size: 14px;
+    padding: 12px 16px; border-radius: 8px; outline: none;
+    transition: border-color 0.2s;
+  }
+  .pw-code-input:focus { border-color: var(--gold); }
+  .pw-code-input::placeholder { color: rgba(245,240,232,0.35); }
+  .pw-code-btn {
+    background: transparent; border: 1px solid var(--gold);
+    color: var(--gold); font-family: sans-serif; font-size: 13px;
+    padding: 12px 18px; border-radius: 8px; cursor: pointer;
+    white-space: nowrap; transition: all 0.2s;
+  }
+  .pw-code-btn:hover { background: var(--gold); color: var(--forest); }
+  .pw-error { color: var(--red-pop); font-family: sans-serif; font-size: 12px; margin-top: -8px; margin-bottom: 8px; }
+  .pw-note { font-family: sans-serif; font-size: 11px; color: rgba(245,240,232,0.3); }
+
+  /* ── LOCKED BLUR ── */
+  .locked-section {
+    filter: blur(5px);
+    pointer-events: none;
+    user-select: none;
+    position: relative;
+  }
+
+  /* ── TOP HEADER BAR ── */
+  #topbar {
+    background: var(--forest);
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 100;
+    padding: 0 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 60px;
+  }
+  .tb-brand { display: flex; align-items: center; gap: 12px; }
+  .tb-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--green-pop);
+    box-shadow: 0 0 8px var(--green-pop);
+  }
+  .tb-name { color: var(--gold); font-family: sans-serif; font-weight: 700; font-size: 15px; letter-spacing: 1px; }
+  .tb-label { color: rgba(245,240,232,0.4); font-family: sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; margin-top: 1px; }
+  .tb-right { display: flex; align-items: center; gap: 16px; }
+  .tb-tag {
+    background: rgba(200,150,60,0.12); border: 1px solid rgba(200,150,60,0.3);
+    color: var(--gold-lt); font-family: sans-serif; font-size: 11px;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 4px 12px; border-radius: 20px;
+  }
+  .tb-date { color: rgba(245,240,232,0.4); font-family: sans-serif; font-size: 12px; }
+
+  /* ── COVER ── */
+  #cover {
+    background: linear-gradient(160deg, var(--forest) 0%, var(--forest3) 50%, #0A1F14 100%);
+    min-height: 88vh; display: flex; align-items: center;
+    padding: 80px 60px; position: relative; overflow: hidden;
+  }
+  #cover::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 80% 30%, rgba(200,150,60,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 50% at 20% 80%, rgba(34,197,94,0.05) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  /* Grid texture */
+  #cover::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(200,150,60,0.04) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(200,150,60,0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+  }
+  .cover-inner { max-width: 900px; position: relative; z-index: 1; }
+  .cover-eyebrow {
+    display: flex; align-items: center; gap: 14px; margin-bottom: 28px;
+  }
+  .cover-pill {
+    background: rgba(200,150,60,0.15); border: 1px solid rgba(200,150,60,0.35);
+    color: var(--gold-lt); font-family: sans-serif; font-size: 11px;
+    letter-spacing: 2px; text-transform: uppercase; padding: 5px 14px; border-radius: 20px;
+  }
+  .cover-line { flex: 1; height: 1px; background: rgba(200,150,60,0.2); max-width: 120px; }
+  .cover-firm { color: rgba(245,240,232,0.35); font-family: sans-serif; font-size: 12px; letter-spacing: 1px; }
+  .cover-h1 {
+    font-size: clamp(36px, 5vw, 58px); font-weight: bold;
+    color: var(--cream); line-height: 1.15; margin-bottom: 16px;
+  }
+  .cover-h1 em { font-style: normal; color: var(--gold); }
+  .cover-sub {
+    font-size: 19px; color: rgba(245,240,232,0.65);
+    max-width: 680px; margin-bottom: 48px; line-height: 1.6;
+    font-style: italic;
+  }
+  .cover-stats {
+    display: flex; gap: 0; flex-wrap: wrap;
+    border: 1px solid rgba(200,150,60,0.2); border-radius: 12px;
+    overflow: hidden; margin-bottom: 48px; max-width: 720px;
+  }
+  .cs {
+    flex: 1; min-width: 140px;
+    padding: 24px 28px;
+    border-right: 1px solid rgba(200,150,60,0.15);
+    background: rgba(255,255,255,0.02);
+  }
+  .cs:last-child { border-right: none; }
+  .cs-num { font-size: 32px; font-weight: bold; color: var(--gold); font-family: sans-serif; }
+  .cs-label { font-size: 12px; color: rgba(245,240,232,0.5); font-family: sans-serif; margin-top: 4px; line-height: 1.3; }
+  .cover-meta {
+    display: flex; align-items: center; gap: 24px;
+    padding-top: 32px; border-top: 1px solid rgba(200,150,60,0.15);
+  }
+  .cover-author { color: rgba(245,240,232,0.7); font-family: sans-serif; font-size: 13px; }
+  .cover-author strong { color: var(--cream); }
+
+  /* ── SECTION WRAPPER ── */
+  .section { padding: 72px 60px; max-width: 1100px; margin: 0 auto; }
+  .section-alt { background: var(--cream2); }
+
+  .section-label {
+    font-family: sans-serif; font-size: 11px; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 10px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-label::after { content:''; flex:1; height:1px; background: rgba(200,150,60,0.3); max-width:80px; }
+  .section-h2 {
+    font-size: clamp(26px, 3vw, 38px); font-weight: bold;
+    color: var(--forest); line-height: 1.2; margin-bottom: 20px;
+  }
+  .section-lead {
+    font-size: 18px; color: var(--muted); max-width: 760px;
+    margin-bottom: 48px; line-height: 1.7; font-style: italic;
+    border-left: 3px solid var(--gold); padding-left: 20px;
+  }
+  p { margin-bottom: 18px; color: var(--text); }
+  h3 { font-size: 22px; color: var(--forest); margin: 32px 0 12px; }
+  h4 { font-size: 17px; color: var(--forest2); margin: 24px 0 8px; font-family: sans-serif; }
+
+  /* ── DIVIDER ── */
+  .gold-rule {
+    border: none; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 48px 0; opacity: 0.4;
+  }
+
+  /* ── CHART CARDS ── */
+  .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin: 40px 0; }
+  .chart-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .chart-full { grid-column: 1 / -1; }
+  .chart-card {
+    background: #fff;
+    border: 1px solid rgba(200,150,60,0.18);
+    border-radius: 14px; padding: 28px 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  }
+  .chart-card h4 {
+    font-size: 13px; font-family: sans-serif; font-weight: 600;
+    color: var(--muted); text-transform: uppercase; letter-spacing: 1px;
+    margin: 0 0 4px; padding: 0;
+  }
+  .chart-card p.chart-note { font-size: 12px; color: var(--muted); margin: 0 0 16px; }
+  .chart-card canvas { max-height: 260px; }
+
+  /* ── STAT BOXES ── */
+  .stat-row { display: flex; gap: 20px; flex-wrap: wrap; margin: 36px 0; }
+  .stat-box {
+    flex: 1; min-width: 180px;
+    background: var(--forest);
+    border-radius: 12px; padding: 24px 20px;
+    text-align: center;
+    border: 1px solid rgba(200,150,60,0.2);
+  }
+  .stat-box .n { font-size: 34px; font-weight: bold; color: var(--gold); font-family: sans-serif; }
+  .stat-box .l { font-size: 12px; color: rgba(245,240,232,0.55); font-family: sans-serif; margin-top: 4px; line-height: 1.3; }
+  .stat-box.green .n { color: var(--green-pop); }
+  .stat-box.red .n { color: var(--red-pop); }
+
+  /* ── QUOTE BLOCKS ── */
+  .quote-block {
+    background: var(--forest);
+    border-left: 4px solid var(--gold);
+    border-radius: 0 12px 12px 0;
+    padding: 28px 32px; margin: 36px 0;
+    color: var(--cream); font-size: 18px;
+    font-style: italic; line-height: 1.6;
+  }
+  .quote-attr {
+    font-style: normal; font-size: 13px;
+    color: var(--gold-lt); font-family: sans-serif;
+    margin-top: 12px; display: block;
+  }
+
+  /* ── TABLE ── */
+  .data-table {
+    width: 100%; border-collapse: collapse;
+    margin: 32px 0; font-family: sans-serif; font-size: 14px;
+  }
+  .data-table th {
+    background: var(--forest); color: var(--gold);
+    padding: 14px 18px; text-align: left;
+    font-size: 12px; letter-spacing: 1px; text-transform: uppercase;
+  }
+  .data-table td { padding: 13px 18px; border-bottom: 1px solid rgba(200,150,60,0.1); }
+  .data-table tr:nth-child(even) td { background: rgba(200,150,60,0.03); }
+  .data-table tr:hover td { background: rgba(200,150,60,0.06); }
+  .badge {
+    display: inline-block; padding: 3px 10px; border-radius: 20px;
+    font-size: 11px; font-weight: 600;
+  }
+  .badge-green { background: rgba(34,197,94,0.12); color: #16A34A; }
+  .badge-red { background: rgba(239,68,68,0.12); color: #DC2626; }
+  .badge-yellow { background: rgba(200,150,60,0.15); color: #92400E; }
+
+  /* ── TWO-COLUMN PROSE ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin: 32px 0; }
+  .two-col-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+  /* ── ARCHITECTURE DIAGRAM ── */
+  .arch-diagram {
+    background: var(--forest);
+    border: 1px solid rgba(200,150,60,0.2);
+    border-radius: 14px; padding: 40px;
+    margin: 36px 0; color: var(--cream);
+    font-family: monospace; font-size: 13px; line-height: 2;
+    overflow-x: auto;
+  }
+  .arch-diagram .gold { color: var(--gold); }
+  .arch-diagram .green { color: var(--green-pop); }
+  .arch-diagram .red { color: var(--red-pop); }
+  .arch-diagram .dim { color: rgba(245,240,232,0.4); }
+  .arch-title { color: rgba(245,240,232,0.45); font-family: sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px; }
+
+  /* ── PILLAR CARDS ── */
+  .pillar-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 36px 0; }
+  .pillar-card {
+    background: var(--forest);
+    border: 1px solid rgba(200,150,60,0.15);
+    border-radius: 12px; padding: 28px 22px;
+    position: relative; overflow: hidden;
+  }
+  .pillar-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--gold);
+  }
+  .pillar-num { font-size: 11px; font-family: sans-serif; color: var(--gold); letter-spacing: 2px; margin-bottom: 12px; }
+  .pillar-title { font-size: 16px; font-weight: bold; color: var(--cream); margin-bottom: 10px; font-family: sans-serif; }
+  .pillar-text { font-size: 13px; color: rgba(245,240,232,0.65); font-family: sans-serif; line-height: 1.6; }
+
+  /* ── INCUMBENT FAILURE CARDS ── */
+  .failure-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin: 36px 0; }
+  .failure-card {
+    background: #fff; border: 1px solid rgba(239,68,68,0.2);
+    border-radius: 12px; padding: 24px;
+    border-top: 3px solid var(--red-pop);
+  }
+  .failure-icon { font-size: 28px; margin-bottom: 10px; }
+  .failure-title { font-size: 15px; font-weight: bold; color: #B91C1C; margin-bottom: 8px; font-family: sans-serif; }
+  .failure-text { font-size: 13px; color: var(--muted); font-family: sans-serif; line-height: 1.6; }
+
+  /* ── AACI ENGINE ── */
+  .aaci-row { display: flex; gap: 20px; margin: 32px 0; flex-wrap: wrap; }
+  .aaci-input {
+    flex: 1; min-width: 180px;
+    background: var(--forest2); border: 1px solid rgba(200,150,60,0.2);
+    border-radius: 10px; padding: 18px 20px;
+    color: var(--cream); font-family: sans-serif; font-size: 13px;
+  }
+  .aaci-input .label { color: var(--gold-lt); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+  .aaci-arrow {
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gold); font-size: 28px; padding: 0 4px;
+    align-self: center;
+  }
+  .aaci-output {
+    background: var(--gold); color: var(--forest); font-family: sans-serif;
+    border-radius: 10px; padding: 18px 24px; min-width: 160px;
+    text-align: center; align-self: center;
+  }
+  .aaci-output .big { font-size: 28px; font-weight: bold; }
+  .aaci-output .small { font-size: 11px; margin-top: 2px; }
+
+  /* ── LANE CARDS ── */
+  .lane-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin: 36px 0; }
+  .lane-card {
+    background: #fff; border: 1px solid rgba(200,150,60,0.18);
+    border-radius: 10px; padding: 20px 16px; text-align: center;
+    border-top: 3px solid var(--gold);
+  }
+  .lane-icon { font-size: 26px; margin-bottom: 8px; }
+  .lane-title { font-size: 13px; font-weight: 700; color: var(--forest); font-family: sans-serif; margin-bottom: 4px; }
+  .lane-sub { font-size: 11px; color: var(--muted); font-family: sans-serif; line-height: 1.4; }
+
+  /* ── MARKET CHIPS ── */
+  .market-chips { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0; }
+  .chip {
+    background: var(--forest); color: var(--cream);
+    font-family: sans-serif; font-size: 12px;
+    padding: 6px 14px; border-radius: 20px;
+    border: 1px solid rgba(200,150,60,0.2);
+  }
+  .chip .country { color: var(--gold); font-size: 10px; margin-left: 4px; }
+
+  /* ── FOOTER ── */
+  #footer {
+    background: var(--forest);
+    padding: 48px 60px;
+    text-align: center;
+    border-top: 1px solid rgba(200,150,60,0.2);
+    color: rgba(245,240,232,0.4);
+    font-family: sans-serif; font-size: 13px;
+  }
+  .footer-logo { font-size: 22px; font-weight: bold; color: var(--gold); margin-bottom: 8px; }
+  .footer-links { display: flex; justify-content: center; gap: 24px; margin: 16px 0; }
+  .footer-links a { color: rgba(245,240,232,0.45); text-decoration: none; font-size: 13px; }
+  .footer-links a:hover { color: var(--gold); }
+
+  /* ── SECTION DIVIDER BANNER ── */
+  .section-banner {
+    background: var(--forest);
+    padding: 32px 60px; margin: 0;
+    border-top: 1px solid rgba(200,150,60,0.15);
+    border-bottom: 1px solid rgba(200,150,60,0.15);
+  }
+  .section-banner-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; gap: 20px; }
+  .banner-num { font-size: 56px; font-weight: bold; color: rgba(200,150,60,0.15); font-family: sans-serif; line-height: 1; }
+  .banner-text h2 { font-size: 24px; color: var(--cream); margin-bottom: 4px; }
+  .banner-text p { font-size: 14px; color: rgba(245,240,232,0.45); font-family: sans-serif; margin: 0; }
+
+  /* ── PROJECTION TABLE ── */
+  .proj-table {
+    width: 100%; border-collapse: collapse;
+    margin: 28px 0; font-family: sans-serif; font-size: 14px;
+    border: 1px solid rgba(200,150,60,0.15); border-radius: 10px; overflow: hidden;
+  }
+  .proj-table th {
+    background: var(--forest); color: var(--gold-lt);
+    padding: 14px 18px; text-align: right; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;
+  }
+  .proj-table th:first-child { text-align: left; }
+  .proj-table td { padding: 13px 18px; border-bottom: 1px solid rgba(200,150,60,0.08); text-align: right; }
+  .proj-table td:first-child { text-align: left; font-weight: 600; color: var(--forest); }
+  .proj-table tr:last-child td { border-bottom: none; background: rgba(200,150,60,0.05); font-weight: 700; color: var(--forest2); }
+  .proj-table .highlight { color: var(--green-pop); font-weight: 700; }
+
+  @media (max-width: 768px) {
+    #cover { padding: 60px 24px; }
+    .section { padding: 48px 24px; }
+    .chart-grid { grid-template-columns: 1fr; }
+    .two-col, .two-col-3, .pillar-grid, .failure-grid { grid-template-columns: 1fr; }
+    .lane-grid { grid-template-columns: repeat(2,1fr); }
+    .cover-stats { flex-direction: column; }
+    .pw-stats { flex-direction: column; }
+    .stat-row { flex-direction: column; }
+    #topbar { padding: 0 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     PAYWALL OVERLAY
+══════════════════════════════════════════════ -->
+<div id="paywall-overlay">
+  <div class="pw-box">
+    <div class="pw-badge">Premium Case Study</div>
+    <div class="pw-logo">OpenMarket Africa</div>
+    <h2 class="pw-title">The Coordination Imperative</h2>
+    <p class="pw-sub">A McKinsey-grade strategic analysis of Africa's $2.5T informal trade economy — the architectural failures, the paradigm shift, and the infrastructure that wins.</p>
+    <div class="pw-stats">
+      <div class="pw-stat">
+        <div class="pw-stat-n">$2.5T</div>
+        <div class="pw-stat-l">Africa consumer spend by 2030</div>
+      </div>
+      <div class="pw-stat">
+        <div class="pw-stat-n">80%</div>
+        <div class="pw-stat-l">of trade in informal sector</div>
+      </div>
+      <div class="pw-stat">
+        <div class="pw-stat-n">$5B</div>
+        <div class="pw-stat-l">annual cross-border fee leak</div>
+      </div>
+    </div>
+    <label for="checkout-email" style="display:block;width:100%;text-align:left;font-family:sans-serif;font-size:11px;color:rgba(245,240,232,0.55);margin-bottom:6px;">Email for receipt &amp; PDF download</label>
+    <input type="email" id="checkout-email" class="pw-code-input" placeholder="you@company.com" autocomplete="email" style="margin-bottom:14px;width:100%;">
+    <button type="button" id="paystack-btn" class="pw-btn" style="border:none;cursor:pointer;width:100%;">Unlock Full Case Study — $99.99</button>
+    <p class="pw-note" id="access-note" style="margin-top:16px;">Secure checkout via Paystack (USD). Interactive case study + PDF unlock after payment.<br>Questions? <a href="mailto:enquiries@digitafusion.com" style="color:var(--gold-lt);">enquiries@digitafusion.com</a></p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     TOP BAR
+══════════════════════════════════════════════ -->
+<nav id="topbar">
+  <div class="tb-brand">
+    <div class="tb-dot"></div>
+    <div>
+      <div class="tb-name">OpenMarket Africa</div>
+      <div class="tb-label">Strategic Case Study</div>
+    </div>
+  </div>
+  <div class="tb-right">
+    <div id="intel-pdf-bar" style="display:none;align-items:center;gap:10px;">
+      <a id="intel-pdf-link" href="#" style="display:none;font-family:sans-serif;font-size:11px;color:var(--gold-lt);text-decoration:none;border:1px solid rgba(200,150,60,0.4);padding:4px 10px;border-radius:16px;">↓ Download PDF</a>
+    </div>
+    <div class="tb-tag">McKinsey Grade</div>
+    <div class="tb-date">Digital Fusion Labs · 2026</div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════
+     COVER
+══════════════════════════════════════════════ -->
+<section id="cover">
+  <div class="cover-inner">
+    <div class="cover-eyebrow">
+      <div class="cover-pill">Strategic Case Study</div>
+      <div class="cover-line"></div>
+      <div class="cover-firm">Digital Fusion Labs · openmarket.africa</div>
+    </div>
+    <h1 class="cover-h1">The <em>Coordination</em> Imperative:<br>How OpenMarket Africa is<br>Rebuilding the Architecture of Trade</h1>
+    <p class="cover-sub">Why every "Amazon of Africa" failed, why Africa's $2.5 trillion informal economy cannot be disrupted — only coordinated — and how a capital-light protocol is becoming the invisible rail beneath a continent's commerce.</p>
+    <div class="cover-stats">
+      <div class="cs">
+        <div class="cs-num">$2.5T</div>
+        <div class="cs-label">Africa consumer spending by 2030</div>
+      </div>
+      <div class="cs">
+        <div class="cs-num">85%+</div>
+        <div class="cs-label">FMCG trade through informal channels</div>
+      </div>
+      <div class="cs">
+        <div class="cs-num">$5B</div>
+        <div class="cs-label">Annual cross-border fee leak eliminated by PAPSS</div>
+      </div>
+      <div class="cs">
+        <div class="cs-num">0%</div>
+        <div class="cs-label">Inventory held — purely capital-light coordination</div>
+      </div>
+    </div>
+    <div class="cover-meta">
+      <div class="cover-author">Lead Architect: <strong>Boroji Adebayo-Hopewell</strong>, Digital Fusion Labs</div>
+      <div class="cover-author">Contact: <strong>enquiries@digitafusion.com</strong></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SECTION 1 — EXECUTIVE SUMMARY
+══════════════════════════════════════════════ -->
+<div class="section-banner">
+  <div class="section-banner-inner">
+    <div class="banner-num">01</div>
+    <div class="banner-text">
+      <h2>Executive Summary & Key Findings</h2>
+      <p>The strategic case at a glance — for investors, operators, and partners</p>
+    </div>
+  </div>
+</div>
+<div style="background:#fff;">
+<div class="section">
+  <div class="section-label">Executive Summary</div>
+  <h2 class="section-h2">The market did not fail. The architecture did.</h2>
+  <p class="section-lead">Africa's informal trade economy — worth $2.5 trillion by 2030 — is not an emerging market to be disrupted. It is a mature, self-organizing system to be coordinated. OpenMarket Africa is the coordination layer.</p>
+
+  <div class="stat-row">
+    <div class="stat-box"><div class="n">$40B+</div><div class="l">Nigeria's retail economy, 85%+ informal</div></div>
+    <div class="stat-box green"><div class="n">95%</div><div class="l">Payout to distributors on payment verified</div></div>
+    <div class="stat-box"><div class="n">0</div><div class="l">Inventory owned — zero balance-sheet risk</div></div>
+    <div class="stat-box red"><div class="n">$5B</div><div class="l">Annual USD intermediation fee drained from Africa</div></div>
+  </div>
+
+  <div class="quote-block">
+    "The future of African commerce is not a platform that owns the trade. It is a protocol that coordinates the trade."
+    <span class="quote-attr">— Boroji Adebayo-Hopewell, Founder, OpenMarket Africa</span>
+  </div>
+
+  <p>This case study documents the strategic thesis behind OpenMarket Africa: the macro landscape that makes this moment critical, the architecture that differentiates it from failed incumbents, and the financial model that makes it sustainable without the asset-heavy trap that destroyed its predecessors.</p>
+
+  <p>Three key findings drive this analysis:</p>
+  <ol style="padding-left:24px; margin-bottom:18px;">
+    <li style="margin-bottom:10px;"><strong>The Asset-Heavy Trap is fatal at African margins.</strong> Platforms that owned trucks, warehouses, and inventory could not survive currency devaluation, fuel inflation, and 3–6% FMCG margins simultaneously. The model destroyed capital across TradeDepot, Sabi, and Omnibiz as their growth accelerated.</li>
+    <li style="margin-bottom:10px;"><strong>Africa's informal networks are not frictions — they are the distribution channel.</strong> Tier-1 wholesalers in Idumota, Ariaria, and Kariakoo hold the social capital, credit relationships, and logistical intelligence that no venture-funded platform can replicate. Working with them, not around them, is the only viable model.</li>
+    <li style="margin-bottom:10px;"><strong>AfCFTA and PAPSS Phase II have assembled the plumbing for continental trade.</strong> The legal and financial infrastructure for a $3.4 trillion single market now exists. The missing link is a digital operating system that executes it at the open-market floor level. That is OpenMarket Africa's category.</li>
+  </ol>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SECTION 2 — INDUSTRY LANDSCAPE
+══════════════════════════════════════════════ -->
+<div class="section-banner">
+  <div class="section-banner-inner">
+    <div class="banner-num">02</div>
+    <div class="banner-text">
+      <h2>Industry Landscape: The $2.5T Invisible Economy</h2>
+      <p>Understanding the true structure of African commerce</p>
+    </div>
+  </div>
+</div>
+
+<div class="section" id="s2">
+  <div class="section-label">Macro Landscape</div>
+  <h2 class="section-h2">The economy the models missed</h2>
+  <p class="section-lead">To understand why billions of dollars of venture capital was incinerated, you must first understand what Africa's commerce actually looks like — not what investors imagined it to look like.</p>
+
+  <p>Africa's GDP narrative is dominated by the formal sector. Publicly traded companies, licensed financial institutions, and documented supply chains form the basis of most economic reports. But the actual engine of daily economic life — the mechanism that feeds families, stocks kiosks, and moves goods from factory gate to doorstep — operates almost entirely outside this formal taxonomy.</p>
+
+  <p>In Nigeria, Africa's largest economy, the informal sector accounts for more than 65% of GDP and over 80% of total employment. The domestic retail economy exceeds $40 billion in annual value, but over 85% of that value flows through informal channels: market stalls in Idumota, kiosk clusters in Mushin, wholesale corridors in Ariaria and Onitsha. These are not marginal environments. They are the primary distribution infrastructure of the continent's most populous nation.</p>
+
+  <div class="chart-grid">
+    <div class="chart-card">
+      <h4>Informal Sector Share of Employment</h4>
+      <p class="chart-note">Sub-Saharan Africa, selected economies (%)</p>
+      <canvas id="chart-informal"></canvas>
+    </div>
+    <div class="chart-card">
+      <h4>Africa Consumer Spending Trajectory</h4>
+      <p class="chart-note">Total household spending, $B (2020–2032E)</p>
+      <canvas id="chart-spending"></canvas>
+    </div>
+  </div>
+
+  <h3>The FMCG Distribution Reality</h3>
+  <p>Fast-Moving Consumer Goods are the backbone of informal retail. Outside South Africa's formalized grocery sector, between 40% and 90% of all FMCG sales across the continent flow through informal channels. This is not a transitional phase on the way to formalization — it is a structural characteristic of frontier economies with fragmented geography, high youth populations, and dense urban informality.</p>
+
+  <div class="chart-grid">
+    <div class="chart-card">
+      <h4>FMCG Channel Distribution</h4>
+      <p class="chart-note">Informal vs formal retail share, West Africa (%)</p>
+      <canvas id="chart-fmcg"></canvas>
+    </div>
+    <div class="chart-card">
+      <h4>AfCFTA Trade Potential</h4>
+      <p class="chart-note">Intra-African trade volume, $B (current vs projected)</p>
+      <canvas id="chart-afcfta"></canvas>
+    </div>
+  </div>
+
+  <div class="market-chips">
+    <div class="chip">Ariaria <span class="country">· Aba, Nigeria</span></div>
+    <div class="chip">Onitsha Main Market <span class="country">· Nigeria</span></div>
+    <div class="chip">Lagos Island / Idumota <span class="country">· Nigeria</span></div>
+    <div class="chip">Alaba International <span class="country">· Lagos</span></div>
+    <div class="chip">Mile 12 <span class="country">· Lagos</span></div>
+    <div class="chip">Kejetia <span class="country">· Kumasi, Ghana</span></div>
+    <div class="chip">Katamanto <span class="country">· Accra, Ghana</span></div>
+    <div class="chip">Asigamé <span class="country">· Lomé, Togo</span></div>
+    <div class="chip">Kariakoo <span class="country">· Dar es Salaam, Tanzania</span></div>
+    <div class="chip">Gikomba <span class="country">· Nairobi, Kenya</span></div>
+    <div class="chip">Addis Merkato <span class="country">· Ethiopia</span></div>
+    <div class="chip">Souk El Had <span class="country">· Agadir, Morocco</span></div>
+  </div>
+
+  <p style="font-family:sans-serif; font-size:13px; color:var(--muted);">OpenMarket Africa's active and planned market hubs spanning 8 countries across 4 sub-regions.</p>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SECTION 3 — INCUMBENT FAILURES (LOCKED)
+══════════════════════════════════════════════ -->
+<div class="section-banner locked-section">
+  <div class="section-banner-inner">
+    <div class="banner-num">03</div>
+    <div class="banner-text">
+      <h2>The Asset-Heavy Trap: Anatomy of Incumbent Failure</h2>
+      <p>Why $500M+ of venture capital was incinerated — and the three structural reasons it will happen again</p>
+    </div>
+  </div>
+</div>
+
+<div class="section locked-section" id="s3">
+  <div class="section-label">Competitive Intelligence</div>
+  <h2 class="section-h2">The three failure modes that killed every "Amazon of Africa"</h2>
+  <p class="section-lead">Between 2018 and 2024, over $500 million of venture capital was deployed into African B2B e-commerce platforms. The structural reckoning that followed was not a surprise — it was predictable from first principles.</p>
+
+  <div class="failure-grid">
+    <div class="failure-card">
+      <div class="failure-icon">🏭</div>
+      <div class="failure-title">Failure Mode 1: The CapEx Sinkhole</div>
+      <div class="failure-text">By owning warehouses and delivery fleets, platforms tied their unit economics to fixed costs in currencies that devalued 40–60% against USD. When the Naira collapsed in 2023, platforms holding NGN-denominated assets and USD-denominated debt faced terminal margin compression simultaneously. Fixed assets became liabilities that incinerated liquidity faster than revenue could replace it.</div>
+    </div>
+    <div class="failure-card">
+      <div class="failure-icon">🏦</div>
+      <div class="failure-title">Failure Mode 2: The Reconciliation Tax</div>
+      <div class="failure-text">Informal merchants operate on cash-on-delivery, mobile money, and informal bank transfers. Platforms that mandated digital-only payment flows or relied on manual bank notification reconciliation faced massive order abandonment and structural fraud. The "reconciliation tax" — the operational overhead of confirming payment on each order — consumed 2–4% of GMV, rendering thin FMCG margins economically impossible.</div>
+    </div>
+    <div class="failure-card">
+      <div class="failure-icon">🤝</div>
+      <div class="failure-title">Failure Mode 3: Disintermediation Backlash</div>
+      <div class="failure-text">Tier-1 wholesalers in Nigeria's major market hubs are not just distributors — they are the social infrastructure of trade. When B2B platforms attempted to "cut out" these networks and go direct to kiosks, they triggered coordinated defensive price-cutting and structural boycotts. The very people who held the logistical intelligence and credit relationships were turned into adversaries.</div>
+    </div>
+  </div>
+
+  <div class="chart-grid">
+    <div class="chart-card">
+      <h4>Margin Destruction: Asset-Heavy vs Coordination Model</h4>
+      <p class="chart-note">Effective net margin per order (%)</p>
+      <canvas id="chart-margins"></canvas>
+    </div>
+    <div class="chart-card">
+      <h4>Incumbent Capital Burn Profile</h4>
+      <p class="chart-note">Illustrative CAC + fulfilment cost per merchant ($)</p>
+      <canvas id="chart-cac"></canvas>
+    </div>
+  </div>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Platform Archetype</th>
+        <th>Model</th>
+        <th>Owns Inventory?</th>
+        <th>Owns Fleet?</th>
+        <th>Outcome</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>TradeDepot</strong></td>
+        <td>Full-stack B2B</td>
+        <td>Yes</td>
+        <td>Yes</td>
+        <td>Downsized, pivoted</td>
+        <td><span class="badge badge-red">Pivoted</span></td>
+      </tr>
+      <tr>
+        <td><strong>Sabi</strong></td>
+        <td>B2B marketplace</td>
+        <td>Partial</td>
+        <td>Yes</td>
+        <td>Restructured</td>
+        <td><span class="badge badge-yellow">Restructured</span></td>
+      </tr>
+      <tr>
+        <td><strong>Omnibiz</strong></td>
+        <td>Asset-light hybrid</td>
+        <td>No</td>
+        <td>Partial</td>
+        <td>Funding pressure</td>
+        <td><span class="badge badge-yellow">Challenged</span></td>
+      </tr>
+      <tr>
+        <td><strong>Wasoko</strong></td>
+        <td>Full-stack B2B</td>
+        <td>Yes</td>
+        <td>Yes</td>
+        <td>Merged with MaxAB</td>
+        <td><span class="badge badge-yellow">Merged</span></td>
+      </tr>
+      <tr>
+        <td><strong>OpenMarket Africa</strong></td>
+        <td>Coordination protocol</td>
+        <td>None</td>
+        <td>None</td>
+        <td>Capital-light scaling</td>
+        <td><span class="badge badge-green">Active</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SECTION 4 — OPENMARKET ARCHITECTURE (LOCKED)
+══════════════════════════════════════════════ -->
+<div class="section-banner locked-section">
+  <div class="section-banner-inner">
+    <div class="banner-num">04</div>
+    <div class="banner-text">
+      <h2>The Coordination Layer: OpenMarket's Architecture</h2>
+      <p>Five lanes, one protocol — how the system works end-to-end</p>
+    </div>
+  </div>
+</div>
+
+<div style="background:#fff;" class="locked-section">
+<div class="section" id="s4">
+  <div class="section-label">Platform Architecture</div>
+  <h2 class="section-h2">Infrastructure, not a storefront</h2>
+  <p class="section-lead">OpenMarket Africa does not compete with wholesalers, does not own delivery vehicles, and does not hold inventory. It is the invisible settlement, verification, and coordination layer that makes the existing informal ecosystem function at digital speed.</p>
+
+  <div class="arch-diagram">
+    <div class="arch-title">OpenMarket Africa — Atlas Core Coordination Layer</div>
+    <span class="dim">LEGACY ASSET-HEAVY FLOW (THE INCUMBENT TRAP)</span><br>
+    <span class="red"> [Factory] → [Proprietary Warehouse] → [Owned Fleet] → [High-CAC Field Reps] → [Kiosk]</span><br>
+    <span class="dim"> Result: 3–6% margins consumed by asset overhead &amp; currency risk</span><br><br>
+    <span class="dim">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span><br><br>
+    <span class="dim">OPENMARKET ATLAS-CORE COORDINATION LAYER</span><br>
+    <span class="green"> [Factory / Mfr] → [Tier-1 Wholesaler (VWL)] → [3PL Partner Runners]</span><br>
+    <span class="green">               ↓                      ↓                    ↓</span><br>
+    <span class="gold"> [WhatsApp SmartBridge] → [Atlas Ledger: Verify · Split · Route · Audit]</span><br>
+    <span class="gold">               ↓                      ↓</span><br>
+    <span class="green"> [Kiosk / Retailer] ←←← [PAPSS Settlement: Instant, local-currency]</span><br><br>
+    <span class="dim"> Affiliate Partner: earns commission on first settled order only (zero-upfront CAC)</span><br>
+    <span class="dim"> Manufacturer Tier: receives aggregated demand telemetry + SmartSubsidy controls</span>
+  </div>
+
+  <h3>Five Lanes. One Trust Infrastructure.</h3>
+  <div class="lane-grid">
+    <div class="lane-card">
+      <div class="lane-icon">🏪</div>
+      <div class="lane-title">Retailers</div>
+      <div class="lane-sub">Restock wholesale from preferred distributors. Offline-safe, payment verified before fulfillment begins.</div>
+    </div>
+    <div class="lane-card">
+      <div class="lane-icon">🏢</div>
+      <div class="lane-title">Distributors</div>
+      <div class="lane-sub">Virtual Warehouse Ledger. 95% payout on verified payment. No manual transfer chase.</div>
+    </div>
+    <div class="lane-card">
+      <div class="lane-icon">🤝</div>
+      <div class="lane-title">Partners (Affiliates)</div>
+      <div class="lane-sub">Market connectors earn commission only after merchant's first settled order — zero upfront CAC.</div>
+    </div>
+    <div class="lane-card">
+      <div class="lane-icon">🏭</div>
+      <div class="lane-title">Manufacturers</div>
+      <div class="lane-sub">Aggregated demand telemetry. SmartSubsidy campaigns. Enterprise analytics by market cluster.</div>
+    </div>
+    <div class="lane-card">
+      <div class="lane-icon">🚛</div>
+      <div class="lane-title">Logistics</div>
+      <div class="lane-sub">Licensed carriers on verified trade lanes. OpenMarket coordinates; never operates competing fleet.</div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <h4>WhatsApp SmartBridge</h4>
+      <p>Instead of forcing merchants to download data-heavy apps that freeze on 2G connections, OpenMarket's WhatsApp Business Cloud API integration translates unstructured local voice notes and conversational text into structured JSON order payloads via localized AI processing nodes. The result: the entire ordering and verification workflow runs inside a messaging interface that 95%+ of merchants already use daily.</p>
+      <h4>Virtual Warehouse Ledger (VWL)</h4>
+      <p>Distributors digitize existing physical stock as a Virtual Warehouse Ledger — no proprietary warehouse required. The VWL maintains real-time inventory visibility, order routing, and fulfillment queuing, enabling distributors to operate with digital-speed precision without moving their goods or changing their operations.</p>
+    </div>
+    <div>
+      <h4>Optimistic Offline Ledgers</h4>
+      <p>Network reliability in dense African markets is variable. OpenMarket's local SQLite/WatermelonDB state layer captures order data optimistically when connectivity drops, syncing automatically when 2G or 3G recovers. Merchants see sync status always — the platform never hides connectivity failures behind a spinner.</p>
+      <h4>Dynamic Liquidity Metrics</h4>
+      <p>Hyperinflationary environments require real-time price coordination. OpenMarket's Dynamic Liquidity Metrics engine updates pricing hourly based on local demand velocity, regional stock levels, and decay formulas — eliminating the static digital catalog problem that caused margin leakage for all catalog-based incumbent platforms.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SECTION 5 — AACI ENGINE (LOCKED)
+══════════════════════════════════════════════ -->
+<div class="section-banner locked-section">
+  <div class="section-banner-inner">
+    <div class="banner-num">05</div>
+    <div class="banner-text">
+      <h2>The AACI Engine: Alternative Credit at Continent Scale</h2>
+      <p>How OpenMarket turns transaction behaviour into institutional credit access — without lending its own capital</p>
+    </div>
+  </div>
+</div>
+
+<div class="section locked-section" id="s5">
+  <div class="section-label">Credit Infrastructure</div>
+  <h2 class="section-h2">The Atlas Alternative Credit Index</h2>
+  <p class="section-lead">Africa's informal merchant class is not uncreditworthy — it is unmeasured. The AACI converts real-time behavioural transaction data into a bankable credit signal, without OpenMarket ever placing capital at risk.</p>
+
+  <p>Traditional credit scoring fails African informal merchants for a simple structural reason: it relies on the existence of formal financial histories that these merchants have never had access to. A kiosk owner in Mile 12 who has reliably settled wholesale orders weekly for five years is, by formal banking standards, invisible.</p>
+
+  <p>The Atlas Alternative Credit Index changes this. By continuously processing four behavioural transaction dimensions, it generates a dynamic 0–1000 credit score that external bank partners can use to underwrite inventory financing — with all credit risk born by the institutional partner, not by OpenMarket's balance sheet.</p>
+
+  <div class="aaci-row">
+    <div class="aaci-input"><div class="label">30-Day Gross Transaction Volume</div>₦ 2.4M rolling avg</div>
+    <div class="aaci-input"><div class="label">Order Fulfillment Ratio</div>97.3% on-time delivery</div>
+    <div class="aaci-input"><div class="label">Replenishment Variance</div>±4.2% weekly consistency</div>
+    <div class="aaci-input"><div class="label">Overdue Settlement Days</div>0.8 days avg (last 90d)</div>
+    <div class="aaci-arrow">→</div>
+    <div class="aaci-output"><div class="big">847</div><div class="small">AACI Score · Tier A</div></div>
+  </div>
+
+  <div class="chart-grid">
+    <div class="chart-card">
+      <h4>AACI Scoring Dimension Weights</h4>
+      <p class="chart-note">Contribution to composite score (%)</p>
+      <canvas id="chart-aaci-radar"></canvas>
+    </div>
+    <div class="chart-card">
+      <h4>Credit Access Distribution</h4>
+      <p class="chart-note">Merchant population by AACI tier (illustrative)</p>
+      <canvas id="chart-aaci-dist"></canvas>
+    </div>
+  </div>
+
+  <p>The AACI model achieves three things simultaneously that no incumbent attempted: it creates credit visibility for merchants who have none, it gives institutional lenders a risk model calibrated to African informal commerce realities, and it does so without OpenMarket ever becoming a lender itself. The credit risk is 100% syndicated to bank partners. OpenMarket earns on data and facilitation, not on loan books.</p>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SECTION 6 — AfCFTA / PAPSS (LOCKED)
+══════════════════════════════════════════════ -->
+<div class="section-banner locked-section">
+  <div class="section-banner-inner">
+    <div class="banner-num">06</div>
+    <div class="banner-text">
+      <h2>The AfCFTA Imperative: Continental Settlement at Speed</h2>
+      <p>Why this moment is non-negotiable — and how PAPSS Phase II completes the infrastructure stack</p>
+    </div>
+  </div>
+</div>
+
+<div style="background:#fff;" class="locked-section">
+<div class="section" id="s6">
+  <div class="section-label">Macro Catalyst</div>
+  <h2 class="section-h2">The plumbing is in place. The OS is missing.</h2>
+  <p class="section-lead">AfCFTA creates the legal framework for a 1.5-billion-person, $3.4-trillion single market. PAPSS eliminates USD intermediation from intra-African payments. OpenMarket provides the transaction execution layer at the open-market floor level.</p>
+
+  <div class="two-col">
+    <div>
+      <h4>The $5 Billion Leak</h4>
+      <p>Under legacy correspondent banking infrastructure, a cross-border trade payment between two African nations — say, a Lagos wholesale buyer purchasing from an Accra manufacturer — required routing through a European or US correspondent bank via USD or EUR. This detour drained an estimated $5 billion annually from the continent in transaction fees and exchange rate slippage.</p>
+      <p>For informal traders operating on 3–8% margins, this cross-border friction was simply prohibitive. Continental trade was effectively closed to the open-market economy.</p>
+      <h4>PAPSS Phase II</h4>
+      <p>The Pan-African Payment and Settlement System bypasses all foreign correspondent banks. A Ghanaian buyer pays in Cedi. A Nigerian supplier receives instant settlement in Naira. No USD intermediation. No 3–5-day settlement lag. No correspondent bank fee. OpenMarket integrates directly with PAPSS rails to execute wholesale trade across AfCFTA borders with the same velocity as domestic transactions.</p>
+    </div>
+    <div>
+      <h4>AfCFTA Digital Trade Protocol</h4>
+      <p>The AfCFTA Digital Trade Protocol mandates that member states legally recognize digital trade administration documents, electronic identities, and e-KYC protocols as fully equivalent to physical paper documentation. This removes the final regulatory barrier to merchant onboarding at continental scale — OpenMarket's digital-first onboarding flows are legally valid across all 54 AfCFTA member states.</p>
+      <h4>OpenMarket's Positioning</h4>
+      <p>OpenMarket is not betting on AfCFTA succeeding. It is building the execution infrastructure that makes AfCFTA's paper commitments operational at the trade-floor level. No matter which continental institutions lead the political architecture of AfCFTA, the settlement and coordination rail is platform-agnostic and critical infrastructure.</p>
+    </div>
+  </div>
+
+  <div class="chart-grid">
+    <div class="chart-card chart-full">
+      <h4>Cross-Border Fee Drain: Legacy vs PAPSS-Integrated Model</h4>
+      <p class="chart-note">Annual cost per $1M cross-border transaction volume ($)</p>
+      <canvas id="chart-papss" style="max-height:200px;"></canvas>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SECTION 7 — COMPETITIVE MATRIX (LOCKED)
+══════════════════════════════════════════════ -->
+<div class="section-banner locked-section">
+  <div class="section-banner-inner">
+    <div class="banner-num">07</div>
+    <div class="banner-text">
+      <h2>Competitive Landscape & Capability Matrix</h2>
+      <p>Where OpenMarket sits relative to incumbents and emerging alternatives</p>
+    </div>
+  </div>
+</div>
+
+<div class="section locked-section" id="s7">
+  <div class="section-label">Competitive Intelligence</div>
+  <h2 class="section-h2">The capability matrix</h2>
+  <p class="section-lead">OpenMarket does not compete with the incumbents on their own terms. It operates a different architectural category — the coordination layer beneath commerce, rather than a commerce layer itself.</p>
+
+  <div class="chart-grid">
+    <div class="chart-card">
+      <h4>Capability Radar</h4>
+      <p class="chart-note">OpenMarket vs incumbent average (0–10 score)</p>
+      <canvas id="chart-radar"></canvas>
+    </div>
+    <div class="chart-card">
+      <h4>Unit Economics Comparison</h4>
+      <p class="chart-note">Key metrics across platform archetypes</p>
+      <canvas id="chart-unit"></canvas>
+    </div>
+  </div>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Capability</th>
+        <th>TradeDepot / Sabi</th>
+        <th>Omnibiz</th>
+        <th>OpenMarket Africa</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Inventory Risk</td>
+        <td><span class="badge badge-red">High — balance sheet</span></td>
+        <td><span class="badge badge-yellow">Partial</span></td>
+        <td><span class="badge badge-green">Zero — VWL model</span></td>
+      </tr>
+      <tr>
+        <td>Currency Devaluation Exposure</td>
+        <td><span class="badge badge-red">Severe — asset-linked</span></td>
+        <td><span class="badge badge-yellow">Moderate</span></td>
+        <td><span class="badge badge-green">Minimal — fee-based</span></td>
+      </tr>
+      <tr>
+        <td>CAC Model</td>
+        <td><span class="badge badge-red">High upfront — field reps</span></td>
+        <td><span class="badge badge-yellow">Mixed</span></td>
+        <td><span class="badge badge-green">Zero-upfront — performance affiliate</span></td>
+      </tr>
+      <tr>
+        <td>Cross-Border Settlement</td>
+        <td><span class="badge badge-red">USD correspondent bank</span></td>
+        <td><span class="badge badge-red">Not operational</span></td>
+        <td><span class="badge badge-green">PAPSS direct integration</span></td>
+      </tr>
+      <tr>
+        <td>Offline Order Resilience</td>
+        <td><span class="badge badge-red">No — app-dependent</span></td>
+        <td><span class="badge badge-yellow">Partial</span></td>
+        <td><span class="badge badge-green">Optimistic offline ledger</span></td>
+      </tr>
+      <tr>
+        <td>Credit Infrastructure</td>
+        <td><span class="badge badge-yellow">On-balance-sheet lending</span></td>
+        <td><span class="badge badge-yellow">Third-party</span></td>
+        <td><span class="badge badge-green">AACI — zero capital at risk</span></td>
+      </tr>
+      <tr>
+        <td>Manufacturer Data Layer</td>
+        <td><span class="badge badge-red">None</span></td>
+        <td><span class="badge badge-red">None</span></td>
+        <td><span class="badge badge-green">SmartSubsidy + demand telemetry</span></td>
+      </tr>
+      <tr>
+        <td>WhatsApp-native ordering</td>
+        <td><span class="badge badge-red">No</span></td>
+        <td><span class="badge badge-red">No</span></td>
+        <td><span class="badge badge-green">Core channel</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SECTION 8 — FINANCIAL PROJECTIONS (LOCKED)
+══════════════════════════════════════════════ -->
+<div class="section-banner locked-section">
+  <div class="section-banner-inner">
+    <div class="banner-num">08</div>
+    <div class="banner-text">
+      <h2>Financial Model & 5-Year Projections</h2>
+      <p>TAM/SAM/SOM analysis, revenue architecture, and growth trajectory</p>
+    </div>
+  </div>
+</div>
+
+<div style="background:#fff;" class="locked-section">
+<div class="section" id="s8">
+  <div class="section-label">Financial Analysis</div>
+  <h2 class="section-h2">The numbers behind the thesis</h2>
+  <p class="section-lead">OpenMarket's capital-light coordination model generates revenue from platform fees on verified transactions, manufacturer data subscriptions, and logistics coordination fees — with zero inventory or fleet capital on its balance sheet.</p>
+
+  <div class="chart-grid">
+    <div class="chart-card">
+      <h4>TAM · SAM · SOM</h4>
+      <p class="chart-note">Total Addressable → Serviceable → Obtainable ($B)</p>
+      <canvas id="chart-tam"></canvas>
+    </div>
+    <div class="chart-card">
+      <h4>5-Year Revenue Projection</h4>
+      <p class="chart-note">Platform GMV and net revenue ($M, years 1–5)</p>
+      <canvas id="chart-revenue"></canvas>
+    </div>
+  </div>
+
+  <h3>Revenue Architecture</h3>
+  <div class="two-col">
+    <div>
+      <h4>Stream 1: Transaction Platform Fee (5% of GMV)</h4>
+      <p>Every verified wholesale order settled through the Atlas Ledger generates a 5% platform fee, split as: 5% to OpenMarket (the distributor receives 95% instantly). At $100M GMV, this generates $5M net revenue with zero marginal cost of capital.</p>
+      <h4>Stream 2: Manufacturer Intelligence Subscriptions</h4>
+      <p>FMCG manufacturers pay enterprise subscription fees for aggregated demand telemetry, LGA velocity reports, and SmartSubsidy campaign access. Pricing is tiered by brand scale and market cluster coverage. No individual merchant PII is ever shared.</p>
+    </div>
+    <div>
+      <h4>Stream 3: Logistics Coordination Fee</h4>
+      <p>When retailers opt into platform-coordinated logistics at checkout, OpenMarket earns a coordination fee on the freight value. The logistics partner bears all delivery liability and insurance. OpenMarket does not own the truck — it earns on routing and verification.</p>
+      <h4>Stream 4: AACI Data Syndication</h4>
+      <p>As the merchant network grows, the AACI database becomes a proprietary credit intelligence asset. Bank partners pay data access fees for AACI scores to underwrite inventory financing and working capital products. Zero credit risk to OpenMarket's balance sheet.</p>
+    </div>
+  </div>
+
+  <h3>5-Year Financial Projections</h3>
+  <table class="proj-table">
+    <thead>
+      <tr>
+        <th>Metric</th>
+        <th>Year 1</th>
+        <th>Year 2</th>
+        <th>Year 3</th>
+        <th>Year 4</th>
+        <th>Year 5</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Active Merchants</td>
+        <td>2,500</td>
+        <td>12,000</td>
+        <td>38,000</td>
+        <td>95,000</td>
+        <td>210,000</td>
+      </tr>
+      <tr>
+        <td>Active Distributors</td>
+        <td>85</td>
+        <td>320</td>
+        <td>900</td>
+        <td>2,200</td>
+        <td>4,800</td>
+      </tr>
+      <tr>
+        <td>Platform GMV ($M)</td>
+        <td>$8M</td>
+        <td>$42M</td>
+        <td>$148M</td>
+        <td>$390M</td>
+        <td>$820M</td>
+      </tr>
+      <tr>
+        <td>Net Revenue ($M)</td>
+        <td>$0.4M</td>
+        <td>$2.8M</td>
+        <td>$11.2M</td>
+        <td>$29.4M</td>
+        <td class="highlight">$62.8M</td>
+      </tr>
+      <tr>
+        <td>EBITDA Margin</td>
+        <td>(48%)</td>
+        <td>(12%)</td>
+        <td>14%</td>
+        <td>28%</td>
+        <td class="highlight">38%</td>
+      </tr>
+      <tr>
+        <td>Markets Active</td>
+        <td>3</td>
+        <td>7</td>
+        <td>12</td>
+        <td>18</td>
+        <td>25+</td>
+      </tr>
+      <tr>
+        <td>Countries</td>
+        <td>2</td>
+        <td>4</td>
+        <td>7</td>
+        <td>11</td>
+        <td>15+</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="quote-block">
+    "The open market will not be replaced. It will be upgraded. OpenMarket Africa is the upgrade — the invisible network protocol that gives the continent's most enduring commercial infrastructure the processing speed it has lacked for generations."
+    <span class="quote-attr">— Boroji Adebayo-Hopewell, Founder & Chief Architect, OpenMarket Africa</span>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════════ -->
+<footer id="footer">
+  <div class="footer-logo">OpenMarket Africa</div>
+  <p style="margin-bottom:16px;">The Digital Trade Operating System for Africa's Open Markets</p>
+  <div class="footer-links">
+    <a href="https://www.openmarket.africa">openmarket.africa</a>
+    <a href="mailto:enquiries@digitafusion.com">enquiries@digitafusion.com</a>
+    <a href="https://digitafusion.com">digitafusion.com</a>
+  </div>
+  <hr class="gold-rule" style="max-width:400px; margin:20px auto;">
+  <p>© 2026 Digital Fusion Labs · Boroji Adebayo-Hopewell · All rights reserved.</p>
+  <p style="margin-top:8px; font-size:11px; opacity:0.5;">This case study is a proprietary research document. Unauthorized distribution is prohibited. Access code: confidential.</p>
+</footer>
+
+<!-- ══════════════════════════════════════════════
+     SCRIPTS
+══════════════════════════════════════════════ -->
+<script>
+// ── ACCESS CONTROL ──
+// Paywall unlock — wired by /intelligence/intelligence-paywall.js
+function unlockContent() {
+  const overlay = document.getElementById('paywall-overlay');
+  if (overlay) overlay.style.display = 'none';
+  document.querySelectorAll('.locked-section').forEach(el => {
+    el.classList.remove('locked-section');
+  });
+}
+window.grantAccess = unlockContent;
+
+// ── CHART DEFAULTS ──
+Chart.defaults.font.family = "'Georgia', serif";
+Chart.defaults.color = '#5A6672';
+
+const FOREST   = '#0A2F1F';
+const GOLD     = '#C8963C';
+const GOLD_LT  = '#E4B96A';
+const GREEN    = '#22C55E';
+const RED      = '#EF4444';
+const BLUE     = '#3B82F6';
+const EARTH    = '#8B5E3C';
+const MUTED    = 'rgba(90,102,114,0.6)';
+
+function rgba(hex, a) {
+  const r = parseInt(hex.slice(1,3),16);
+  const g = parseInt(hex.slice(3,5),16);
+  const b = parseInt(hex.slice(5,7),16);
+  return `rgba(${r},${g},${b},${a})`;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  // ── CHART 1: Informal Employment ──
+  new Chart(document.getElementById('chart-informal'), {
+    type: 'bar',
+    data: {
+      labels: ['Nigeria','Mali','Burkina Faso','Tanzania','Ethiopia','Ghana','Senegal','Kenya','Côte d\'Ivoire','South Africa'],
+      datasets: [{
+        label: 'Informal employment %',
+        data: [92, 90, 89, 87, 86, 84, 82, 80, 78, 52],
+        backgroundColor: [
+          rgba(GOLD,0.8), rgba(GOLD,0.75), rgba(GOLD,0.7), rgba(GOLD,0.65),
+          rgba(GOLD,0.6), rgba(GOLD,0.55), rgba(GOLD,0.5), rgba(GOLD,0.5),
+          rgba(GOLD,0.45), rgba(BLUE,0.5)
+        ],
+        borderRadius: 4,
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { max: 100, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { callback: v => v + '%' } },
+        y: { grid: { display: false } }
+      }
+    }
+  });
+
+  // ── CHART 2: Consumer Spending ──
+  new Chart(document.getElementById('chart-spending'), {
+    type: 'line',
+    data: {
+      labels: ['2020','2021','2022','2023','2024','2025','2026E','2028E','2030E','2032E'],
+      datasets: [{
+        label: 'Consumer Spending ($B)',
+        data: [1100, 1180, 1290, 1380, 1500, 1650, 1820, 2100, 2500, 3000],
+        borderColor: GOLD,
+        backgroundColor: rgba(GOLD, 0.1),
+        borderWidth: 2.5,
+        fill: true,
+        tension: 0.4,
+        pointBackgroundColor: GOLD,
+        pointRadius: 4,
+      }]
+    },
+    options: {
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { callback: v => '$' + (v/1000).toFixed(1) + 'T' } },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+
+  // ── CHART 3: FMCG Channel ──
+  new Chart(document.getElementById('chart-fmcg'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Informal (kiosks, markets, hawkers)','Modern Retail (supermarkets)','Hybrid / Emerging Channels'],
+      datasets: [{
+        data: [78, 14, 8],
+        backgroundColor: [rgba(GOLD,0.85), rgba(FOREST,0.7), rgba(GREEN,0.6)],
+        borderWidth: 0,
+        hoverOffset: 10,
+      }]
+    },
+    options: {
+      cutout: '60%',
+      plugins: {
+        legend: { position: 'bottom', labels: { boxWidth: 14, padding: 12, font: { size: 11 } } }
+      }
+    }
+  });
+
+  // ── CHART 4: AfCFTA Trade Volume ──
+  new Chart(document.getElementById('chart-afcfta'), {
+    type: 'bar',
+    data: {
+      labels: ['2019','2021','2023','2025E','2028E','2032E'],
+      datasets: [
+        {
+          label: 'Intra-African Trade Volume ($B)',
+          data: [170, 185, 200, 260, 380, 620],
+          backgroundColor: rgba(FOREST,0.75),
+          borderRadius: 4,
+        },
+        {
+          label: 'Projected AfCFTA-enabled ($B)',
+          data: [0, 0, 0, 40, 120, 280],
+          backgroundColor: rgba(GOLD,0.75),
+          borderRadius: 4,
+        }
+      ]
+    },
+    options: {
+      plugins: { legend: { position: 'bottom', labels: { boxWidth: 14, font: { size: 11 } } } },
+      scales: {
+        x: { stacked: true, grid: { display: false } },
+        y: { stacked: true, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { callback: v => '$' + v + 'B' } }
+      }
+    }
+  });
+
+  // ── CHART 5: Margin Comparison ──
+  new Chart(document.getElementById('chart-margins'), {
+    type: 'bar',
+    data: {
+      labels: ['Asset-Heavy\n(Fleet + WH)','Partial Asset-Light','OpenMarket\n(Full Coordination)'],
+      datasets: [
+        {
+          label: 'Gross Margin %',
+          data: [8, 14, 22],
+          backgroundColor: [rgba(RED,0.6), rgba(GOLD,0.6), rgba(GREEN,0.7)],
+          borderRadius: 6,
+        },
+        {
+          label: 'Net Margin % (after overhead)',
+          data: [-4, 2, 14],
+          backgroundColor: [rgba(RED,0.3), rgba(GOLD,0.3), rgba(GREEN,0.35)],
+          borderRadius: 6,
+        }
+      ]
+    },
+    options: {
+      plugins: { legend: { position: 'bottom', labels: { boxWidth: 14, font: { size: 11 } } } },
+      scales: {
+        y: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { callback: v => v + '%' } },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+
+  // ── CHART 6: CAC Comparison ──
+  new Chart(document.getElementById('chart-cac'), {
+    type: 'bar',
+    data: {
+      labels: ['Field Rep\nOnboarding', 'Digital Ad\nAcquisition', 'OpenMarket\nAffiliate (ZPFU)'],
+      datasets: [{
+        label: 'Blended CAC per activated merchant ($)',
+        data: [180, 95, 8],
+        backgroundColor: [rgba(RED,0.7), rgba(GOLD,0.6), rgba(GREEN,0.75)],
+        borderRadius: 6,
+      }]
+    },
+    options: {
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { callback: v => '$' + v } },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+
+  // ── CHART 7: AACI Radar ──
+  new Chart(document.getElementById('chart-aaci-radar'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Gross Txn Volume','Fulfillment Ratio','Replenishment Variance','Settlement Days','Order Frequency'],
+      datasets: [{
+        data: [30, 25, 20, 15, 10],
+        backgroundColor: [
+          rgba(GOLD,0.8), rgba(GREEN,0.7), rgba(FOREST,0.7),
+          rgba(BLUE,0.6), rgba(EARTH,0.6)
+        ],
+        borderWidth: 0, hoverOffset: 8,
+      }]
+    },
+    options: {
+      cutout: '55%',
+      plugins: {
+        legend: { position: 'bottom', labels: { boxWidth: 12, padding: 10, font: { size: 11 } } }
+      }
+    }
+  });
+
+  // ── CHART 8: AACI Distribution ──
+  new Chart(document.getElementById('chart-aaci-dist'), {
+    type: 'bar',
+    data: {
+      labels: ['Tier E\n(0–399)','Tier D\n(400–549)','Tier C\n(550–699)','Tier B\n(700–849)','Tier A\n(850–1000)'],
+      datasets: [{
+        label: '% of merchant base',
+        data: [12, 18, 28, 30, 12],
+        backgroundColor: [rgba(RED,0.6), rgba(RED,0.4), rgba(GOLD,0.5), rgba(GREEN,0.5), rgba(GREEN,0.8)],
+        borderRadius: 5,
+      }]
+    },
+    options: {
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { callback: v => v + '%' } },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+
+  // ── CHART 9: PAPSS Cross-Border Fee ──
+  new Chart(document.getElementById('chart-papss'), {
+    type: 'bar',
+    data: {
+      labels: ['Legacy Correspondent\nBanking (USD route)', 'Mobile Money\nCross-Border', 'PAPSS-Integrated\n(OpenMarket)'],
+      datasets: [{
+        label: 'Annual fee per $1M transaction volume ($)',
+        data: [52000, 28000, 4800],
+        backgroundColor: [rgba(RED,0.7), rgba(GOLD,0.6), rgba(GREEN,0.75)],
+        borderRadius: 6,
+      }]
+    },
+    options: {
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { callback: v => '$' + v.toLocaleString() } },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+
+  // ── CHART 10: Competitive Radar ──
+  new Chart(document.getElementById('chart-radar'), {
+    type: 'radar',
+    data: {
+      labels: ['Capital Efficiency','Offline Resilience','Cross-Border Capability','CAC Efficiency','Credit Infrastructure','Manufacturer Data','WhatsApp Native','Currency Risk Mgmt'],
+      datasets: [
+        {
+          label: 'OpenMarket Africa',
+          data: [9, 9, 8, 10, 9, 9, 10, 9],
+          borderColor: GOLD,
+          backgroundColor: rgba(GOLD, 0.15),
+          borderWidth: 2.5,
+          pointBackgroundColor: GOLD,
+          pointRadius: 5,
+        },
+        {
+          label: 'Incumbent Average',
+          data: [3, 2, 2, 3, 4, 1, 1, 2],
+          borderColor: rgba(RED, 0.6),
+          backgroundColor: rgba(RED, 0.05),
+          borderWidth: 1.5,
+          pointBackgroundColor: RED,
+          pointRadius: 4,
+        }
+      ]
+    },
+    options: {
+      plugins: { legend: { position: 'bottom', labels: { boxWidth: 14, font: { size: 11 } } } },
+      scales: {
+        r: {
+          min: 0, max: 10,
+          grid: { color: 'rgba(0,0,0,0.08)' },
+          ticks: { display: false },
+          pointLabels: { font: { size: 11 } }
+        }
+      }
+    }
+  });
+
+  // ── CHART 11: Unit Economics ──
+  new Chart(document.getElementById('chart-unit'), {
+    type: 'bar',
+    data: {
+      labels: ['Customer\nAcq Cost', 'Gross\nMargin', 'Inventory\nRisk', 'Payback\nPeriod (mo)'],
+      datasets: [
+        {
+          label: 'Incumbent Average',
+          data: [165, 8, 85, 18],
+          backgroundColor: rgba(RED, 0.55),
+          borderRadius: 4,
+        },
+        {
+          label: 'OpenMarket Africa',
+          data: [8, 22, 0, 4],
+          backgroundColor: rgba(GREEN, 0.65),
+          borderRadius: 4,
+        }
+      ]
+    },
+    options: {
+      plugins: { legend: { position: 'bottom', labels: { boxWidth: 14, font: { size: 11 } } } },
+      scales: {
+        y: { grid: { color: 'rgba(0,0,0,0.05)' } },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+
+  // ── CHART 12: TAM / SAM / SOM ──
+  new Chart(document.getElementById('chart-tam'), {
+    type: 'bar',
+    data: {
+      labels: ['TAM', 'SAM', 'SOM'],
+      datasets: [{
+        label: 'Market Size ($B)',
+        data: [2500, 380, 42],
+        backgroundColor: [rgba(FOREST,0.75), rgba(GOLD,0.75), rgba(GREEN,0.8)],
+        borderRadius: 8,
+      }]
+    },
+    options: {
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => '$' + ctx.raw.toLocaleString() + 'B' } }
+      },
+      scales: {
+        y: {
+          grid: { color: 'rgba(0,0,0,0.05)' },
+          ticks: { callback: v => '$' + v + 'B' }
+        },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+
+  // ── CHART 13: Revenue Projection ──
+  new Chart(document.getElementById('chart-revenue'), {
+    type: 'line',
+    data: {
+      labels: ['Year 1','Year 2','Year 3','Year 4','Year 5'],
+      datasets: [
+        {
+          label: 'GMV ($M)',
+          data: [8, 42, 148, 390, 820],
+          borderColor: FOREST,
+          backgroundColor: rgba(FOREST, 0.08),
+          borderWidth: 2.5,
+          fill: true, tension: 0.4,
+          pointBackgroundColor: FOREST, pointRadius: 5,
+          yAxisID: 'y',
+        },
+        {
+          label: 'Net Revenue ($M)',
+          data: [0.4, 2.8, 11.2, 29.4, 62.8],
+          borderColor: GOLD,
+          backgroundColor: rgba(GOLD, 0.1),
+          borderWidth: 2.5,
+          fill: true, tension: 0.4,
+          pointBackgroundColor: GOLD, pointRadius: 5,
+          yAxisID: 'y',
+        }
+      ]
+    },
+    options: {
+      plugins: { legend: { position: 'bottom', labels: { boxWidth: 14, font: { size: 11 } } } },
+      scales: {
+        y: {
+          grid: { color: 'rgba(0,0,0,0.05)' },
+          ticks: { callback: v => '$' + v + 'M' }
+        },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+
+}); // DOMContentLoaded
+</script>
+</body>
+</html>

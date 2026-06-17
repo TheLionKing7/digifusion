@@ -43,6 +43,14 @@ const FREE_BRIEFS = [
     summary: 'Why browser redirects destroy 82% of buyer intent on African mobile — and the headless settlement architecture that closes the gap.',
     highlights: ['Intent decay model C(t)=C₀·e^(−λt)', '4.9× settlement yield vs link-in-bio', 'WhatsApp-native checkout rail'],
   },
+  {
+    slug: 'openmarket-coordination-teaser',
+    title: 'The Death of the E-Commerce Clone: Coordination, Not Disruption',
+    type: 'Executive Brief',
+    tag: 'OpenMarket · African Commerce',
+    summary: 'Why Africa\'s $40B informal retail economy cannot be disrupted — only coordinated — and what replaces the failed asset-heavy playbook.',
+    highlights: ['85% informal FMCG trade', 'AfCFTA + PAPSS rails', 'Capital-light coordination protocol'],
+  },
 ];
 
 const UPCOMING = [

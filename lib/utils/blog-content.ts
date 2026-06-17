@@ -53,7 +53,26 @@ export function extractPostBody(html: string): string {
 }
 
 export function sanitizeBlogContent(raw: string): string {
-  return extractPostBody(raw);
+  return normalizeNumberedSectionHeadings(extractPostBody(raw));
+}
+
+/**
+ * Fix PathGuru exports where section "1." was split from its h2 (shows blank heading).
+ */
+export function normalizeNumberedSectionHeadings(html: string): string {
+  if (!html) return html;
+  let out = html;
+  for (let pass = 0; pass < 3; pass++) {
+    out = out.replace(
+      /<h2([^>]*)>\s*<\/h2>\s*(?:<p>\s*)?(\d+)\.\s*/gi,
+      '<h2$1>$2. ',
+    );
+    out = out.replace(
+      /<h2([^>]*)>\s*<br\s*\/?>\s*<\/h2>\s*(?:<p>\s*)?(\d+)\.\s*/gi,
+      '<h2$1>$2. ',
+    );
+  }
+  return out;
 }
 
 function stripTags(s: string): string {

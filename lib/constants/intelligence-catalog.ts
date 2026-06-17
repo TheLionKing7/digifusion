@@ -215,6 +215,30 @@ export const INTELLIGENCE_SKUS: IntelligenceSku[] = [
     shopReady: true,
   },
   {
+    slug: 'openmarket-africa-coordination-case-study',
+    name: 'OpenMarket Africa — The Coordination Imperative',
+    subtitle: 'McKinsey-grade strategic case study',
+    description:
+      'Interactive case study + PDF: why asset-heavy e-commerce failed in Africa, the coordination protocol model, AACI credit engine, AfCFTA/PAPSS rails, and 5-year projections.',
+    category: 'research',
+    framework: 'OpenMarket',
+    tag: 'African Commerce',
+    tier: 'licensed',
+    prices: { USD: 9999, NGN: 4650000, GBP: 7900 },
+    featured: true,
+    pages: 'Interactive + PDF',
+    experienceHref: '/intelligence/research/openmarket-africa-coordination-case-study',
+    includes: [
+      'Full case study (PDF)',
+      'Interactive HTML with charts',
+      'Informal trade economics model',
+      'Platform architecture & AACI deep-dive',
+      'AfCFTA / PAPSS integration framework',
+    ],
+    status: 'available',
+    shopReady: true,
+  },
+  {
     slug: 'intelligence-pass-annual',
     name: 'DigiFusion Intelligence Pass',
     subtitle: 'Annual access to the full IP library',
@@ -283,4 +307,5 @@ export const RESEARCH_BLOG_LINKS: Record<string, string> = {
   'ai-adoption-african-smbs': 'rewiring-the-african-c-suite-the-ai-first-playbook-for-automation-driven-growth',
   'content-systems-that-compound': 'pillar-cluster-authority-architecture',
   'affiliateos-infrastructure-teaser': 'your-followers-are-ready-to-buy-affiliateos-infrastructure',
+  'openmarket-coordination-teaser': 'the-death-of-the-e-commerce-clone-why-africas-trillion-dollar-market-demands-coordination-',
 };

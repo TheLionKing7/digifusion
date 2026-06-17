@@ -76,6 +76,7 @@ export const PostWriteSchema = z.object({
 
   // Allow explicit published_at override (PathGuru may backdate posts)
   published_at:           z.string().datetime().nullable().optional(),
+  scheduled_publish_at:   z.string().datetime().nullable().optional(),
 });
 
 export type PostWrite = z.infer<typeof PostWriteSchema>;

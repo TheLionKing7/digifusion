@@ -172,8 +172,18 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 {/* Post header — badge · title · excerpt · meta row */}
                 <header className="mb-8 pb-8 border-b border-gray-100">
                   {post.postType && (
-                    <div className="mb-4">
+                    <div className="mb-4 flex flex-wrap items-center gap-2">
                       <PostTypeBadge type={post.postType} />
+                      {post.tags
+                        .filter((t) => /^series\s+\d+$/i.test(t))
+                        .map((t) => (
+                          <span
+                            key={t}
+                            className="text-[10px] font-semibold px-2.5 py-1 rounded-full bg-accent/10 text-accent border border-accent/20 uppercase tracking-wide"
+                          >
+                            {t}
+                          </span>
+                        ))}
                     </div>
                   )}
                   <h1 className="font-serif text-3xl md:text-4xl font-bold text-gray-900 leading-tight mb-4">
