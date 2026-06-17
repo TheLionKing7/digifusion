@@ -103,7 +103,7 @@ export async function GET(req: NextRequest) {
   const db = getShopDb();
   let query = db
     .from('posts')
-    .select('id, slug, title, status, post_type, categories, tags, reading_time_minutes, published_at, updated_at, author_name', { count: 'exact' })
+    .select('id, slug, title, status, post_type, categories, tags, reading_time_minutes, published_at, updated_at, author_name, featured_image_url, excerpt', { count: 'exact' })
     .order('updated_at', { ascending: false })
     .range(from, to);
 

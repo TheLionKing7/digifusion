@@ -11,6 +11,7 @@
  */
 
 import { getShopDb } from '@/lib/shop/supabase';
+import { resolveFeaturedImageUrl } from '@/lib/utils/blog-images';
 import type { BlogPost, BlogPostCollection, BlogPostSummary, BlogPostType, ExpertQuote, HowToStep } from '@/types/blog';
 import type { AgentStatusResponse } from '@/types/agent';
 
@@ -121,7 +122,7 @@ interface PostRow {
 }
 
 function mapPostSummaryFromDB(post: PostRow): BlogPostSummary {
-  return {
+  const summary = {
     id:                 post.id,
     slug:               post.slug,
     title:              post.title,
@@ -137,6 +138,10 @@ function mapPostSummaryFromDB(post: PostRow): BlogPostSummary {
       name:   post.author_name   || '',
       avatar: post.author_avatar || undefined,
     },
+  };
+  return {
+    ...summary,
+    featuredImageUrl: resolveFeaturedImageUrl(summary),
   };
 }
 

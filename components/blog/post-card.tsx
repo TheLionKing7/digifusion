@@ -1,6 +1,5 @@
 import Link from 'next/link';
-import Image from 'next/image';
-import digiLogo from '@/assets/digilogo.png';
+import { PostCardImage } from '@/components/blog/post-card-image';
 import { PostTypeBadge } from '@/components/ui/badge';
 import { formatDate, formatReadingTime } from '@/lib/utils/formatters';
 import type { BlogPostSummary } from '@/types/blog';
@@ -24,16 +23,11 @@ export function PostCard({ post, featured, compact, delay }: PostCardProps) {
         style={wrapperStyle}
         className="group flex gap-4 rounded-xl bg-surface border border-border hover:border-accent/30 hover:bg-surface-lighter/40 transition-all duration-300 overflow-hidden p-3"
       >
-        <div className="relative shrink-0 w-28 h-28 rounded-lg overflow-hidden">
-          {post.featuredImageUrl ? (
-            <img
-              src={post.featuredImageUrl}
-              alt={post.title}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            />
-          ) : (
-            <PlaceholderImage />
-          )}
+        <div className="relative shrink-0 w-28 h-28 rounded-lg overflow-hidden bg-surface">
+          <PostCardImage
+            post={post}
+            className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          />
         </div>
         <div className="flex flex-col min-w-0 flex-1 py-1">
           <div className="flex items-center gap-2 mb-1.5">
@@ -59,16 +53,12 @@ export function PostCard({ post, featured, compact, delay }: PostCardProps) {
       className="group flex flex-col h-full rounded-2xl bg-surface-lighter border border-border/50 hover:border-accent/40 hover:-translate-y-1 hover:shadow-2xl hover:shadow-accent/10 transition-all duration-300 overflow-hidden"
     >
       {/* Featured Image — rounded top corners via parent overflow-hidden */}
-      <div className={`relative overflow-hidden ${featured ? 'h-72 md:h-80' : 'h-52'}`}>
-        {post.featuredImageUrl ? (
-          <img
-            src={post.featuredImageUrl}
-            alt={post.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-          />
-        ) : (
-          <PlaceholderImage />
-        )}
+      <div className={`relative overflow-hidden bg-surface ${featured ? 'h-72 md:h-80' : 'h-52'}`}>
+        <PostCardImage
+          post={post}
+          priority={featured}
+          className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+        />
         {/* Gradient overlay for badge legibility */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
         <div className="absolute top-3 left-3">
@@ -136,21 +126,5 @@ export function PostCard({ post, featured, compact, delay }: PostCardProps) {
         </div>
       </div>
     </Link>
-  );
-}
-
-function PlaceholderImage() {
-  return (
-    <div className="w-full h-full bg-gradient-to-br from-surface-lighter via-surface to-surface flex items-center justify-center">
-      <svg
-        className="w-12 h-12 text-muted/15"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1"
-      >
-        <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
-      </svg>
-    </div>
   );
 }

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { PostCard } from '@/components/blog/post-card';
+import { BlogCategoryNav } from '@/components/blog/blog-category-nav';
 import { RevealOnScroll } from '@/components/animations/reveal-on-scroll';
 import { fetchBlogPosts } from '@/lib/api/pathguru';
 import type { BlogPostType, BlogPostSummary } from '@/types/blog';
@@ -109,40 +110,8 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
         </div>
       </section>
 
-      {/* ── Filters (sticky) ── */}
-      <div className="sticky top-0 z-20 bg-background/80 backdrop-blur-lg border-b border-border/40">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center gap-2 overflow-x-auto scrollbar-none">
-          {POST_TYPES.map((type) => {
-            const isActive =
-              (!type.value && !postType) || type.value === postType;
-            const href = type.value === '' ? '/blog' : `/blog?postType=${type.value}`;
-            const count = counts[type.value] || 0;
-
-            return (
-              <Link
-                key={type.value || 'all'}
-                href={href}
-                className={`shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-                  isActive
-                    ? 'bg-accent text-accent-foreground shadow-lg shadow-accent/20'
-                    : 'bg-surface text-muted hover:text-foreground hover:bg-surface-lighter border border-border/40'
-                }`}
-              >
-                <span>{type.label}</span>
-                <span
-                  className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${
-                    isActive
-                      ? 'bg-accent-foreground/15 text-accent-foreground'
-                      : 'bg-background/60 text-muted/80'
-                  }`}
-                >
-                  {count}
-                </span>
-              </Link>
-            );
-          })}
-        </div>
-      </div>
+      {/* ── Filters (sticky below site header) ── */}
+      <BlogCategoryNav types={POST_TYPES} counts={counts} activeType={postType} />
 
       {/* ── Posts ── */}
       <div className="max-w-7xl mx-auto px-6 py-12 md:py-16">
@@ -170,7 +139,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
             {gridPosts.length > 0 && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {gridPosts.map((post, i) => (
-                  <RevealOnScroll key={post.id} delay={i * 50}>
+                  <RevealOnScroll key={post.id} delay={i * 50} className="h-full">
                     <PostCard post={post} />
                   </RevealOnScroll>
                 ))}

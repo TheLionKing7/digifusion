@@ -10,6 +10,9 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
+const OPENMARKET_HERO =
+  'https://images.pexels.com/photos/4386431/pexels-photo-4386431.jpeg?auto=compress&cs=tinysrgb&w=1200';
+
 const root = path.dirname(fileURLToPath(import.meta.url));
 const envUrl = process.env.DIGIFUSION_API_URL || process.env.NEXT_PUBLIC_SITE_URL || 'https://www.digitafusion.com';
 const BASE = (envUrl.includes('localhost') ? 'https://www.digitafusion.com' : envUrl).replace(/\/$/, '');
@@ -144,7 +147,8 @@ const series1Payload = {
   reading_time_minutes: series1.reading_time_minutes || 5,
   word_count: series1.word_count || 0,
   author_name: series1.author_name || 'Boroji Adebayo-Hopewell',
-  featured_image_url: series1.featured_image_url,
+  featured_image_url: series1.featured_image_url || OPENMARKET_HERO,
+  featured_image_credit: series1.featured_image_credit || 'Pexels',
   published_at: toIsoOrNull(series1.published_at) || new Date().toISOString(),
 };
 
@@ -175,7 +179,8 @@ const series2Payload = {
   reading_time_minutes: Math.max(1, Math.round(series2Words / 200)),
   word_count: series2Words,
   author_name: 'Boroji Adebayo-Hopewell',
-  scheduled_publish_at: scheduledAt,
+  featured_image_url: OPENMARKET_HERO,
+  featured_image_credit: 'Pexels',
 };
 
 if (dryRun) {
